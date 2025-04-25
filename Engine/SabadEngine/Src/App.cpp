@@ -4,6 +4,7 @@
 
 using namespace SabadEngine;
 using namespace SabadEngine::Core;
+using namespace SabadEngine::Graphics;
 
 void App::Run(const AppConfig& config)
 {
@@ -44,11 +45,15 @@ void App::Run(const AppConfig& config)
 
 	float deltaTime = TimeUtil::GetDeltaTime();
 #if defined(_DEBUG)
-	if (deltaTime < 0.5f)
+	if (deltaTime < 0.5f) 
 #endif
 	{
 		mCurrentState->Update(deltaTime);
 	}
+	GraphicsSystem* gs = GraphicsSystem::Get();
+	gs->BeginRender();
+	mCurrentState->Render();
+	gs->EndRender();
 
 
 	// Terminate Everything
