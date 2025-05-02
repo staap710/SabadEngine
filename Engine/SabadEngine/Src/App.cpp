@@ -5,6 +5,7 @@
 using namespace SabadEngine;
 using namespace SabadEngine::Core;
 using namespace SabadEngine::Graphics;
+using namespace SabadEngine::Input;
 
 void App::Run(const AppConfig& config)
 {
@@ -18,18 +19,21 @@ void App::Run(const AppConfig& config)
 		config.winWidth,
 		config.winHeight
 		);
-
+	auto handle = myWindow.GetWindowHandle();
+	GraphicsSystem::StaticInitialize(handle, false);
+	InputSystem::StaticInitialize(handle);
 	// Last Step Before Running
 	ASSERT(mCurrentState != nullptr, "App: Need an app state to run");
 	mCurrentState->Initialize();
 
 	// Process Updates
+	InputSystem* input = InputSystem::Get();
 	mRunning = true;
 	while (mRunning)
 	{
 		myWindow.ProcessMessage();
-		
-		if (!myWindow.IsActive())
+		input->Update();
+		if (!myWindow.IsActive()||input-> IsKeyPressed(KeyCode::ESCAPE))
 		{
 			Quit();
 			continue;

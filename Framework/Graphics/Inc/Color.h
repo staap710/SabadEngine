@@ -10,8 +10,9 @@
 
 #include <Math/Inc/DWMath.h>
 
-namespace SabadEngine {
+namespace SabadEngine::Graphics {
 
+	using Color = Math::Vector4;
 
 	namespace Colors {
 
