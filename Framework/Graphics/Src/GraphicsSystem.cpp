@@ -3,16 +3,21 @@
 
 using namespace SabadEngine;
 using namespace SabadEngine::Graphics;
-namespace {
+
+namespace
+{
 	std::unique_ptr<GraphicsSystem> sGraphicsSystem;
-	Core::WindowMessageHandler sWindowMessageHandler;
+	Core::WindowMessageHandler sWindowsMessageHandler;
 }
 
 LRESULT GraphicsSystem::GraphicsSystemMessageHandler(HWND window, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	if (sGraphicsSystem != nullptr) {
-		switch (message) {
-		case WM_SIZE: {
+	if (sGraphicsSystem != nullptr)
+	{
+		switch (message)
+		{
+		case WM_SIZE:
+		{
 			const uint32_t width = static_cast<uint32_t>(LOWORD(lParam));
 			const uint32_t height = static_cast<uint32_t>(HIWORD(lParam));
 			sGraphicsSystem->Resize(width, height);
@@ -20,12 +25,12 @@ LRESULT GraphicsSystem::GraphicsSystemMessageHandler(HWND window, UINT message, 
 		}
 		}
 	}
-	return sWindowMessageHandler.ForwardMessage(window, message, wParam, lParam);
+	return sWindowsMessageHandler.ForwardMessage(window, message, wParam, lParam);
 }
 
 void GraphicsSystem::StaticInitialize(HWND window, bool fullscreen)
 {
-	ASSERT(sGraphicsSystem == nullptr, "GraphicsSystem already initialized!");
+	ASSERT(sGraphicsSystem == nullptr, "GraphicsSystem: is already installed");
 	sGraphicsSystem = std::make_unique<GraphicsSystem>();
 	sGraphicsSystem->Initialize(window, fullscreen);
 }
@@ -41,12 +46,13 @@ void GraphicsSystem::StaticTerminate()
 
 GraphicsSystem* GraphicsSystem::Get()
 {
-	ASSERT(sGraphicsSystem != nullptr, "GraphicsSystem not initialized!");
+	ASSERT(sGraphicsSystem != nullptr, "GraphicsSystem: is not initialized!");
 	return sGraphicsSystem.get();
 }
+
 GraphicsSystem::~GraphicsSystem()
 {
-	ASSERT(mD3DDevice == nullptr, "GraphicsSystem not terminated!");
+	ASSERT(mD3DDevice == nullptr, "GraphicsSystem: must be terminated!");
 }
 
 void GraphicsSystem::Initialize(HWND window, bool fullscreen)
@@ -57,7 +63,7 @@ void GraphicsSystem::Initialize(HWND window, bool fullscreen)
 	UINT height = (UINT)(clientRect.bottom - clientRect.top);
 
 	DXGI_SWAP_CHAIN_DESC swapChainDesc = {};
-	swapChainDesc.BufferCount = 1;
+	swapChainDesc.BufferCount = 2;
 	swapChainDesc.BufferDesc.Width = width;
 	swapChainDesc.BufferDesc.Height = height;
 	swapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
@@ -68,6 +74,7 @@ void GraphicsSystem::Initialize(HWND window, bool fullscreen)
 	swapChainDesc.SampleDesc.Count = 1;
 	swapChainDesc.SampleDesc.Quality = 0;
 	swapChainDesc.Windowed = !fullscreen;
+	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
 
 	const D3D_FEATURE_LEVEL featureLevel = D3D_FEATURE_LEVEL_11_1;
 
@@ -84,16 +91,20 @@ void GraphicsSystem::Initialize(HWND window, bool fullscreen)
 		&mD3DDevice,
 		nullptr,
 		&mImmediateContext);
-	ASSERT(SUCCEEDED(hr), "Failed to create device or swap chain!");
-	mSwapChain->GetDesc(&mSwapChainDesc);
-	Resize(GetBackBufferWidth(), GetBackBufferHeight());
-	sWindowMessageHandler.Hook(window, GraphicsSystemMessageHandler);
 
+	ASSERT(SUCCEEDED(hr), "GraphicsSystem: Failed to initialize device or swap chain!");
+	mSwapChain->GetDesc(&mSwapChainDesc);
+
+	Resize(GetBackBufferWidth(), GetBackBufferHeight());
+
+	sWindowsMessageHandler.Hook(window, GraphicsSystemMessageHandler);
 }
 
-void GraphicsSystem :: Terminate() {
-	sWindowMessageHandler.Unhook();
-	SafeRelease(mRenderTargetView);
+void GraphicsSystem::Terminate()
+{
+	sWindowsMessageHandler.Unhook();
+
+	SafeRelease(mDepthStencilView);
 	SafeRelease(mDepthStencilBuffer);
 	SafeRelease(mRenderTargetView);
 	SafeRelease(mSwapChain);
@@ -105,14 +116,21 @@ void GraphicsSystem::BeginRender()
 {
 	mImmediateContext->OMSetRenderTargets(1, &mRenderTargetView, mDepthStencilView);
 	mImmediateContext->ClearRenderTargetView(mRenderTargetView, (FLOAT*)(&mClearColor));
-	mImmediateContext->ClearDepthStencilView(mDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+	mImmediateContext->ClearDepthStencilView(mDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0.0f);
 }
-void SabadEngine::Graphics::GraphicsSystem::EndRender()
+
+void GraphicsSystem::EndRender()
 {
+	mSwapChain->Present(mVSync, 0);
 }
-void SabadEngine::Graphics::GraphicsSystem::ToggleFullScreen()
+
+void GraphicsSystem::ToggleFullScreen()
 {
+	BOOL fullscreen;
+	mSwapChain->GetFullscreenState(&fullscreen, nullptr);
+	mSwapChain->SetFullscreenState(!fullscreen, nullptr);
 }
+
 void GraphicsSystem::Resize(uint32_t width, uint32_t height)
 {
 	mImmediateContext->OMSetRenderTargets(0, nullptr, nullptr);

@@ -6,9 +6,8 @@ using namespace SabadEngine::Graphics;
 
 void ShapeState::Initialize()
 {
-	mVertices.push_back({ { -0.5f,0.0f,0.0f, Colors::Red } });
-	mVertices.push_back({ {  0.0f,0.75f,0.0f, Colors::Blue } });
-	mVertices.push_back({ {  0.5f,0.0f,0.0f, Colors::Green } });
+	// Creates a shape out of the vertices
+	CreateShape();
 
 	auto device = GraphicsSystem::Get()->GetDevice();
 
@@ -25,11 +24,11 @@ void ShapeState::Initialize()
 	initData.pSysMem = mVertices.data();
 
 	HRESULT hr = device->CreateBuffer(&bufferDesc, &initData, &mVertexBuffer);
-	ASSERT(SUCCEEDED(hr), "Failed to create vertex buffer");
+	ASSERT(SUCCEEDED(hr), "Failed to create Vertex Buffer");
 	//====================================================================================================
 
 	// BIND TO FUNCTION IN SPECIFIED SHADER FILE
-	std::filesystem::path shaderFilePath = L"../../Assets/Shaders/DoSomething.fx";
+	std::filesystem::path shaderFilePath = L"../../Assets/Shaders/DoColor.fx";
 
 	DWORD shaderFlags = D3DCOMPILE_ENABLE_STRICTNESS | D3DCOMPILE_DEBUG;
 	ID3DBlob* shaderBlob = nullptr;
@@ -47,7 +46,7 @@ void ShapeState::Initialize()
 	{
 		LOG("%s", static_cast<const char*>(errorBlob->GetBufferPointer()));
 	}
-	ASSERT(SUCCEEDED(hr), "Failed to create vertex shader");
+	ASSERT(SUCCEEDED(hr), "Failed to create Vertex Shader");
 
 	hr = device->CreateVertexShader(
 		shaderBlob->GetBufferPointer(),
@@ -59,7 +58,8 @@ void ShapeState::Initialize()
 
 	// STATE WHAT THE VERTEX VARIABLES ARE
 	std::vector<D3D11_INPUT_ELEMENT_DESC> vertexLayout;
-	vertexLayout.push_back({ "POSITION", 0, DXGI_FORMAT_R32G32B32A32_FLOAT,0,D3D11_APPEND_ALIGNED_ELEMENT });
+	vertexLayout.push_back({ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT,0,D3D11_APPEND_ALIGNED_ELEMENT });
+	vertexLayout.push_back({ "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT,0,D3D11_APPEND_ALIGNED_ELEMENT });
 
 	hr = device->CreateInputLayout(
 		vertexLayout.data(),
@@ -107,11 +107,6 @@ void ShapeState::Terminate()
 	SafeRelease(mVertexBuffer);
 }
 
-void ShapeState::Update(float deltaTime)
-{
-
-}
-
 void ShapeState::Render()
 {
 	auto context = GraphicsSystem::Get()->GetContext();
@@ -127,4 +122,149 @@ void ShapeState::Render()
 	UINT offset = 0;
 	context->IASetVertexBuffers(0, 1, &mVertexBuffer, &stride, &offset);
 	context->Draw(static_cast<UINT>(mVertices.size()), 0);
+}
+
+void ShapeState::Update(float deltaTime)
+{
+	if (Input::InputSystem::Get()->IsKeyPressed(Input::KeyCode::UP))
+	{
+		SabadEngine::MainApp().ChangeState("TriForce");
+	}
+
+	if (Input::InputSystem::Get()->IsKeyPressed(Input::KeyCode::LEFT))
+	{
+		SabadEngine::MainApp().ChangeState("House");
+	}
+
+	if (Input::InputSystem::Get()->IsKeyPressed(Input::KeyCode::RIGHT))
+	{
+		SabadEngine::MainApp().ChangeState("Heart");
+	}
+}
+
+void ShapeState::CreateShape()
+{
+	mVertices.push_back({ { -0.5f,0.0f,0.0f }, Colors::Red });
+	mVertices.push_back({ {  0.0f,0.75f,0.0f }, Colors::Yellow });
+	mVertices.push_back({ {  0.5f,0.0f,0.0f }, Colors::Red });
+
+	mVertices.push_back({ { -0.5f,0.0f,0.0f }, Colors::Red });
+	mVertices.push_back({ {  0.5f,0.0f,0.0f }, Colors::Yellow });
+	mVertices.push_back({ {  0.0f, -0.75f,0.0f }, Colors::Red });
+}
+
+void TriForce::Update(float deltaTime)
+{
+	if (Input::InputSystem::Get()->IsKeyPressed(Input::KeyCode::DOWN))
+	{
+		SabadEngine::MainApp().ChangeState("ShapeState");
+	}
+
+	if (Input::InputSystem::Get()->IsKeyPressed(Input::KeyCode::LEFT))
+	{
+		SabadEngine::MainApp().ChangeState("House");
+	}
+
+	if (Input::InputSystem::Get()->IsKeyPressed(Input::KeyCode::RIGHT))
+	{
+		SabadEngine::MainApp().ChangeState("Heart");
+	}
+}
+
+void TriForce::CreateShape()
+{
+	//Left ear
+	mVertices.push_back({ { -0.4f, 0.8f, 0.0f }, Colors::Orange });
+	mVertices.push_back({ { -0.3f, 0.6f, 0.0f }, Colors::Orange });
+	mVertices.push_back({ { -0.4f, 0.5f, 0.0f }, Colors::Orange });
+	//Right ear
+	mVertices.push_back({ { -0.2f, 0.8f, 0.0f }, Colors::Orange });
+	mVertices.push_back({ { -0.2f, 0.5f, 0.0f }, Colors::Orange });
+	mVertices.push_back({ { -0.3f, 0.6f, 0.0f }, Colors::Orange });
+	//face up
+	mVertices.push_back({ { -0.3f, 0.6f, 0.0f }, Colors::Orange });
+	mVertices.push_back({ { -0.2f, 0.5f, 0.0f }, Colors::Orange });
+	mVertices.push_back({ { -0.4f, 0.5f, 0.0f }, Colors::Orange });
+	//face down
+	mVertices.push_back({ { -0.4f, 0.5f, 0.0f }, Colors::Orange });
+	mVertices.push_back({ { -0.2f, 0.5f, 0.0f }, Colors::Orange });
+	mVertices.push_back({ { -0.3f, 0.4f, 0.0f }, Colors::Orange });
+	//Body
+	mVertices.push_back({ { -0.3f, 0.4f, 0.0f }, Colors::Red});
+	mVertices.push_back({ { -0.2f, 0.0f, 0.0f }, Colors::Red });
+	mVertices.push_back({ { -0.4f, 0.0f, 0.0f }, Colors::Red });
+
+}
+
+void House::Update(float deltaTime)
+{
+	if (Input::InputSystem::Get()->IsKeyPressed(Input::KeyCode::DOWN))
+	{
+		SabadEngine::MainApp().ChangeState("ShapeState");
+	}
+
+	if (Input::InputSystem::Get()->IsKeyPressed(Input::KeyCode::UP))
+	{
+		SabadEngine::MainApp().ChangeState("TriForce");
+	}
+
+	if (Input::InputSystem::Get()->IsKeyPressed(Input::KeyCode::RIGHT))
+	{
+		SabadEngine::MainApp().ChangeState("Heart");
+	}
+}
+
+void House::CreateShape()
+{
+	//Triangle Up
+	mVertices.push_back({ { -0.5f, 0.5f, 0.0f }, Colors::Violet });
+	mVertices.push_back({ { 0.5f, 0.5f, 0.0f }, Colors::Violet });
+	mVertices.push_back({ { 0.0f, -0.8f, 0.0f }, Colors::Yellow });
+
+	//Triangle Down
+	mVertices.push_back({ { 0.0f, 0.8f, 0.0f }, Colors::Yellow });
+	mVertices.push_back({ { 0.5f, -0.5f, 0.0f }, Colors::GreenYellow });
+	mVertices.push_back({ { -0.5f, -0.5f, 0.0f }, Colors::GreenYellow });
+
+	//Background
+	mVertices.push_back({ { -2.0f, 1.0f, 0.0f }, Colors::White });
+	mVertices.push_back({ { 2.0f, 1.0f, 0.0f }, Colors::Silver });
+	mVertices.push_back({ { 0.0f, -3.0f, 0.0f }, Colors::Gold });
+
+}
+
+void Heart::Update(float deltaTime)
+{
+	if (Input::InputSystem::Get()->IsKeyPressed(Input::KeyCode::DOWN))
+	{
+		SabadEngine::MainApp().ChangeState("ShapeState");
+	}
+
+	if (Input::InputSystem::Get()->IsKeyPressed(Input::KeyCode::LEFT))
+	{
+		SabadEngine::MainApp().ChangeState("House");
+	}
+
+	if (Input::InputSystem::Get()->IsKeyPressed(Input::KeyCode::UP))
+	{
+		SabadEngine::MainApp().ChangeState("TriForce");
+	}
+}
+
+void Heart::CreateShape()
+{
+	// Top left lobe
+	mVertices.push_back({ { -0.4f, 0.1f, 0.0f }, Colors::PaleVioletRed });
+	mVertices.push_back({ { -0.15f, 0.5f, 0.0f }, Colors::DarkRed });
+	mVertices.push_back({ { 0.1f, 0.1f, 0.0f }, Colors::PaleVioletRed });
+
+	// Top right lobe
+	mVertices.push_back({ { 0.15f, 0.5f, 0.0f }, Colors::DarkRed });
+	mVertices.push_back({ { 0.4f, 0.1f, 0.0f }, Colors::PaleVioletRed });
+	mVertices.push_back({ { -0.1f, 0.1f, 0.0f }, Colors::PaleVioletRed });
+
+	// Bottom triangle
+	mVertices.push_back({ { -0.4f, 0.1f, 0.0f },Colors::PaleVioletRed });
+	mVertices.push_back({ { 0.4f, 0.1f, 0.0f }, Colors::PaleVioletRed });
+	mVertices.push_back({ { 0.0f, -0.65f, 0.0f },Colors::DarkRed });
 }

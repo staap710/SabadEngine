@@ -38,33 +38,35 @@ void App::Run(const AppConfig& config)
 			Quit();
 			continue;
 		}
-	}
 
-	if (mNextState != nullptr)
-	{
-		mCurrentState->Terminate();
-		mCurrentState = std::exchange(mNextState, nullptr);
-		mCurrentState->Initialize();
-	}
+		if (mNextState != nullptr)
+		{
+			mCurrentState->Terminate();
+			mCurrentState = std::exchange(mNextState, nullptr);
+			mCurrentState->Initialize();
+		}
 
-	float deltaTime = TimeUtil::GetDeltaTime();
-#if defined(_DEBUG)
-	if (deltaTime < 0.5f) 
-#endif
-	{
-		mCurrentState->Update(deltaTime);
+		float deltaTime = TimeUtil::GetDeltaTime();
+	#if defined(_DEBUG)
+		if (deltaTime < 0.5f) 
+	#endif
+		{
+			mCurrentState->Update(deltaTime);
+		}
+		GraphicsSystem* gs = GraphicsSystem::Get();
+		gs->BeginRender();
+		mCurrentState->Render();
+		gs->EndRender();
 	}
-	GraphicsSystem* gs = GraphicsSystem::Get();
-	gs->BeginRender();
-	mCurrentState->Render();
-	gs->EndRender();
 
 
 	// Terminate Everything
 	LOG("App Quit");
 	
 	mCurrentState->Terminate();
-	
+
+	InputSystem::StaticTerminate();
+	GraphicsSystem::StaticTerminate();
 	myWindow.Terminate();
 }
 

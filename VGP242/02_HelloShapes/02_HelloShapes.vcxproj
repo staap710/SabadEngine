@@ -138,7 +138,7 @@
     <ClInclude Include="ShapeState.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Engine\IExeEngine\IExeEngine.vcxproj">
+    <ProjectReference Include="..\..\Engine\SabadEngine\SabadEngine.vcxproj">
       <Project>{daca0f24-e27d-4787-ab9e-c75a1e5d2129}</Project>
     </ProjectReference>
   </ItemGroup>

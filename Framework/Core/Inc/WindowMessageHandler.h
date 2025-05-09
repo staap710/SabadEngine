@@ -11,7 +11,7 @@ namespace SabadEngine::Core
 		void Unhook();
 
 		LRESULT ForwardMessage(HWND window, UINT message, WPARAM wParam, LPARAM lParam);
-		
+
 	private:
 		HWND mWindow = nullptr;
 		Callback mPreviousCallback = nullptr;
