@@ -13,3 +13,4 @@
 #include "ConstantBuffer.h"
 #include "MeshTypes.h"
 #include "MeshBuilder.h"
+#include "Texture.h"
