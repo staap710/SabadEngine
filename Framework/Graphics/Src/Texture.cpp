@@ -1,52 +1,67 @@
+#include "Precompiled.h"
 #include "Texture.h"
-#include <DirectXTK/Inc/WICTextureLoader.h>
-#include "GraphicsSystem.h"
 
-SabadEngine::Graphics::Texture::~Texture()
-{ 
-	ASSERT(mShaderResourceView != nullptr, "Texture not initialized");
+#include "GraphicsSystem.h"
+#include <DirectXTK/Inc/WICTextureLoader.h>
+
+using namespace SabadEngine;
+using namespace SabadEngine::Graphics;
+
+void Texture::UnbindPS(uint32_t slot)
+{
+	static ID3D11ShaderResourceView* dummy = nullptr;
+	GraphicsSystem::Get()->GetContext()->PSSetShaderResources(slot, 1, &dummy);
 }
 
-SabadEngine::Graphics::Texture::Texture(Texture&& rhs) noexcept
+Texture::~Texture()
+{
+	ASSERT(mShaderResourceView == nullptr, "Texture: terminate must be called");
+}
+
+Texture::Texture(Texture&& rhs) noexcept : mShaderResourceView(rhs.mShaderResourceView)
+{
+	rhs.mShaderResourceView = nullptr;
+}
+
+Texture& Texture::operator=(Texture&& rhs) noexcept
 {
 	mShaderResourceView = rhs.mShaderResourceView;
 	rhs.mShaderResourceView = nullptr;
 	return *this;
 }
 
-Texture& SabadEngine::Graphics::Texture::operator=(Texture&& rhs) noexcept
-{
-	// TODO: insert return statement here
-}
-
-void SabadEngine::Graphics::Texture::Initialize(const std::filesystem::path& fileName)
+void Texture::Initialize(const std::filesystem::path& fileName)
 {
 	auto device = GraphicsSystem::Get()->GetDevice();
 	auto context = GraphicsSystem::Get()->GetContext();
-	// Load the texture from file
-	HRESULT hr = DirectX::CreateWICTextureFromFile(device, context, fileName.c_str(),nullptr,&mShaderResourceView);
-
-	ASSERT(SUCCEEDED(hr), "Failed to create texture from file");
+	HRESULT hr = DirectX::CreateWICTextureFromFile(
+		device,
+		context,
+		fileName.c_str(),
+		nullptr,
+		&mShaderResourceView);
+	ASSERT(SUCCEEDED(hr), "Texture: failed to load texture %s", fileName.c_str());
 }
 
-void SabadEngine::Graphics::Texture::Terminate()
+void Texture::Terminate()
 {
 	SafeRelease(mShaderResourceView);
 }
 
-void SabadEngine::Graphics::Texture::BindVS(uint32_t slot) const
+void Texture::BindVS(uint32_t slot) const
+{
+	auto context = GraphicsSystem::Get()->GetContext();
+	context->VSSetShaderResources(slot, 1, &mShaderResourceView);
+}
+
+void Texture::BindPS(uint32_t slot) const
 {
 	auto context = GraphicsSystem::Get()->GetContext();
 	context->PSSetShaderResources(slot, 1, &mShaderResourceView);
 }
 
-void SabadEngine::Graphics::Texture::BindPS(uint32_t slot) const
-{
-	auto context = GraphicsSystem::Get()->GetContext();
-	context->PSSetShaderResources(slot, 1, &mShaderResourceView);
-}
-
-void* SabadEngine::Graphics::Texture::GetRawData() const
+void* Texture::GetRawData() const
 {
 	return mShaderResourceView;
+
 }

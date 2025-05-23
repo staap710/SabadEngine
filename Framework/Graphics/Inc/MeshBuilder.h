@@ -2,6 +2,10 @@
 
 #include "MeshTypes.h"
 
+#pragma once
+
+#include "MeshTypes.h"
+
 namespace SabadEngine::Graphics
 {
 
@@ -11,6 +15,7 @@ namespace SabadEngine::Graphics
 		//cube
 		static MeshPC CreateCubePC(float size, const Color& color);
 		static MeshPC CreateCubePC(float size);
+		/*static MeshPX CreateCubePX(float size);*/
 
 		//pyramid
 		static MeshPC CreatePyramidPC(float size);
@@ -19,12 +24,18 @@ namespace SabadEngine::Graphics
 		static MeshPC CreateRectanglePC(float width, float height, float depth);
 
 		//plane
-		static MeshPC CreatePlanePC(int numRows, int nyColums, float spacing, bool horizontal=true);
-		
-		// cylinder
-		static MeshPC CreateCylinderPC(float radius, float height, int slices, int stacks);
-		// sphere
-		static MeshPC CreateSpherePC(float radius, int slices, int stacks);
+		static MeshPC CreatePlanePC(int numRows, int numCols, float spacing, bool horizontal = true);
+		static MeshPX CreatePlanePX(int numRows, int numCols, float spacing, bool horizontal = true);
 
+		//cylinder
+		static MeshPC CreateCylinderPC(int slices, int rings);
+
+		//sphere
+		static MeshPC CreateSpherePC(int slices, int rings, float radius);
+		static MeshPX CreateSpherePX(int slices, int rings, float radius);
+
+
+		//sky
+		static MeshPX CreateSkyBoxSpherePX(int slices, int rings, float radius);
 	};
 }
