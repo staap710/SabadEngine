@@ -8,11 +8,52 @@ void GameState::Initialize()
 {
 	mCamera.SetPosition({ 0.0f, 1.0f, -3.0f });
 	mCamera.SetLookAt({ 0.0f, 0.0f, 0.0f });
+
+	mRenderTargetCamera.SetPosition({ 0.0f, 1.0f, -3.0f });
+	mRenderTargetCamera.SetLookAt({ 0.0f, 0.0f, 0.0f });
+	mRenderTargetCamera.SetAspectRatio(1.0f);
+
+	// Initialize GPU Communication
+	std::filesystem::path shaderFile = L"../../Assets/Shaders/DoTexture.fx";
+	mVertexShader.Initialize<VertexPX>(shaderFile);
+	mPixelShader.Initialize(shaderFile);
+	mSampler.Initialize(Sampler::Filter::Linear, Sampler::AddressMode::Wrap);
+	mTransformBuffer.Initialize(sizeof(Math::Matrix4));
+
+	// Initialize Render Object
+	MeshPX sphere = MeshBuilder::CreateSpherePX(60, 60, 1.0f);
+	mEarth.meshBuffer.Initialize(sphere);
+	mSun.meshBuffer.Initialize(sphere);
+	MeshPX spaceSphere = MeshBuilder::CreateSkySpherePX(30, 30, 250.0f);
+	mSpace.meshBuffer.Initialize(spaceSphere);
+
+	mSpace.textureId = TextureManager::Get()->LoadTexture(L"space.jpg");
+	mEarth.textureId = TextureManager::Get()->LoadTexture(L"earth.jpg");
+	mSun.textureId = TextureManager::Get()->LoadTexture(L"sun.jpg");
+
+	// Moving other objects to the right positions
+	mSun.worldMat = Math::Matrix4::Translation(0.0f, 0.0f, 0.0f);
+	mEarth.worldMat = Math::Matrix4::Translation(3.0f, 0.0f, 0.0f);
+	mSpace.worldMat = Math::Matrix4::Translation(0.0f, 0.0f, 0.0f);
+
+	constexpr uint32_t size = 512;
+	mRenderTarget.Initialize(size, size, RenderTarget::Format::RGBA_U32);
 }
 
 void GameState::Terminate()
 {
+	TextureManager::Get()->ReleaseTexture(mSpace.textureId);
+	TextureManager::Get()->ReleaseTexture(mEarth.textureId);
+	TextureManager::Get()->ReleaseTexture(mSun.textureId);
+	mSpace.meshBuffer.Terminate();
+	mEarth.meshBuffer.Terminate();
+	mSun.meshBuffer.Terminate();
 
+	mTransformBuffer.Terminate();
+	mSampler.Terminate();
+	mPixelShader.Terminate();
+	mVertexShader.Terminate();
+	mRenderTarget.Terminate();
 }
 
 void GameState::Update(float deltaTime)
@@ -20,9 +61,72 @@ void GameState::Update(float deltaTime)
 	UpdateCamera(deltaTime);
 }
 
+enum class PlanetRenderTargets
+{
+	Space,
+	Earth,
+	Sun
+};
+const char* gPlanetNames[] =
+{
+  "Space",
+  "Earth",
+  "Sun"
+};
+PlanetRenderTargets gCurrentPlanet = PlanetRenderTargets::Space;
+
 void GameState::Render()
 {
+	SimpleDraw::AddGroundPlane(20.0f, Colors::Wheat);
+	SimpleDraw::Render(mCamera);
 
+	// Render to Render Target ImGui Image
+	mRenderTarget.BeginRender();
+	if (gCurrentPlanet == PlanetRenderTargets::Space)
+	{
+		RenderObject(mSpace, mRenderTargetCamera);
+		mRenderTargetCamera.SetPosition({ 0.0f, 1.0f, -3.0f });
+		mRenderTargetCamera.SetLookAt({ 0.0f, 0.0f, 0.0f });
+	}
+	else if (gCurrentPlanet == PlanetRenderTargets::Earth)
+	{
+		RenderObject(mEarth, mRenderTargetCamera);
+		mRenderTargetCamera.SetPosition({ 0.0f, 1.0f, -3.0f });
+		mRenderTargetCamera.SetLookAt({ 3.0f, 0.0f, 0.0f });
+	}
+	else if (gCurrentPlanet == PlanetRenderTargets::Sun)
+	{
+		RenderObject(mSun, mRenderTargetCamera);
+		mRenderTargetCamera.SetPosition({ 0.0f, 1.0f, -3.0f });
+		mRenderTargetCamera.SetLookAt({ 0.0f, 0.0f, 0.0f });
+	}
+	else
+	{
+		RenderObject(mSpace, mRenderTargetCamera);
+	}
+	mRenderTarget.EndRender();
+
+	// Render to Scene
+	RenderObject(mSpace, mCamera);
+	RenderObject(mEarth, mCamera);
+	RenderObject(mSun, mCamera);
+}
+
+void GameState::RenderObject(const Object& object, const IExeEngine::Graphics::Camera& camera)
+{
+	const Math::Matrix4 matView = mCamera.GetViewMatrix();
+	const Math::Matrix4 matProj = mCamera.GetProjectionMatrix();
+	const Math::Matrix4 matFinal = object.worldMat * matView * matProj;
+	const Math::Matrix4 wvp = Math::Transpose(matFinal);
+	mTransformBuffer.Update(&wvp);
+
+	mVertexShader.Bind();
+	mPixelShader.Bind();
+	mSampler.BindPS(0);
+	mTransformBuffer.BindVS(0);
+
+	TextureManager::Get()->BindPS(object.textureId, 0);
+	object.meshBuffer.Render();
 }
 
 bool gCheckValue = false;
@@ -73,6 +177,8 @@ void GameState::DebugUI()
 	ImGui::ColorEdit4("Walter...?", &gColor.r);
 
 	int currentShape = (int)gCurrentShape;
+	int currentPlanet = (int)gCurrentPlanet;
+
 	if (ImGui::Combo("Shape", &currentShape, gShapeNames, std::size(gShapeNames)))
 	{
 		gCurrentShape = (Shape)currentShape;
@@ -145,9 +251,23 @@ void GameState::DebugUI()
 	}
 	}
 
-	ImGui::End();
+	// To Render specific planet to the render target GUI Window
+	if (ImGui::Combo("Planet Render Target", &currentPlanet, gPlanetNames, std::size(gPlanetNames)))
+	{
+		gCurrentPlanet = (PlanetRenderTargets)currentPlanet;
+	}
 
-	SimpleDraw::Render(mCamera);
+	ImGui::Separator();
+	ImGui::Text("RenderTarget");
+	ImGui::Image(
+		mRenderTarget.GetRawData(),
+		{ 128, 128 },
+		{ 0, 0 },
+		{ 1, 1 },
+		{ 1, 1, 1, 1 },
+		{ 1, 1, 1, 1 });
+
+	ImGui::End();
 }
 
 void GameState::UpdateCamera(float deltaTime)

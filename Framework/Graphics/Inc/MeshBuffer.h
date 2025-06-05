@@ -16,7 +16,7 @@ namespace SabadEngine::Graphics
 		void Initialize(const MeshType& mesh)
 		{
 			Initialize(mesh.vertices.data(),
-				static_cast<uint32_t>(sizeof(typename MeshType::VertexType)),
+				static_cast<uint32_t>(sizeof(MeshType::VertexType)),
 				static_cast<uint32_t>(mesh.vertices.size()),
 				mesh.indices.data(),
 				static_cast<uint32_t>(mesh.indices.size()));
@@ -28,11 +28,13 @@ namespace SabadEngine::Graphics
 		void Terminate();
 
 		void SetTopology(Topology topology);
+		void Update(const void* vertices, uint32_t vertexCount);
 		void Render() const;
 
 	private:
 		void CreateVertexBuffer(const void* vertices, uint32_t vertexSize, uint32_t vertexCount);
 		void CreateIndexBuffer(const void* indices, uint32_t indexCount);
+
 
 		ID3D11Buffer* mVertexBuffer = nullptr;
 		ID3D11Buffer* mIndexBuffer = nullptr;
@@ -40,6 +42,6 @@ namespace SabadEngine::Graphics
 
 		uint32_t mVertexSize;
 		uint32_t mVertexCount;
-		uint32_t mIndexCount = 0;
+		uint32_t mIndexCount;
 	};
 }

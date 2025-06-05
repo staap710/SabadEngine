@@ -18,10 +18,14 @@ void App::Run(const AppConfig& config)
 		config.appName,
 		config.winWidth,
 		config.winHeight
-		);
+	);
 	auto handle = myWindow.GetWindowHandle();
 	GraphicsSystem::StaticInitialize(handle, false);
 	InputSystem::StaticInitialize(handle);
+	DebugUI::StaticInitialize(handle, false, true);
+	SimpleDraw::StaticInitialize(config.maxVertexCount);
+	TextureManager::StaticInitialize(L"../../Assets/Textures");
+
 	// Last Step Before Running
 	ASSERT(mCurrentState != nullptr, "App: Need an app state to run");
 	mCurrentState->Initialize();
@@ -32,8 +36,10 @@ void App::Run(const AppConfig& config)
 	while (mRunning)
 	{
 		myWindow.ProcessMessage();
+
 		input->Update();
-		if (!myWindow.IsActive()||input-> IsKeyPressed(KeyCode::ESCAPE))
+
+		if (!myWindow.IsActive() || input->IsKeyPressed(KeyCode::ESCAPE))
 		{
 			Quit();
 			continue;
@@ -47,28 +53,33 @@ void App::Run(const AppConfig& config)
 		}
 
 		float deltaTime = TimeUtil::GetDeltaTime();
-	#if defined(_DEBUG)
-		if (deltaTime < 0.5f) 
-	#endif
+#if defined(_DEBUG)
+		if (deltaTime < 0.5f) // Primarily for handling Breakpoints
+#endif
 		{
 			mCurrentState->Update(deltaTime);
 		}
+
 		GraphicsSystem* gs = GraphicsSystem::Get();
 		gs->BeginRender();
-		DebugUI::BeginRender();
 		mCurrentState->Render();
+
+		DebugUI::BeginRender();
+		mCurrentState->DebugUI();
 		DebugUI::EndRender();
+
 		gs->EndRender();
 	}
 
-
 	// Terminate Everything
 	LOG("App Quit");
-	
 	mCurrentState->Terminate();
 
-	InputSystem::StaticTerminate();
+	DebugUI::StaticTerminate();
+	SimpleDraw::StaticTerminate();
 	GraphicsSystem::StaticTerminate();
+	InputSystem::StaticTerminate();
+
 	myWindow.Terminate();
 }
 

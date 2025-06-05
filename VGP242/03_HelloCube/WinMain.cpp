@@ -13,4 +13,4 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE, LPSTR, int)
     myApp.Run(config);
 
     return 0;
-}
+} 

@@ -1,12 +1,22 @@
 #pragma once
-#include "GameState.h"
 
-using namespace SabadEngine;
-using namespace SabadEngine::Graphics;
+#include <SabadEngine/Inc/SabadEngine.h>
 
-void Initialize() override;
-void Terminate() override;
-void Update(float deltaTime) override;
-void Render() override;
-void DebugUI() override;
-void UpdateCamera(float deltaTime);
+class GameState : public SabadEngine::AppState
+{
+public:
+	void Initialize() override;
+
+	void Terminate() override;
+
+	void Update(float deltaTime) override;
+
+	void Render() override;
+
+	void DebugUI() override;
+
+private:
+	void UpdateCamera(float deltaTime);
+
+	SabadEngine::Graphics::Camera mCamera;
+};

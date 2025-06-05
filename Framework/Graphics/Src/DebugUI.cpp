@@ -1,62 +1,93 @@
-#include "DebugUI.h"
 #include "Precompiled.h"
+#include "DebugUI.h"
+
 #include "GraphicsSystem.h"
 
 #include <ImGui/Inc/imgui_impl_dx11.h>
 #include <ImGui/Inc/imgui_impl_win32.h>
 
 using namespace SabadEngine;
-using namespace SabadEngine::Graphics;
 using namespace SabadEngine::Core;
+using namespace SabadEngine::Graphics;
 
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-
-namespace{
+namespace
+{
 	WindowMessageHandler sWindowMessageHandler;
-	bool IsMouseInput(UINT msg) {
-		switch (msg) {
+
+	bool IsMouseInput(UINT msg)
+	{
+		switch (msg)
+		{
 		case WM_LBUTTONDOWN:
+		case WM_LBUTTONDBLCLK:
 		case WM_LBUTTONUP:
+
 		case WM_RBUTTONDOWN:
+		case WM_RBUTTONDBLCLK:
 		case WM_RBUTTONUP:
+
 		case WM_MBUTTONDOWN:
+		case WM_MBUTTONDBLCLK:
 		case WM_MBUTTONUP:
-		case WM_MOUSEMOVE:
+
 		case WM_MOUSEWHEEL:
-		case WM_XBUTTONDOWN:
-		case WM_XBUTTONUP:
-		case WM_MOUSELEAVE:
+		case WM_MOUSEHWHEEL:
 			return true;
 		default:
 			break;
 		}
 		return false;
 	}
-	LRESULT CALLBACK DebugUIMessageHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+
+	bool IsKeyboardMessage(UINT msg)
 	{
-		ImGui& io = ImGui::GetIO();
-		//does imgui want to capture the muse and is it a mouse message
+		switch (msg)
+		{
+		case WM_CHAR:
+		case WM_KEYUP:
+		case WM_KEYDOWN:
+		case WM_SYSKEYUP:
+		case WM_SYSKEYDOWN:
+			return true;
+		default:
+			break;
+		}
+		return false;
+	}
+
+	LRESULT CALLBACK DebugUIMessageHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+	{
+		ImGuiIO& io = ImGui::GetIO();
+		// Does ImGui want to capture the mouse & is it a mouse message
 		if (io.WantCaptureMouse && IsMouseInput(msg))
 		{
-			return ImGui_ImplWin32_WndProcHandler(hwnd, msg, wParam, lParam);
+			return ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam);
 		}
 
-
-		//does imgui want to capture the keyboard and is it a keyboard message
-		if(io.WantCaptureKeyboard)
+		// Does ImGui want to capture key input & is it a key message
+		if (io.WantCaptureMouse && IsKeyboardMessage(msg))
 		{
-			return ImGui_ImplWin32_WndProcHandler(hwnd, msg, wParam, lParam);
+			return ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam);
 		}
-		return sWindowMessageHandler.ForwardMessage(hwnd, msg, wParam, lParam);
+
+		LRESULT result = ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam);
+		if (result != 0)
+		{
+			return result;
+		}
+
+		return sWindowMessageHandler.ForwardMessage(hWnd, msg, wParam, lParam);
 	}
 }
 
-void SabadEngine::Graphics::DebugUI::StaticInitialize(HWND window, bool docking, bool multiViewport)
+void DebugUI::StaticInitialize(HWND window, bool docking, bool multiViewport)
 {
 	IMGUI_CHECKVERSION();
-	ImGui::CreateContext;
-	ImGuiIO& io = ImGui::GetIO(); 
+	ImGui::CreateContext();
+
+	ImGuiIO& io = ImGui::GetIO();
 	if (docking)
 	{
 		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
@@ -65,15 +96,16 @@ void SabadEngine::Graphics::DebugUI::StaticInitialize(HWND window, bool docking,
 	{
 		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 	}
+
 	auto device = GraphicsSystem::Get()->GetDevice();
 	auto context = GraphicsSystem::Get()->GetContext();
 	ImGui_ImplWin32_Init(window);
 	ImGui_ImplDX11_Init(device, context);
-	sWindowMessageHandler.Hook(window, DebugUIMessageHandler);
 
+	sWindowMessageHandler.Hook(window, DebugUIMessageHandler);
 }
 
-void SabadEngine::Graphics::DebugUI::StaticTerminate()
+void DebugUI::StaticTerminate()
 {
 	sWindowMessageHandler.Unhook();
 	ImGui_ImplDX11_Shutdown();
@@ -81,37 +113,44 @@ void SabadEngine::Graphics::DebugUI::StaticTerminate()
 	ImGui::DestroyContext();
 }
 
-void SabadEngine::Graphics::DebugUI::SetTheme(Theme theme)
+void DebugUI::SetTheme(Theme theme)
 {
-	switch (theme) {
-	case Theme::Classic:{
+	switch (theme)
+	{
+	case Theme::Classic:
+	{
 		ImGui::StyleColorsClassic();
 		break;
 	}
-	case Theme::Dark: {
+	case Theme::Dark:
+	{
 		ImGui::StyleColorsDark();
 		break;
 	}
-	case Theme::Light: {
+	case Theme::Light:
+	{
 		ImGui::StyleColorsLight();
 		break;
 	}
 	default:
-		ASSERT(false, "DEBUGUI UNKNOWN THEME");
+		ASSERT(false, "DebugUI: Invalid Theme!");
 		break;
+	}
 }
 
-void SabadEngine::Graphics::DebugUI::BeginRender()
+void DebugUI::BeginRender()
 {
 	ImGui_ImplDX11_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
-};
+}
 
-void SabadEngine::Graphics::DebugUI::EndRender()
+void DebugUI::EndRender()
 {
 	ImGui::Render();
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+
+	ImGuiIO& io = ImGui::GetIO();
 	if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
 	{
 		ImGui::UpdatePlatformWindows();

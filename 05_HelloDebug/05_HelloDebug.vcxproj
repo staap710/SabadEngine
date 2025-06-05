@@ -135,12 +135,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="GameState.h" />
+  </ItemGroup>
+  <ItemGroup>
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GameState.h" />
-    <ClInclude Include="WinMain.h" />
+    <None Include="imgui.ini" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Engine\SabadEngine\SabadEngine.vcxproj">

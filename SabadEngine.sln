@@ -35,6 +35,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shaders", "Shaders", "{1332
 		Assets\Shaders\DoSomething.fx = Assets\Shaders\DoSomething.fx
 		DoTexture.fx = DoTexture.fx
 		Assets\Shaders\DoTransformColor.fx = Assets\Shaders\DoTransformColor.fx
+		SimpleDraw.fx = SimpleDraw.fx
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "03_HelloCube", "VGP242\03_HelloCube\03_HelloCube.vcxproj", "{66A1A3FC-82AB-40EC-AE31-7677FAB3CC4E}"
@@ -43,7 +44,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ImGui", "External\ImGui\ImG
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "05_HelloDebug", "05_HelloDebug\05_HelloDebug.vcxproj", "{1AED4CCC-E79F-48A4-9102-22F922531D75}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "04_HelloMeshBuilder", "VGP242\04_HelloMeshBuilder\04_HelloMeshBuilder.vcxproj", "{A3C56C4C-2C33-4E60-8678-6D4920302286}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "04_HelloMeshBuilder", "VGP242\04_HelloMeshBuilder\04_HelloMeshBuilder.vcxproj", "{05BB31A7-290C-4EC5-810A-EB25EB578847}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "06_HelloRenderTarget", "VGP242\06_HelloRenderTarget\06_HelloRenderTarget.vcxproj", "{5AE8ADF4-0866-4B6D-A4FE-371A78B28381}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -141,14 +144,22 @@ Global
 		{1AED4CCC-E79F-48A4-9102-22F922531D75}.Release|x64.Build.0 = Release|x64
 		{1AED4CCC-E79F-48A4-9102-22F922531D75}.Release|x86.ActiveCfg = Release|Win32
 		{1AED4CCC-E79F-48A4-9102-22F922531D75}.Release|x86.Build.0 = Release|Win32
-		{A3C56C4C-2C33-4E60-8678-6D4920302286}.Debug|x64.ActiveCfg = Debug|x64
-		{A3C56C4C-2C33-4E60-8678-6D4920302286}.Debug|x64.Build.0 = Debug|x64
-		{A3C56C4C-2C33-4E60-8678-6D4920302286}.Debug|x86.ActiveCfg = Debug|Win32
-		{A3C56C4C-2C33-4E60-8678-6D4920302286}.Debug|x86.Build.0 = Debug|Win32
-		{A3C56C4C-2C33-4E60-8678-6D4920302286}.Release|x64.ActiveCfg = Release|x64
-		{A3C56C4C-2C33-4E60-8678-6D4920302286}.Release|x64.Build.0 = Release|x64
-		{A3C56C4C-2C33-4E60-8678-6D4920302286}.Release|x86.ActiveCfg = Release|Win32
-		{A3C56C4C-2C33-4E60-8678-6D4920302286}.Release|x86.Build.0 = Release|Win32
+		{05BB31A7-290C-4EC5-810A-EB25EB578847}.Debug|x64.ActiveCfg = Debug|x64
+		{05BB31A7-290C-4EC5-810A-EB25EB578847}.Debug|x64.Build.0 = Debug|x64
+		{05BB31A7-290C-4EC5-810A-EB25EB578847}.Debug|x86.ActiveCfg = Debug|Win32
+		{05BB31A7-290C-4EC5-810A-EB25EB578847}.Debug|x86.Build.0 = Debug|Win32
+		{05BB31A7-290C-4EC5-810A-EB25EB578847}.Release|x64.ActiveCfg = Release|x64
+		{05BB31A7-290C-4EC5-810A-EB25EB578847}.Release|x64.Build.0 = Release|x64
+		{05BB31A7-290C-4EC5-810A-EB25EB578847}.Release|x86.ActiveCfg = Release|Win32
+		{05BB31A7-290C-4EC5-810A-EB25EB578847}.Release|x86.Build.0 = Release|Win32
+		{5AE8ADF4-0866-4B6D-A4FE-371A78B28381}.Debug|x64.ActiveCfg = Debug|x64
+		{5AE8ADF4-0866-4B6D-A4FE-371A78B28381}.Debug|x64.Build.0 = Debug|x64
+		{5AE8ADF4-0866-4B6D-A4FE-371A78B28381}.Debug|x86.ActiveCfg = Debug|Win32
+		{5AE8ADF4-0866-4B6D-A4FE-371A78B28381}.Debug|x86.Build.0 = Debug|Win32
+		{5AE8ADF4-0866-4B6D-A4FE-371A78B28381}.Release|x64.ActiveCfg = Release|x64
+		{5AE8ADF4-0866-4B6D-A4FE-371A78B28381}.Release|x64.Build.0 = Release|x64
+		{5AE8ADF4-0866-4B6D-A4FE-371A78B28381}.Release|x86.ActiveCfg = Release|Win32
+		{5AE8ADF4-0866-4B6D-A4FE-371A78B28381}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -166,7 +177,8 @@ Global
 		{66A1A3FC-82AB-40EC-AE31-7677FAB3CC4E} = {56EF5666-6D9D-4656-95E9-9BCCDDCD726E}
 		{52D656A2-A2F4-4C54-A3C7-653427BED1E8} = {4D57DF9A-8108-4E1F-9A0A-CC3122761416}
 		{1AED4CCC-E79F-48A4-9102-22F922531D75} = {56EF5666-6D9D-4656-95E9-9BCCDDCD726E}
-		{A3C56C4C-2C33-4E60-8678-6D4920302286} = {56EF5666-6D9D-4656-95E9-9BCCDDCD726E}
+		{05BB31A7-290C-4EC5-810A-EB25EB578847} = {56EF5666-6D9D-4656-95E9-9BCCDDCD726E}
+		{5AE8ADF4-0866-4B6D-A4FE-371A78B28381} = {56EF5666-6D9D-4656-95E9-9BCCDDCD726E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C84562D2-23AD-4C29-92D2-1A4C470BECEF}
