@@ -45,13 +45,13 @@ void ConstantBuffer::Update(const void* data)
 	);
 }
 
-void ConstantBuffer::BindVs(uint32_t slot) const
+void ConstantBuffer::BindVS(uint32_t slot) const
 {
 	auto context = GraphicsSystem::Get()->GetContext();
 	context->VSSetConstantBuffers(slot, 1, &mConstantBuffer);
 }
 
-void ConstantBuffer::BindPs(uint32_t slot) const
+void ConstantBuffer::BindPS(uint32_t slot) const
 {
 	auto context = GraphicsSystem::Get()->GetContext();
 	context->PSSetConstantBuffers(slot, 1, &mConstantBuffer);

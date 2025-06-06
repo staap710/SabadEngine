@@ -112,8 +112,8 @@ void GameState::Render()
 	RenderObject(mSun, mCamera);
 }
 
-void GameState::RenderObject(const Object& object, const IExeEngine::Graphics::Camera& camera)
-{
+void GameState::RenderObject(const Object& object, const SabadEngine::Graphics::Camera& camera)
+{	
 	const Math::Matrix4 matView = mCamera.GetViewMatrix();
 	const Math::Matrix4 matProj = mCamera.GetProjectionMatrix();
 	const Math::Matrix4 matFinal = object.worldMat * matView * matProj;

@@ -3,10 +3,10 @@
 
 int WINAPI WinMain(HINSTANCE instance, HINSTANCE, LPSTR, int)
 {
-    IExeEngine::AppConfig config;
+    SabadEngine::AppConfig config;
     config.appName = L"Hello MeshBuilder";
 
-    IExeEngine::App& myApp = IExeEngine::MainApp();
+    SabadEngine::App& myApp = SabadEngine::MainApp();
 
     myApp.AddState<ShapeState>("ShapeState");
 

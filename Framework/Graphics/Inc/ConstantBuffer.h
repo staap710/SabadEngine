@@ -13,8 +13,8 @@ namespace SabadEngine::Graphics
 
 		void Update(const void* data);
 
-		void BindVs(uint32_t slot) const;
-		void BindPs(uint32_t slot) const;
+		void BindVS(uint32_t slot) const;
+		void BindPS(uint32_t slot) const;
 
 
 	private:
