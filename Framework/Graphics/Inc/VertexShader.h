@@ -10,7 +10,6 @@ namespace SabadEngine::Graphics
 		{
 			Initialize(shaderPath, VertexType::Format);
 		}
-
 		void Initialize(const std::filesystem::path& shaderPath, uint32_t format);
 		void Terminate();
 		void Bind();
