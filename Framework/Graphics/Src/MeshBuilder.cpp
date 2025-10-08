@@ -253,6 +253,8 @@ MeshPX SabadEngine::Graphics::MeshBuilder::CreatePlanePX(int numRows, int numCol
 	float h = -hph;
 	float u = 0.0f;
 	float v = 1.0f;
+	Math::Vector3 norm = (horizontal) ? Math::Vector3::YAxis : -Math::Vector3::ZAxis;
+	Math::Vector3 tan = Math::Vector3::XAxis;
 	for (int r = 0; r <= numRows; ++r)
 	{
 		for (int c = 0; c <= numCols; ++c)
@@ -266,7 +268,6 @@ MeshPX SabadEngine::Graphics::MeshBuilder::CreatePlanePX(int numRows, int numCol
 		h += spacing;
 		u = 0.0f;
 		v -= vInc;
-
 	}
 
 	CreatePlaneIndices(mesh.indices, numRows, numCols);
@@ -391,11 +392,15 @@ MeshPX SabadEngine::Graphics::MeshBuilder::CreateSkyBoxSpherePX(int slices, int 
 
 			float u = uStep * slice;
 			float v = vStep * ring;
-			mesh.vertices.push_back({ {
-					radius * sin(phi) * cos(rotation),
+
+			Math::Vector3 pos = {
+					radius * sin(phi) * sin(rotation),
 					radius * cos(phi),
-					radius * sin(phi) * sin(rotation)},
-					{u, v} });
+					radius* cos(rotation)* sin(phi) };
+			Math::Vector3 norm = Math::Normalize(pos);
+			Math::Vector3 tan = abs(Math::Dot(norm, Math::Vector3::YAxis))< 0.999f ?
+				Math::Normalize({ -pos.z,0.0f,pos.x }) : Math::Vector3::XAxis;
+				mesh.vertices.push_back({ pos, norm, tan,{{u, v} });
 		}
 
 	}

@@ -8,36 +8,16 @@ void GameState::Initialize()
 	mCamera.SetPosition({ 0.0f, 1.0f, -3.0f });
 	mCamera.SetLookAt({ 0.0f, 0.0f, 0.0f });
 
-	mRenderTargetCamera.SetPosition({ 0.0f, 1.0f, -3.0f });
-	mRenderTargetCamera.SetLookAt({ 0.0f, 0.0f, 0.0f });
-	mRenderTargetCamera.SetAspectRatio(1.0f);
+	Mesh mesh;
+	mRenderObject.meshBuffer.Initialize(mesh);
 
-	// initialize gpu communication
-	mSimpleTextureEffect.Initialize();
-
-	//initialize render object
-	MeshPX sphere = MeshBuilder::CreateSpherePX(60, 60, 1.0f);
-	mObject0.mesh.Initialize(sphere);
-	mObject0.textureId = TextureManager::Get()->LoadTexture(L"sun.jpg");
-
-	MeshPX bat = MeshBuilder::CreateOBJPX(L"../../Assets/Models/Baseball_Bat/Baseball_Bat.obj", 0.01f);
-	mObject1.mesh.Initialize(bat);
-	mObject1.textureId = TextureManager::Get()->LoadTexture(L"../../Assets/Models/Baseball_Bat/BaseballBat_bcolor.png", false);
-	mObject1.matWorld = Math::Matrix4::Translation({ 0.0f, 1.0f, 0.0f });
-
-	constexpr uint32_t size = 512;
-	mRenderTarget.Initialize(size, size, RenderTarget::Format::RGBA_U32);
-
+	std::filesystem::path effectFile = "L../..Assets/Shaders/Standard.fx";
 }
 
 void GameState::Terminate()
 {
-	mRenderTarget.Terminate();
-	TextureManager::Get()->ReleaseTexture(mObject0.textureId);
-	TextureManager::Get()->ReleaseTexture(mObject1.textureId);
-	mObject0.mesh.Terminate();
-	mObject1.mesh.Terminate();
-	mSimpleTextureEffect.Terminate();
+	mStandardEffect.Terminate();
+	mRenderObject.Terminate();
 }
 
 void GameState::Update(float deltaTime)
@@ -50,38 +30,15 @@ void GameState::Render()
 	SimpleDraw::AddGroundPlane(20.0f, Colors::White);
 	SimpleDraw::Render(mCamera);
 
-	//render to render targettar
-	mSimpleTextureEffect.SetCamera(mRenderTargetCamera);
-	mRenderTarget.BeginRender();
-	mSimpleTextureEffect.Begin();
-	mSimpleTextureEffect.Render(mObject0);
-	mSimpleTextureEffect.Render(mObject1);
-	mSimpleTextureEffect.End();
-	mRenderTarget.EndRender();
-
-	//render to the scene
-	mSimpleTextureEffect.SetCamera(mCamera);
-	mSimpleTextureEffect.Begin();
-	mSimpleTextureEffect.Render(mObject0);
-	mSimpleTextureEffect.Render(mObject1);
-	mSimpleTextureEffect.End();
+	mStandardEffect.Begin();
+	mStandardEffect.Render(mRenderObject);
+	mStandardEffect.End();
 }
 
 void GameState::DebugUI()
 {
 
 	ImGui::Begin("Debug", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
-	ImGui::Text("Choose object to render");
-
-	ImGui::Separator();
-	ImGui::Text("Render Target");
-	ImGui::Image(
-		mRenderTarget.GetRawData(),
-		{ 128, 128 },
-		{ 0, 0 },
-		{ 1, 1 },
-		{ 1, 1, 1, 1 },
-		{ 1, 1, 1, 1 });
 
 	ImGui::End();
 }

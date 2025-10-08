@@ -20,4 +20,16 @@ namespace SabadEngine::Graphics
 	private:
 		ID3D11Buffer* mConstantBuffer = nullptr;
 	};
-}
+
+	template<class DataType>
+	class TypedConstantBuffer final : public ConstantBuffer
+	{
+	public:
+		void Initialize() {
+			static_assert((sizeof(DataType) % 16) == 0, "Constant buffer size must be multiple of 16 bytes.");
+			ConstantBuffer::Initialize(sizeof(DataType));
+		}
+		void Update(const DataType& data) const
+		{
+			ConstantBuffer::Update(&data);
+		}

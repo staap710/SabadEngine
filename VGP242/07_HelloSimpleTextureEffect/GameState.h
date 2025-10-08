@@ -15,15 +15,6 @@ private:
 	void UpdateCamera(float deltaTime);
 
 	SabadEngine::Graphics::Camera mCamera;
-	SabadEngine::Graphics::Camera mRenderTargetCamera;
-
-	//GPU communication
-	SabadEngine::Graphics::SimpleTextureEffect mSimpleTextureEffect;
-
-	//render object
-	SabadEngine::Graphics::SimpleTextureEffect::RenderData mObject0;
-	SabadEngine::Graphics::SimpleTextureEffect::RenderData mObject1;
-
-	//render target
-	SabadEngine::Graphics::RenderTarget mRenderTarget;
+	SabadEngine::Graphics::RenderObject mRenderObject;
+	SabadEngine::Graphics::StandardEffect mStandardEffect;
 };
