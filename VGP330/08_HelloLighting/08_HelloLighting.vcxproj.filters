@@ -15,16 +15,21 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\VGP242\07_HelloSimpleTextureEffect\GameState.h">
+    <None Include="..\..\..\..\..\..\Downloads\imgui.ini">
       <Filter>Source Files</Filter>
-    </ClInclude>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\VGP242\07_HelloSimpleTextureEffect\WinMain.cpp">
+    <ClCompile Include="GameState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\VGP242\07_HelloSimpleTextureEffect\GameState.cpp">
+    <ClCompile Include="WinMain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GameState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

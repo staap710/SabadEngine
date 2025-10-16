@@ -55,7 +55,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SolarSystem", "VGP242\Solar
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "VGP330", "VGP330", "{8B83EB1A-9128-4C37-A486-556770018A74}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "08_HelloLighting", "08_HelloLighting\08_HelloLighting.vcxproj", "{6DDCEA66-EAAE-445E-9AF6-18CDC1267711}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "08_HelloLighting", "VGP330\08_HelloLighting\08_HelloLighting.vcxproj", "{6DDCEA66-EAAE-445E-9AF6-18CDC1267711}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

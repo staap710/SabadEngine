@@ -75,16 +75,16 @@
     <ClInclude Include="Inc\SimpleTextureEffect.h">
       <Filter>Inc</Filter>
     </ClInclude>
-    <ClInclude Include="RenderObject.h">
+    <ClInclude Include="Inc\RenderObject.h">
       <Filter>Inc</Filter>
     </ClInclude>
-    <ClInclude Include="Transform.h">
+    <ClInclude Include="Inc\StandardEffect.h">
       <Filter>Inc</Filter>
     </ClInclude>
-    <ClInclude Include="StandardEffect.h">
+    <ClInclude Include="Inc\Transform.h">
       <Filter>Inc</Filter>
     </ClInclude>
-    <ClInclude Include="DirectionalLight.h">
+    <ClInclude Include="Inc\DirectionalLight.h">
       <Filter>Inc</Filter>
     </ClInclude>
   </ItemGroup>
@@ -137,10 +137,10 @@
     <ClCompile Include="Src\SimpleTextureEffect.cpp">
       <Filter>Src</Filter>
     </ClCompile>
-    <ClCompile Include="RenderObject.cpp">
+    <ClCompile Include="Src\RenderObject.cpp">
       <Filter>Src</Filter>
     </ClCompile>
-    <ClCompile Include="StandardEffect.cpp">
+    <ClCompile Include="Src\StandardEffect.cpp">
       <Filter>Src</Filter>
     </ClCompile>
   </ItemGroup>
