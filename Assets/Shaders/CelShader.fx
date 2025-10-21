@@ -99,14 +99,14 @@ float4 PS(VS_OUTPUT input) : SV_Target
         float3x3 tbnw = float3x3(t, b, n);
         float4 normalMapColor = normalMap.Sample(textureSampler, input.texCoord);
         float3 unpackedNormalMap = normalize(float3((normalMapColor.xy * 2.0f) - 1.0f, normalMapColor.z));
-        n = normalize(mul(unpackedNormalMap, tbnw));
+        n = normalize(mul(unpackedNormalMap, tbnw));    
     }
 
     // Emissive
     float edgeThickness = 0.85f;
-    float edgeThreshold = 0.01f;
     float e = 1.0f - saturate(dot(view, n ));
-    float4 emissive = materialEmissive;
+    e = smoothstep(edgeThickness - 0.1f, edgeThickness + 0.1f, e); // Cel Shading Effect
+    float4 emissive = e*materialEmissive;
     
     // Ambient 
     float4 ambient = lightAmbient * materialAmbient;
