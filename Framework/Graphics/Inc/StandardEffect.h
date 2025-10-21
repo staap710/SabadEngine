@@ -39,20 +39,35 @@ namespace SabadEngine::Graphics
             float padding = 0.0f; // Padding to maintain the 16 byte alignment
         };
 
+        struct SettingsData
+        {
+            int useDiffuseMap = 1;
+            int useSpecMap = 1;
+            int useNormalMap = 1;
+            int useBumpMap = 1;
+            float bumpIntensity = -0.02f;
+            float padding[3] = { 0.0f }; // Padding to make the structure 16-byte aligned
+        };
+
         using TransformBuffer = TypedConstantBuffer<TransformData>;
         TransformBuffer mTransformBuffer;
 
         using LightBuffer = TypedConstantBuffer<DirectionalLight>;
         LightBuffer mLightBuffer;
 
-		using MaterialBuffer = TypedConstantBuffer<Material>;
-		MaterialBuffer mMaterialBuffer;
+        using MaterialBuffer = TypedConstantBuffer<Material>;
+        MaterialBuffer mMaterialBuffer;
+
+        using SettingsBuffer = TypedConstantBuffer<SettingsData>;
+        SettingsBuffer mSettingsBuffer;
 
         VertexShader mVertexShader;
         PixelShader mPixelShader;
-		Sampler mSampler;
+        Sampler mSampler;
 
         const Camera* mCamera = nullptr;
         const DirectionalLight* mDirectionalLight = nullptr;
+
+        SettingsData mSettingsData;
     };
 }

@@ -21,6 +21,10 @@ private:
 
 	SabadEngine::Graphics::Camera mCamera;
 	SabadEngine::Graphics::DirectionalLight mDirectionalLight;
-	SabadEngine::Graphics::RenderObject mRenderObject;
+	
+	SabadEngine::Graphics::RenderObject mRenderObject_Earth;
+	SabadEngine::Graphics::RenderObject mRenderObject_Metal;
+	SabadEngine::Graphics::RenderObject mRenderObject_Wood;
+	
 	SabadEngine::Graphics::StandardEffect mStandardEffect;
 };
