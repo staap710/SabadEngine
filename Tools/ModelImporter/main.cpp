@@ -66,12 +66,12 @@ int main(int argc, char* argv[])
 		return -1;
 	}
 	printf("Beginin import\n");
-	const Arguments& args = argOpt.value();	
+	const Arguments& args = argOpt.value();
 
 	Assimp::Importer importer;
 	importer.SetPropertyBool(AI_CONFIG_IMPORT_FBX_PRESERVE_PIVOTS, false);
 	const uint32_t flags = aiProcessPreset_TargetRealtime_Quality | aiProcess_ConvertToLeftHanded;
-	const aiScene* scene = importer.ReadFile(args.inputFileName.u8string().c_str() , flags);
+	const aiScene* scene = importer.ReadFile(args.inputFileName.u8string().c_str(), flags);
 
 	if (!scene)
 	{
@@ -84,10 +84,10 @@ int main(int argc, char* argv[])
 	if (scene->HasMeshes())
 	{
 		printf("Reading Mesh Data...\n");
-		for(uint32_t meshIndex = 0; meshIndex<scene->mNumMeshes; ++meshIndex)
+		for (uint32_t meshIndex = 0; meshIndex < scene->mNumMeshes; ++meshIndex)
 		{
 			const auto& aiMesh = scene->mMeshes[meshIndex];
-			if(aiMesh->mPrimitiveTypes != aiPrimitiveType_TRIANGLE)
+			if (aiMesh->mPrimitiveTypes != aiPrimitiveType_TRIANGLE)
 			{
 				printf("Warning: Mesh %d is not triangle mesh, skipping...\n", meshIndex);
 				continue;
@@ -97,7 +97,7 @@ int main(int argc, char* argv[])
 			const  uint32_t numFaces = aiMesh->mNumFaces;
 			const uint32_t numIndices = numFaces * 3;
 
-			Model::MeshData& meshData= model.meshData.emplace_back();
+			Model::MeshData& meshData = model.meshData.emplace_back();
 
 			printf("Reading Material Index...\n");
 			meshData.materialIndex = aiMesh->mMaterialIndex;
@@ -110,11 +110,10 @@ int main(int argc, char* argv[])
 			const aiVector3D* texcoords = (aiMesh->HasTextureCoords(0)) ? aiMesh->mTextureCoords[0] : nullptr;
 			for (uint32_t v = 0; v < numVertices; ++v)
 			{
-				Vertex& vertex = mesh.vertices.emplace_back();
-				vertex.position = ToVector3(positions[v]) * args.scale;
-				vertex.normal = ToVector3(normals[v]);
-				vertex.tangent = tangents ? ToVector3(tangents[v]) : Vector3::Zero;
-				vertex.uvCoord = texcoords ? ToTexCoord(texcoords[v]) : Vector2::Zero;
+				const aiVector3D* positions = aiMesh->mVertices;
+				const aiVector3D* normals = aiMesh->mNormals;
+				const aiVector3D* tangents = (aiMesh->HasTangentsAndBitangents()) ? aiMesh->mTangents : nullptr;
+				const aiVector3D* texCoords = (aiMesh->HasTextureCoords(0)) ? aiMesh->mTextureCoords[0] : nullptr;
 			}
 			printf("Reading Indices...\n");
 			mesh.indices.reserve(numIndices);
@@ -126,10 +125,11 @@ int main(int argc, char* argv[])
 				{
 					mesh.indices.push_back(aiFace.mIndices[i]);
 				}
+			}
 		}
+
+
+		return 0;
+
 	}
-
-
-	return 0;
-
 }
