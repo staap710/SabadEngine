@@ -7,11 +7,12 @@
 #include "Material.h"
 #include "Sampler.h"
 
+
 namespace SabadEngine::Graphics
 {
     class Camera;
     class RenderObject;
-
+	class RenderGroup;
     class StandardEffect final
     {
     public:
@@ -22,6 +23,7 @@ namespace SabadEngine::Graphics
         void End();
 
         void Render(const RenderObject& renderObject);
+		void Render(const RenderGroup& renderGroup);
 
         void SetCamera(const Camera& camera);
 

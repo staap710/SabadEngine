@@ -4,6 +4,7 @@
 #include "Transform.h"
 #include "Material.h"
 #include "TextureManager.h"
+#include "ModelManager.h"
 
 namespace SabadEngine::Graphics
 {
@@ -21,5 +22,16 @@ namespace SabadEngine::Graphics
         TextureId specMapId;   // Specular map for an object
         TextureId normalMapId;   // Normal texture for an object
         TextureId bumpMapId;   // Height texture for an object
+    };
+
+    class RenderGroup
+    {
+    public:
+        void Initialize(const std::filesystem::path& modelFilePath);
+        void Terminate();
+
+        ModelId modelId;
+		Transform transform;
+		std::vector<RenderObject> renderObjects;
     };
 }

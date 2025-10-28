@@ -49,3 +49,7 @@
 #include "Material.h"
 
 #include "Model.h"
+
+#include "ModelManager.h"
+
+#include "ModelIO.h"

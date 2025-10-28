@@ -69,9 +69,6 @@
     <ClInclude Include="Inc\RenderTarget.h">
       <Filter>Inc</Filter>
     </ClInclude>
-    <ClInclude Include="Inc\TextureManager.h">
-      <Filter>Inc</Filter>
-    </ClInclude>
     <ClInclude Include="Inc\SimpleTextureEffect.h">
       <Filter>Inc</Filter>
     </ClInclude>
@@ -91,6 +88,15 @@
       <Filter>Inc</Filter>
     </ClInclude>
     <ClInclude Include="Inc\Model.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\ModelManager.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\ModelIO.H">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\TextureManager.h">
       <Filter>Inc</Filter>
     </ClInclude>
   </ItemGroup>
@@ -147,6 +153,12 @@
       <Filter>Src</Filter>
     </ClCompile>
     <ClCompile Include="Src\StandardEffect.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\ModelManager.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\ModelIO.cpp">
       <Filter>Src</Filter>
     </ClCompile>
   </ItemGroup>
