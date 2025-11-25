@@ -1,73 +1,61 @@
 #pragma once
 
 #include "ConstantBuffer.h"
-#include "PixelShader.h"
-#include "VertexShader.h"
 #include "DirectionalLight.h"
 #include "Material.h"
+#include "PixelShader.h"
+#include "VertexShader.h"
 #include "Sampler.h"
 
 namespace SabadEngine::Graphics
 {
     class Camera;
-    class RenderObject;
-    class RenderGroup;
     class Texture;
+    class RenderObject;
 
-    class StandardEffect final
+    class TerrainEffect final
     {
     public:
-        void Initialize(const std::filesystem::path& path);
+        void Initialize();
         void Terminate();
 
         void Begin();
         void End();
 
         void Render(const RenderObject& renderObject);
-        void Render(const RenderGroup& renderGroup);
-
-        void SetCamera(const Camera& camera);
-
-        void SetDirectionalLight(const DirectionalLight& directionalLight);
-        // Shadows
-        void SetLightCamera(const Camera& camera);
-        void SetShadowMap(const Texture& shadowMap);
-
         void DebugUI();
 
-    private:
+        void SetCamera(const Camera& camera);
+        void SetLightCamera(const Camera& lightCamera);
+        void SetDirectionalLight(const DirectionalLight& directionalLight);
+        void SetShadowMap(const Texture& shadowMap);
 
+    private:
         struct TransformData
         {
+            Math::Matrix4 world;
             Math::Matrix4 wvp; // World-View-Projection matrix
-            Math::Matrix4 world; // World matrix
-            Math::Matrix4 lwvp; // Light World-View-Projection matrix (World Proj of light objects for shadows)
-            Math::Vector3 viewPosition; // Camera position in world space
-            float padding = 0.0f; // Padding to maintain the 16 byte alignment
+            Math::Matrix4 lwvp; // Light World-View-Projection matrix
+            Math::Vector3 viewPosition;
+            float padding = 0.0f;
         };
 
         struct SettingsData
         {
-            int useDiffuseMap = 1;
-            int useSpecMap = 1;
-            int useNormalMap = 1;
-            int useBumpMap = 1;
             int useShadowMap = 1;
-            float bumpIntensity = -0.02f;
             float depthBias = 0.000003f;
-            float padding = 0.0f; // Padding to make the structure 16-byte aligned (After ShadowMap only need one)
+            float lowHeight = 5.0f;
+            float blendHeight = 1.0f;
         };
 
         using TransformBuffer = TypedConstantBuffer<TransformData>;
-        TransformBuffer mTransformBuffer;
-
         using LightBuffer = TypedConstantBuffer<DirectionalLight>;
-        LightBuffer mLightBuffer;
-
         using MaterialBuffer = TypedConstantBuffer<Material>;
-        MaterialBuffer mMaterialBuffer;
-
         using SettingsBuffer = TypedConstantBuffer<SettingsData>;
+
+        TransformBuffer mTransformBuffer;
+        LightBuffer mLightBuffer;
+        MaterialBuffer mMaterialBuffer;
         SettingsBuffer mSettingsBuffer;
 
         VertexShader mVertexShader;
@@ -75,11 +63,9 @@ namespace SabadEngine::Graphics
         Sampler mSampler;
 
         SettingsData mSettingsData;
-
         const Camera* mCamera = nullptr;
-        const DirectionalLight* mDirectionalLight = nullptr;
-
         const Camera* mLightCamera = nullptr;
+        const DirectionalLight* mDirectionalLight = nullptr;
         const Texture* mShadowMap = nullptr;
     };
 }

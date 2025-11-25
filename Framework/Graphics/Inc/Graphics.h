@@ -50,6 +50,14 @@
 
 #include "Model.h"
 
+#include "ModelIO.h"
+
 #include "ModelManager.h"
 
-#include "ModelIO.h"
+#include "PostProcessingEffect.h"
+
+#include "ShadowEffect.h"
+
+#include "Terrain.h"
+
+#include "TerrainEffect.h"
