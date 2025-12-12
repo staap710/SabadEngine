@@ -69,5 +69,11 @@ namespace SabadEngine::Graphics
         float mAberrationValue = 0.02f;
         float mWaveLenght = 0.05f;
         float mNumWaves = 20.0f;
+
+        //CRT EFFECT
+
+        float mCRTScanlineIntensity = 0.05f;   // param0
+        float mCRTCurvature = 0.03f;   // param1
+        float mCRTNoiseAmount = 0.02f;   // param2
     };
 };
