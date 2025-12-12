@@ -22,6 +22,7 @@ namespace
     "MotionBlur",
     "ChromaticAberration",
     "Wave",
+    "CRT",
     };
 }
 
@@ -97,6 +98,21 @@ void PostProcessingEffect::Begin()
         data.param0 = mWaveLenght;
         data.param1 = mNumWaves;
     }
+    break;
+    case Mode::CRT:
+    {
+        // param0 = scanline + contrast intensity                           // ///////////////////////CHANGE!!!
+        data.param0 = mWaveLenght;                                          // ///////////////////////CHANGE!!!
+                                                                            /////////////////////////////CHANGE!!! THIS IS THE ONE USED FOR WAVES LOL
+                                                                            // ///////////////////////CHANGE!!!
+        // param1 = barrel distortion
+        data.param1 = mNumWaves;
+
+        // param2 = chromatic aberration + noise amount
+        data.param2 = mAberrationValue;
+    }
+    break;
+
     default:
         break;
     }
@@ -161,7 +177,12 @@ void PostProcessingEffect::DebugUI()
             ImGui::DragFloat("WaveLength", &mWaveLenght, 0.001f, 0.0f, 1.0f);
             ImGui::DragFloat("NumWave", &mNumWaves, 0.0f, 1.0f, 1000.0f);
         }
+        else if (mMode == Mode::CRT)
+        {
+            ImGui::DragFloat("CRT Scan/Contrast", &mWaveLenght, 0.001f, 0.0f, 1.0f);
+            ImGui::DragFloat("CRT Curvature", &mNumWaves, 0.001f, 0.0f, 2.0f);
+            ImGui::DragFloat("CRT Noise/Aberration", &mAberrationValue, 0.001f, 0.0f, 1.0f);
+        }
+
     }
 }
-
-

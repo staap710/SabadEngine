@@ -9,7 +9,7 @@ cbuffer PostProcessBuffer : register(b0)
 }
 
 Texture2D textureMap0 : register(t0);
-Texture2D    textureMap1 : register(t1);
+Texture2D textureMap1 : register(t1);
 Texture2D textureMap2 : register(t2);
 Texture2D textureMap3 : register(t3);
 
@@ -35,6 +35,31 @@ VS_OUTPUT VS(VS_INPUT input)
     return output;
 }
 
+// --- CRT HELPER FUNCTIONS -----------------------------------------------------
+
+float2 BarrelDistort(float2 uv, float amount)
+{
+    float2 p = uv * 2.0f - 1.0f;
+    float r2 = dot(p, p);
+    float k = amount * 0.5f;
+    p *= (1.0f + k * r2);
+    return saturate(p * 0.5f + 0.5f);
+}
+
+float Scanline(float y, float frequency)
+{
+    float s = sin(y * 3.14159265f * frequency);
+    return 0.5f + 0.5f * s;
+}
+
+float Rand(float2 co)
+{
+    return frac(sin(dot(co, float2(12.9898, 78.233))) * 43758.5453);
+}
+
+// -----------------------------------------------------------------------------
+
+
 float4 PS(VS_OUTPUT input) : SV_Target
 {
     // Sample the texture at the given texture coordinates
@@ -47,7 +72,7 @@ float4 PS(VS_OUTPUT input) : SV_Target
     else if (mode == 1) // Monochrome
     {
         float4 color = textureMap0.Sample(textureSampler, input.texCoord);
-        finalColor = (color.r + color.g + color.b) / 3.0;
+        finalColor = (color.r + color.g + color.b) / 3.0f;
     }
     else if (mode == 2) // Invert
     {
@@ -82,9 +107,8 @@ float4 PS(VS_OUTPUT input) : SV_Target
     {
         float4 color0 = textureMap0.Sample(textureSampler, input.texCoord);
         float4 color1 = textureMap1.Sample(textureSampler, input.texCoord);
-        // finalColor = (color0 + color1) * 0.5f;
         color1.a *= param0;
-        finalColor = (color0 * (1.0f - color1.a)) + (color1 * color1.a); // If alpha on texture1
+        finalColor = (color0 * (1.0f - color1.a)) + (color1 * color1.a);
     }
     else if (mode == 6) // Motion Blur
     {
@@ -121,14 +145,50 @@ float4 PS(VS_OUTPUT input) : SV_Target
         float2 texCoord = input.texCoord;
         texCoord.y += sin(waveValue) * param0;
         finalColor = textureMap0.Sample(textureSampler, texCoord);
-
     }
     else if (mode == 9) // CRT effect
     {
-        float waveValue = input.texCoord.x * (3.141592f * param1);
-        float2 texCoord = input.texCoord;
-        texCoord.y += sin(waveValue) * param0;
-        finalColor = textureMap0.Sample(textureSampler, texCoord);
+        float2 uv = input.texCoord;
+
+    // 1) Screen curvature (uses param1)
+        float2 curvedUV = BarrelDistort(uv, param1);
+
+    // 2) Chromatic aberration + color bleeding (uses param2)
+        float chromaAmount = param2 * 0.01f;
+        float2 centre = float2(0.5f, 0.5f);
+        float2 dir = curvedUV - centre;
+        float dist = length(dir);
+        float2 dirNorm = (dist > 0.00001f) ? dir / dist : float2(0, 0);
+
+        float2 redUV = curvedUV + dirNorm * (chromaAmount * dist);
+        float2 blueUV = curvedUV - dirNorm * (chromaAmount * dist);
+
+        float4 redSample = textureMap0.Sample(textureSampler, saturate(redUV));
+        float4 greenSample = textureMap0.Sample(textureSampler, saturate(curvedUV));
+        float4 blueSample = textureMap0.Sample(textureSampler, saturate(blueUV));
+
+        float4 color = float4(redSample.r, greenSample.g, blueSample.b, 1.0f);
+
+    // 3) Scanlines (param0 controls intensity)
+        float scanFreq = lerp(300.0f, 900.0f, param0);
+        float scan = Scanline(uv.y, scanFreq * 0.001f);
+        float scanStrength = lerp(1.0f, scan, param0);
+        color.rgb *= scanStrength;
+
+    // 4) Vignette
+        float vignette = 1.0f - smoothstep(0.35f, 0.85f, dist);
+        color.rgb *= vignette;
+
+    // 5) Contrast (param0 also controls this)
+        float contrast = 1.0f + param0 * 0.25f;
+        color.rgb = ((color.rgb - 0.5f) * contrast) + 0.5f;
+
+    // 6) Noise (uses param2)
+        float n = Rand(floor(uv * 1000.0f));
+        float noiseAmount = param2 * 0.05f;
+        color.rgb += (n - 0.5f) * noiseAmount;
+
+        finalColor = saturate(color);
     }
     return finalColor;
 }

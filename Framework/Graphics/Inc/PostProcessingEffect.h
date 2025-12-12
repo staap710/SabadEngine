@@ -24,6 +24,7 @@ namespace SabadEngine::Graphics
             MotionBlur,
             ChromaticAberration,
             Wave,
+            CRT,
         };
 
         void Initialize(const std::filesystem::path& filePath);
