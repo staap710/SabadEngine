@@ -101,17 +101,12 @@ void PostProcessingEffect::Begin()
     break;
     case Mode::CRT:
     {
-        // param0 = scanline + contrast intensity                           // ///////////////////////CHANGE!!!
-        data.param0 = mWaveLenght;                                          // ///////////////////////CHANGE!!!
-                                                                            /////////////////////////////CHANGE!!! THIS IS THE ONE USED FOR WAVES LOL
-                                                                            // ///////////////////////CHANGE!!!
-        // param1 = barrel distortion
-        data.param1 = mNumWaves;
-
-        // param2 = chromatic aberration + noise amount
-        data.param2 = mAberrationValue;
+        data.param0 = mCRTScanlineIntensity; // scanlines + contrast
+        data.param1 = mCRTCurvature;         // curvature
+        data.param2 = mCRTNoiseAmount;       // noise + chroma
     }
     break;
+
 
     default:
         break;
@@ -179,9 +174,9 @@ void PostProcessingEffect::DebugUI()
         }
         else if (mMode == Mode::CRT)
         {
-            ImGui::DragFloat("CRT Scan/Contrast", &mWaveLenght, 0.001f, 0.0f, 1.0f);
-            ImGui::DragFloat("CRT Curvature", &mNumWaves, 0.001f, 0.0f, 2.0f);
-            ImGui::DragFloat("CRT Noise/Aberration", &mAberrationValue, 0.001f, 0.0f, 1.0f);
+            ImGui::DragFloat("CRT Scan/Contrast", &mCRTScanlineIntensity, 0.01f, 0.0f, 1.0f);
+            ImGui::DragFloat("CRT Curvature", &mCRTCurvature, 0.001f, 0.0f, 0.2f); 
+            ImGui::DragFloat("CRT Noise/Aberration", &mCRTNoiseAmount, 0.001f, 0.0f, 2.0f);
         }
 
     }

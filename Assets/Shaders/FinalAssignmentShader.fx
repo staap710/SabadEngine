@@ -150,40 +150,48 @@ float4 PS(VS_OUTPUT input) : SV_Target
     {
         float2 uv = input.texCoord;
 
-    // 1) Screen curvature (uses param1)
+        // 1) Screen curvature (uses param1)  
+        //    Bends the image outward like old CRT glass.
         float2 curvedUV = BarrelDistort(uv, param1);
 
-    // 2) Chromatic aberration + color bleeding (uses param2)
+        // 2) Chromatic aberration + color bleeding (uses param2)   I COULDNT ADD ANOTHER PARAM LOL
+        //RGB channels misalign more at the edges
         float chromaAmount = param2 * 0.01f;
         float2 centre = float2(0.5f, 0.5f);
         float2 dir = curvedUV - centre;
         float dist = length(dir);
         float2 dirNorm = (dist > 0.00001f) ? dir / dist : float2(0, 0);
 
+        // Shift red outward, blue inward
         float2 redUV = curvedUV + dirNorm * (chromaAmount * dist);
         float2 blueUV = curvedUV - dirNorm * (chromaAmount * dist);
 
+        // Sample each channel
         float4 redSample = textureMap0.Sample(textureSampler, saturate(redUV));
         float4 greenSample = textureMap0.Sample(textureSampler, saturate(curvedUV));
         float4 blueSample = textureMap0.Sample(textureSampler, saturate(blueUV));
 
         float4 color = float4(redSample.r, greenSample.g, blueSample.b, 1.0f);
 
-    // 3) Scanlines (param0 controls intensity)
+        // 3) Scanlines (param0 controls intensity)
+        //    Alternating bright/dark rows, stronger at edges.
         float scanFreq = lerp(300.0f, 900.0f, param0);
         float scan = Scanline(uv.y, scanFreq * 0.001f);
         float scanStrength = lerp(1.0f, scan, param0);
         color.rgb *= scanStrength;
 
-    // 4) Vignette
+        // 4) Vignette
+        //Darken edges of the curved screen
         float vignette = 1.0f - smoothstep(0.35f, 0.85f, dist);
         color.rgb *= vignette;
 
-    // 5) Contrast (param0 also controls this)
+        // 5) Contrast (param0 also controls this)
+        // CRTs have high contrast, strong whites/blacks.
         float contrast = 1.0f + param0 * 0.25f;
         color.rgb = ((color.rgb - 0.5f) * contrast) + 0.5f;
 
-    // 6) Noise (uses param2)
+        // 6) Noise (uses param2)
+        //    Analog static/noise. Stronger at edges.
         float n = Rand(floor(uv * 1000.0f));
         float noiseAmount = param2 * 0.05f;
         color.rgb += (n - 0.5f) * noiseAmount;

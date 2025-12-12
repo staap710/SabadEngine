@@ -72,8 +72,8 @@ namespace SabadEngine::Graphics
 
         //CRT EFFECT
 
-        float mCRTScanlineIntensity = 0.05f;   // param0
+        float mCRTScanlineIntensity = 0.2f;   // param0
         float mCRTCurvature = 0.03f;   // param1
-        float mCRTNoiseAmount = 0.02f;   // param2
+        float mCRTNoiseAmount = 1.0f;   // param2
     };
 };
