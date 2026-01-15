@@ -75,16 +75,22 @@ void GameState::Initialize()
     // Animation Constructor
     mAnimationTime = 0.0f;
     mAnimation = AnimationBuilder()
-        .AddPositionKey({ 0.0f, 0.0f, 0.0f }, 0.0f)
-        .AddPositionKey({ 0.0f,-2.0f, 0.0f }, 3.0f)
-        .AddPositionKey({ 0.0f, 0.0f, 0.0f }, 5.0f)
-        .AddRotationKey(Math::Quaternion::Identity, 0.0f)
-        .AddRotationKey(Math::Quaternion::CreateFromAxisAngle(Math::Vector3::YAxis, 90.0f * Math::Constants::HalfPi), 3.0f)
-        .AddRotationKey(Math::Quaternion::CreateFromAxisAngle(Math::Vector3::YAxis, Math::Constants::Pi * 1.1), 3.1f)
-        .AddRotationKey(Math::Quaternion::CreateFromAxisAngle(Math::Vector3::YAxis, Math::Constants::TwoPi), 5.0f)
-        .AddScaleKey(Math::Vector3(1.0f, 1.0f, 1.0f), 0.0f)
-        .AddScaleKey(Math::Vector3(1.0f, 2.0f, 2.0f), 9.0f)
-        .Build();
+.AddPositionKey({ 0.0f,  2.0f, 0.0f }, 0.0f)
+.AddPositionKey({ 0.0f, -2.0f, 0.0f }, 5.0f)
+.AddPositionKey({ 0.0f,  1.2f, 0.0f }, 6.5f)
+.AddPositionKey({ 0.0f,  0.0f, 0.0f }, 10.0f)
+
+.AddRotationKey(Math::Quaternion::Identity, 0.0f)
+.AddRotationKey(Math::Quaternion::CreateFromAxisAngle(Math::Vector3::YAxis, Math::Constants::Pi), 5.0f)
+.AddRotationKey(Math::Quaternion::CreateFromAxisAngle(Math::Vector3::YAxis, Math::Constants::TwoPi), 10.0f)
+
+.AddScaleKey(Math::Vector3(1.0f, 1.0f, 1.0f), 0.0f)
+.AddScaleKey(Math::Vector3(1.3f, 0.6f, 1.3f), 5.0f)
+.AddScaleKey(Math::Vector3(0.8f, 1.4f, 0.8f), 5.3f)
+.AddScaleKey(Math::Vector3(1.0f, 1.0f, 1.0f), 10.0f)
+
+.Build();
+
 }
 
 void GameState::Terminate()

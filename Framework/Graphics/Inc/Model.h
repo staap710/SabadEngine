@@ -2,6 +2,8 @@
 
 #include "MeshTypes.h"
 #include "Material.h"
+#include "Skeleton.h"
+
 
 namespace SabadEngine::Graphics
 {
@@ -24,5 +26,6 @@ namespace SabadEngine::Graphics
 		};
 		std::vector<MeshData> meshData;
 		std::vector<MaterialData> materialData;
+		std::unique_ptr<Skeleton> skeleton;
 	};
 }

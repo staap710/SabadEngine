@@ -67,3 +67,7 @@
 #include "Keyframe.h"
 
 #include "AnimationBuilder.h"
+
+#include "Bone.h"
+
+#include "Skeleton.h"
