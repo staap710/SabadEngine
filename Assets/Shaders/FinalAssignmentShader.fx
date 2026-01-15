@@ -150,8 +150,8 @@ float4 PS(VS_OUTPUT input) : SV_Target
     {
         float2 uv = input.texCoord;
 
+     
         // 1) Screen curvature (uses param1)  
-        //    Bends the image outward like old CRT glass.
         float2 curvedUV = BarrelDistort(uv, param1);
 
         // 2) Chromatic aberration + color bleeding (uses param2)   I COULDNT ADD ANOTHER PARAM LOL
@@ -174,7 +174,7 @@ float4 PS(VS_OUTPUT input) : SV_Target
         float4 color = float4(redSample.r, greenSample.g, blueSample.b, 1.0f);
 
         // 3) Scanlines (param0 controls intensity)
-        //    Alternating bright/dark rows, stronger at edges.
+        // Alternating bright/dark rows, stronger at edges.
         float scanFreq = lerp(300.0f, 900.0f, param0);
         float scan = Scanline(uv.y, scanFreq * 0.001f);
         float scanStrength = lerp(1.0f, scan, param0);

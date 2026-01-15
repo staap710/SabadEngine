@@ -61,3 +61,9 @@
 #include "Terrain.h"
 
 #include "TerrainEffect.h"
+
+#include "Animation.h"
+
+#include "Keyframe.h"
+
+#include "AnimationBuilder.h"
