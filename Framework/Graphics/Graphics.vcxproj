@@ -134,11 +134,8 @@
     <ProjectReference Include="..\..\DirectXTK\DirectXTK_Desktop_2022.vcxproj">
       <Project>{e0b52ae7-e160-4d32-bf3f-910b785e5a8e}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\External\DirectXTK\DirectXTK_Desktop_2022.vcxproj">
-      <Project>{e0b52ae7-e160-4d32-bf3f-910b785e5a8e}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\External\ImGui\ImGui.vcxproj">
-      <Project>{52d656a2-a2f4-4c54-a3c7-653427bed1e8}</Project>
+    <ProjectReference Include="..\..\External\Bullet\Bullet.vcxproj">
+      <Project>{516192eb-788a-4fe7-b2b7-2ef9ac036b12}</Project>
     </ProjectReference>
     <ProjectReference Include="..\Core\Core.vcxproj">
       <Project>{5906d5a4-ab99-4f6e-b4a1-282d78e58da6}</Project>
@@ -150,6 +147,9 @@
   <ItemGroup>
     <ClInclude Include="Inc\Animation.h" />
     <ClInclude Include="Inc\AnimationBuilder.h" />
+    <ClInclude Include="Inc\AnimationClip.h" />
+    <ClInclude Include="Inc\AnimationUtil.h" />
+    <ClInclude Include="Inc\Animator.h" />
     <ClInclude Include="Inc\BlendState.h" />
     <ClInclude Include="Inc\Bone.h" />
     <ClInclude Include="Inc\Camera.h" />
@@ -160,6 +160,8 @@
     <ClInclude Include="Inc\DirectionalLight.h" />
     <ClInclude Include="Inc\Graphics.h" />
     <ClInclude Include="Inc\GraphicsSystem.h" />
+    <ClInclude Include="Inc\HalftoneEffect.h" />
+    <ClInclude Include="Inc\HatchingEffect.h" />
     <ClInclude Include="Inc\Keyframe.h" />
     <ClInclude Include="Inc\Material.h" />
     <ClInclude Include="Inc\MeshBuffer.h" />
@@ -189,13 +191,17 @@
     <ClInclude Include="Src\Precompiled.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Inc\HatchingEffect.cpp" />
     <ClCompile Include="Src\Animation.cpp" />
     <ClCompile Include="Src\AnimationBuilder.cpp" />
+    <ClCompile Include="Src\AnimationUtil.cpp" />
+    <ClCompile Include="Src\Animator.cpp" />
     <ClCompile Include="Src\BlendState.cpp" />
     <ClCompile Include="Src\Camera.cpp" />
     <ClCompile Include="Src\ConstantBuffer.cpp" />
     <ClCompile Include="Src\DebugUI.cpp" />
     <ClCompile Include="Src\GraphicsSystem.cpp" />
+    <ClCompile Include="Src\HalftoneEffect.cpp" />
     <ClCompile Include="Src\MeshBuffer.cpp" />
     <ClCompile Include="Src\MeshBuilder.cpp" />
     <ClCompile Include="Src\ModelIO.cpp" />

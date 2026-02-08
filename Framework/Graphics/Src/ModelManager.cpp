@@ -7,26 +7,25 @@ using namespace SabadEngine::Graphics;
 
 namespace
 {
-    std::unique_ptr<ModelManager> sModelManager;
-
+    std::unique_ptr<ModelManager> sModelManger;
 }
 
 void ModelManager::StaticInitialize(const std::filesystem::path& rootPath)
 {
-    ASSERT(sModelManager == nullptr, "ModelManager already initialized!");
-    sModelManager = std::make_unique<ModelManager>();
-    sModelManager->SetRootDirectory(rootPath);
+    ASSERT(sModelManger == nullptr, "ModelManager already initialized.");
+    sModelManger = std::make_unique<ModelManager>();
+    sModelManger->SetRootDirectory(rootPath);
 }
 
 void ModelManager::StaticTerminate()
 {
-    sModelManager.reset();
+    sModelManger.reset();
 }
 
 ModelManager* ModelManager::Get()
 {
-    ASSERT(sModelManager != nullptr, "ModelManager not initialized!");
-    return sModelManager.get();
+    ASSERT(sModelManger != nullptr, "ModelManager not initialized.");
+    return sModelManger.get();
 }
 
 void ModelManager::SetRootDirectory(const std::filesystem::path& rootPath)
@@ -42,17 +41,24 @@ ModelId ModelManager::GetModelId(const std::filesystem::path& filePath)
 ModelId ModelManager::LoadModel(const std::filesystem::path& filePath)
 {
     const ModelId modelId = GetModelId(filePath);
-    auto [iter, succes] = mInventory.insert({ modelId, nullptr });
-    if (succes)
+    auto [iter, success] = mInventory.insert({ modelId, nullptr });
+    if (success)
     {
         std::filesystem::path fullPath = mRootDirectory / filePath;
         auto& modelPtr = iter->second;
         modelPtr = std::make_unique<Model>();
         ModelIO::LoadModel(fullPath, *modelPtr);
-		ModelIO::LoadMaterial(fullPath, *modelPtr);
-
+        ModelIO::LoadMaterial(fullPath, *modelPtr);
+        ModelIO::LoadSkeleton(fullPath, *modelPtr);
     }
     return modelId;
+}
+
+void ModelManager::AddAnimation(ModelId id, const std::filesystem::path& filePath)
+{
+    auto model = mInventory.find(id);
+    ASSERT(model != mInventory.end(), "ModelManager: Model not found for animation!");
+    ModelIO::LoadAnimation(filePath, *model->second);
 }
 
 const Model* ModelManager::GetModel(ModelId id)

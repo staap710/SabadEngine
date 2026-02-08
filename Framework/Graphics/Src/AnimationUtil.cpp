@@ -1,0 +1,87 @@
+#include "Precompiled.h"
+#include "AnimationUtil.h"
+
+#include "Color.h"
+#include "SimpleDraw.h"
+
+using namespace SabadEngine;
+using namespace SabadEngine::Graphics;
+
+// Empty namespace for global helper functions isolated to the cpp file
+namespace
+{
+    void ComputeBoneTransformsRecursive(const Bone* bone, AnimationUtil::BoneTransforms& boneTransforms, const Animator* animator)
+    {
+        if (bone != nullptr)
+        {
+            // Set the bone transform to the array of the matrices
+
+            // If no animator or the bone doesn't have an animated transform, use the regular toParentTransform, otherwise use the animaton
+            if (animator == nullptr || !animator->GetToParentTransform(bone, boneTransforms[bone->index]))
+            {
+                boneTransforms[bone->index] = bone->toParentTransform;
+            }
+
+            // If there is a parent, apply the parent's transform too
+            if (bone->parent != nullptr)
+            {
+                boneTransforms[bone->index] = boneTransforms[bone->index] * boneTransforms[bone->parentIndex];
+            }
+
+            // Go through the children and apply thier transforms 
+            for (const Bone* child : bone->children)
+            {
+                ComputeBoneTransformsRecursive(child, boneTransforms, animator);
+            }
+        }
+    }
+}
+
+void AnimationUtil::ComputeBoneTransforms(ModelId modelId, BoneTransforms& boneTransforms, const Animator* animator)
+{
+    const Model* model = ModelManager::Get()->GetModel(modelId);
+    if (model != nullptr && model->skeleton != nullptr)
+    {
+        // Resize to sync the number of bones with the matrices
+        boneTransforms.resize(model->skeleton->bones.size());
+
+        // Generate the matrices recursively starting from the root bone
+        ComputeBoneTransformsRecursive(model->skeleton->root, boneTransforms, animator);
+    }
+}
+
+void AnimationUtil::DrawSkeleton(ModelId modelId, const BoneTransforms& boneTransforms)
+{
+    const Model* model = ModelManager::Get()->GetModel(modelId);
+    if (model != nullptr && model->skeleton != nullptr)
+    {
+        // Iterate through the unique bone pointers to the bones in the skeleton
+        for (const auto& bone : model->skeleton->bones)
+        {
+            if (bone->parent != nullptr)
+            {
+                // Gets the bone and parent positions
+                const Math::Vector3 bonePos = Math::GetTranslation(boneTransforms[bone->index]);
+                const Math::Vector3 parentPos = Math::GetTranslation(boneTransforms[bone->parentIndex]);
+                // Draws a line from the bone to its parent
+                SimpleDraw::AddLine(bonePos, parentPos, Colors::FloralWhite);
+                // Draws a sphere at the bone position (joint location)
+                SimpleDraw::AddSphere(16, 16, 0.02f, Colors::DarkGray, bonePos);
+            }
+        }
+    }
+}
+
+void AnimationUtil::ApplyBoneOffsets(ModelId modelId, BoneTransforms& boneTransforms)
+{
+    const Model* model = ModelManager::Get()->GetModel(modelId);
+    if (model != nullptr && model->skeleton != nullptr)
+    {
+        // Iterate through the unique bone pointers to the bones in the skeleton
+        for (auto& bone : model->skeleton->bones)
+        {
+            // Apply the offset matrix to the computed bone transform
+            boneTransforms[bone->index] = bone->offsetTransform * boneTransforms[bone->index];
+        }
+    }
+}

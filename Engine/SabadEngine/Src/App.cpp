@@ -11,7 +11,6 @@ void App::Run(const AppConfig& config)
 {
 	LOG("App Started");
 
-	// Initialize Everything
 	Window myWindow;
 	myWindow.Initialize(
 		GetModuleHandle(nullptr),
@@ -27,12 +26,14 @@ void App::Run(const AppConfig& config)
 	TextureManager::StaticInitialize(L"../../Assets/Textures");
 	ModelManager::StaticInitialize(L"../../Assets/Models");
 
+	PhysicsWorld::Settings physicsSettings;
+	PhysicsWorld::StaticInitialize(physicsSettings);
 
-	// Last Step Before Running
+	// Last Step Bef
 	ASSERT(mCurrentState != nullptr, "App: Need an app state to run");
 	mCurrentState->Initialize();
 
-	// Process Updates
+	//
 	InputSystem* input = InputSystem::Get();
 	mRunning = true;
 	while (mRunning)
@@ -56,10 +57,11 @@ void App::Run(const AppConfig& config)
 
 		float deltaTime = TimeUtil::GetDeltaTime();
 #if defined(_DEBUG)
-		if (deltaTime < 0.5f) // Primarily for handling Breakpoints
+		if (deltaTime < 0.5f) // Primarily for Breakpoints
 #endif
 		{
 			mCurrentState->Update(deltaTime);
+			PhysicsWorld::Get()->Update(deltaTime);
 		}
 
 		GraphicsSystem* gs = GraphicsSystem::Get();
@@ -76,10 +78,10 @@ void App::Run(const AppConfig& config)
 	// Terminate Everything
 	LOG("App Quit");
 	mCurrentState->Terminate();
+
+	PhysicsWorld::StaticTerminate();
 	ModelManager::StaticTerminate();
 	TextureManager::StaticTerminate();
-
-
 	DebugUI::StaticTerminate();
 	SimpleDraw::StaticTerminate();
 	GraphicsSystem::StaticTerminate();

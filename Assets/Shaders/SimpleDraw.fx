@@ -1,7 +1,6 @@
 // Simple Shader that takes a local position, convertes to NDC space,
 // and sets the color.
 
-// Information is passed to the GPU thrrough a buffer
 cbuffer TransformBuffer : register(b0)
 {
     matrix wvp;

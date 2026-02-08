@@ -4,6 +4,7 @@ cbuffer TransformBuffer : register(b0)
 {
     matrix wvp;
     matrix world;
+    matrix lwvp;
     float3 viewPosition;
 }
 
@@ -30,7 +31,15 @@ cbuffer SettingBuffer : register(b3)
     bool useSpecMap;
     bool useNormalMap;
     bool useBumpMap;
+    bool useShadowMap;
+    bool useSkinning;
     float bumpMapIntensity;
+    float depthBias;
+}
+
+cbuffer BoneTransformBuffer : register(b4)
+{
+    matrix boneTransforms[256];
 }
 
 SamplerState textureSampler : register(s0);
@@ -39,7 +48,30 @@ Texture2D diffuseMap : register(t0);
 Texture2D specMap : register(t1);
 Texture2D normalMap : register(t2);
 Texture2D bumpMap : register(t3);
+Texture2D shadowMap : register(t4);
 
+static matrix Identity =
+{
+    1, 0, 0, 0,
+    0, 1, 0, 0,
+    0, 0, 1, 0,
+    0, 0, 0, 1
+};
+
+matrix GetBoneTransform(int4 indices, float4 weights)
+{
+    if (length(weights) <= 0.0f)
+    {
+        return Identity; // No bone weight (therefore np influence)
+    }
+    
+    matrix transform = boneTransforms[indices[0]] * weights[0];
+    transform += boneTransforms[indices[1]] * weights[1];
+    transform += boneTransforms[indices[2]] * weights[2];
+    transform += boneTransforms[indices[3]] * weights[3];
+    
+    return transform;
+}
 
 struct VS_INPUT
 {
@@ -47,6 +79,8 @@ struct VS_INPUT
     float3 normal : NORMAL;
     float3 tangent : TANGENT;
     float2 texCoord : TEXCOORD;
+    int4 blendIndices : BLENDINDICES;
+    float4 blendWeights : BLENDWEIGHT;
 };
 
 struct VS_OUTPUT
@@ -57,10 +91,25 @@ struct VS_OUTPUT
     float2 texCoord : TEXCOORD;
     float3 dirToLight : TEXCOORD1;
     float3 dirToView : TEXCOORD2;
+    float4 lightNDCPosition : TEXCOORD3;
 };
 
 VS_OUTPUT VS(VS_INPUT input)
 {
+    // Matrix to multiply to get the vertex in world space
+    matrix toWorld = world;
+    // Matrix to multiply to get the vertex in NDC space 
+    matrix toNDC = wvp;
+    // Need to add this to the shadow.fx to work with animation/skinning
+    // Also need to include lwvp matrix in this calculation
+    if (useSkinning)
+    {
+        // Apply skinning data to the mesh for the influence of bones
+        matrix boneTransform = GetBoneTransform(input.blendIndices, input.blendWeights);
+        toWorld = mul(boneTransform, toWorld);
+        toNDC = mul(boneTransform, toNDC);
+    }
+    
     float3 localPosition = input.position;
     
     if (useBumpMap)
@@ -72,14 +121,19 @@ VS_OUTPUT VS(VS_INPUT input)
     }
     
     VS_OUTPUT output;
-    output.position = mul(float4(localPosition, 1.0f), wvp);
-    output.worldNormal = mul(input.normal, (float3x3) world);
-    output.worldTangent = mul(input.tangent, (float3x3) world);
+    output.position = mul(float4(localPosition, 1.0f), toNDC);
+    output.worldNormal = mul(input.normal, (float3x3) toWorld);
+    output.worldTangent = mul(input.tangent, (float3x3) toWorld);
     output.texCoord = input.texCoord;
     output.dirToLight = -lightDirection;
     
-    float4 worldPosition = mul(float4(localPosition, 1.0f), world);
+    float4 worldPosition = mul(float4(localPosition, 1.0f), toWorld);
     output.dirToView = normalize(viewPosition - worldPosition.xyz);
+    
+    if (useShadowMap)
+    {
+        output.lightNDCPosition = mul(float4(localPosition, 1.0f), lwvp);
+    }
     
     return output;
 }
@@ -123,6 +177,24 @@ float4 PS(VS_OUTPUT input) : SV_Target
     float4 specMapColor = (useSpecMap) ? specMap.Sample(textureSampler, input.texCoord).r : 1.0f;
     
     float4 finalColor = (emissive + ambient + diffuse) * diffuseMapColor + (specular * specMapColor);
+    
+    if (useShadowMap)
+    {
+        // Shadow Mapping
+        float actualDepth = 1.0f - (input.lightNDCPosition.z / input.lightNDCPosition.w);
+        float2 shadowUV = input.lightNDCPosition.xy / input.lightNDCPosition.w;
+        float u = (shadowUV.x + 1.0f) * 0.5f;
+        float v = 1.0f - (shadowUV.y + 1.0f) * 0.5f;
+        if (saturate(u) == u && saturate(v) == v)
+        {
+            float4 savedColor = shadowMap.Sample(textureSampler, float2(u, v));
+            float savedDepth = savedColor.r;
+            if (savedDepth > actualDepth + depthBias) // If In Shadow
+            {
+                finalColor = (emissive + ambient) * diffuseMapColor;
+            }
+        }
+    }
     
     return finalColor;
 }

@@ -3,7 +3,7 @@
 
 using namespace SabadEngine;
 using namespace SabadEngine::Graphics;
-                 
+
 void RenderObject::Terminate()
 {
     meshBuffer.Terminate();
@@ -21,14 +21,16 @@ void RenderGroup::Initialize(const std::filesystem::path& modelFilePath)
     ASSERT(model != nullptr, "RenderGroup: Failed to load %s", modelFilePath.u8string().c_str());
 
     auto TryLoadTexture = [](const auto& textureName) -> TextureId
-    {
-        if (textureName.empty())
         {
-            return 0;
-        }
+            if (textureName.empty())
+            {
+                return 0;
+            }
 
-        return TextureManager::Get()->LoadTexture(textureName, false);
-    };
+            return TextureManager::Get()->LoadTexture(textureName, false);
+        };
+
+    skeleton = model->skeleton.get();
 
     for (const Model::MeshData& meshData : model->meshData)
     {

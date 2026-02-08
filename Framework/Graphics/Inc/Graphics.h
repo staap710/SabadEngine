@@ -62,12 +62,22 @@
 
 #include "TerrainEffect.h"
 
-#include "Animation.h"
+#include "HalftoneEffect.h"
+
+#include "HatchingEffect.h"
 
 #include "Keyframe.h"
+
+#include "Animation.h"
 
 #include "AnimationBuilder.h"
 
 #include "Bone.h"
 
 #include "Skeleton.h"
+
+#include "AnimationUtil.h"
+
+#include "AnimationClip.h"
+
+#include "Animator.h"
