@@ -90,9 +90,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Bullet", "External\Bullet\B
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Physics", "Framework\Physics\Physics.vcxproj", "{66BD81E7-7677-4F18-94AD-54F75D470881}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "16_HelloSkeletonAnimation", "16_HelloSkeletonAnimation\16_HelloSkeletonAnimation.vcxproj", "{23FA72D1-3A6B-49A3-AE8F-56B0BC492FE0}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "16_HelloSkeletonAnimation", "VGP334\16_HelloSkeletonAnimation\16_HelloSkeletonAnimation.vcxproj", "{23FA72D1-3A6B-49A3-AE8F-56B0BC492FE0}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "17_HelloPhysics", "17_HelloPhysics\17_HelloPhysics.vcxproj", "{7347C654-1B9A-40D5-85DB-C7322B2556E1}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "17_HelloPhysics", "VGP334\17_HelloPhysics\17_HelloPhysics.vcxproj", "{7347C654-1B9A-40D5-85DB-C7322B2556E1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

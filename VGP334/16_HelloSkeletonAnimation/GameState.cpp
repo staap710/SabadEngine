@@ -29,9 +29,9 @@ void GameState::Initialize()
 	character01.Initialize("Character01/Character01.model"); // Character01
 	character01.transform.position = { 0.0f, 0.0f, 0.0f };
 	character01.animator = &mCharacter01Animator;
-	mm->AddAnimation(character01.modelId, L"../../Assets/Models/Character01/Capoeira.fbx");
-	mm->AddAnimation(character01.modelId, L"../../Assets/Models/Character01/RobotHipHopDance.fbx");
-	mm->AddAnimation(character01.modelId, L"../../Assets/Models/Character01/Swimming.fbx");
+	mm->AddAnimation(character01.modelId, L"../../Assets/Models/Character01/Capoeira.animset");
+	mm->AddAnimation(character01.modelId, L"../../Assets/Models/Character01/RobotHipHopDance.animset");
+	mm->AddAnimation(character01.modelId, L"../../Assets/Models/Character01/Swimming.animset");
 
 	mCharacter01Animator.Initialize(character01.modelId);
 
