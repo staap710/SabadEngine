@@ -21,7 +21,7 @@ void GameState::Initialize()
 	mFootball.meshBuffer.Initialize(football);
 
 	TextureManager* tm_basket = TextureManager::Get();
-	mFootball.diffuseMapId = tm_basket->LoadTexture(L"../../Assets/Textures/misc/basketball.jpg");
+	mFootball.diffuseMapId = tm_basket->LoadTexture(L"../../Assets/Textures/misc/earth.jpg");
 
 	std::filesystem::path shaderFile = L"../../Assets/Shaders/Standard.fx";
 	mStandardEffect.Initialize(shaderFile);

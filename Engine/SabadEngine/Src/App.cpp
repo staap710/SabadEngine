@@ -6,6 +6,7 @@ using namespace SabadEngine;
 using namespace SabadEngine::Core;
 using namespace SabadEngine::Graphics;
 using namespace SabadEngine::Input;
+using namespace SabadEngine::Physics;
 
 void App::Run(const AppConfig& config)
 {

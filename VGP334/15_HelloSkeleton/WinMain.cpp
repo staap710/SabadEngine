@@ -5,7 +5,7 @@ using namespace SabadEngine;
 int WINAPI WinMain(HINSTANCE instance, HINSTANCE, LPSTR, int)
 {
 	AppConfig config;
-	config.appName = L"Hello Papyrus!";
+	config.appName = L"Hello Skeleton";
 
 	App& myApp = MainApp();
 

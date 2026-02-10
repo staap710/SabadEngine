@@ -11,7 +11,7 @@ enum class CurrentModel
 	Character03
 };
 
-const char* gObjectNames[] = { "Character01", "Character02", "Character03" };
+const char* gObjectNames[] = { "character01", "character02", "character03" };
 
 CurrentModel gCurrentModel = CurrentModel::Character01;
 
@@ -25,15 +25,15 @@ void GameState::Initialize()
 	mDirectionalLight.diffuse = { 0.8f, 0.8f, 0.8f, 1.0f };
 	mDirectionalLight.specular = { 0.9f, 0.9f, 0.9f, 1.0f };
 
-	ModelManager* character01 = ModelManager::Get();
-	character01.Initialize("Character_01/Character_01.model"); // Character01
+	ModelManager* mm = ModelManager::Get();
+	character01.Initialize("Character01/Character01.model"); // Character01
 	character01.transform.position = { 0.0f, 0.0f, 0.0f };
-	character01.animator = &mCharacterAnimator;
-	character01->AddAnimation(character01.modelId, L"../../Assets/Models/Character_01/Capoeira.fbx");
-	character01->AddAnimation(character01.modelId, L"../../Assets/Models/Character_01/RobotHipHopDance.fbx");
-	character01->AddAnimation(character01.modelId, L"../../Assets/Models/Character_01/Swimming.fbx");
+	character01.animator = &mCharacter01Animator;
+	mm->AddAnimation(character01.modelId, L"../../Assets/Models/Character01/Capoeira.fbx");
+	mm->AddAnimation(character01.modelId, L"../../Assets/Models/Character01/RobotHipHopDance.fbx");
+	mm->AddAnimation(character01.modelId, L"../../Assets/Models/Character01/Swimming.fbx");
 
-	mCharacterAnimator.Initialize(mCharacter.modelId);
+	mCharacter01Animator.Initialize(character01.modelId);
 
 	std::filesystem::path shaderFile = L"../../Assets/Shaders/Standard.fx";
 	mStandardEffect.Initialize(shaderFile);
@@ -43,7 +43,7 @@ void GameState::Initialize()
 
 void GameState::Terminate()
 {
-	Character01.Terminate();
+	character01.Terminate();
 	mStandardEffect.Terminate();
 }
 
@@ -68,8 +68,8 @@ void GameState::Render()
 		switch (gCurrentModel)
 		{
 		case CurrentModel::Character01:
-			AnimationUtil::ComputeBoneTransforms(Character01.modelId, boneTransforms, &mCharacterAnimator);
-			AnimationUtil::DrawSkeleton(Character01.modelId, boneTransforms);
+			AnimationUtil::ComputeBoneTransforms(character01.modelId, boneTransforms, &mCharacter01Animator);
+			AnimationUtil::DrawSkeleton(character01.modelId, boneTransforms);
 			break;
 		}
 	}
@@ -80,7 +80,7 @@ void GameState::Render()
 		switch (gCurrentModel)
 		{
 		case CurrentModel::Character01:
-			mStandardEffect.Render(Character01);
+			mStandardEffect.Render(character01);
 			break;
 		}
 
@@ -155,10 +155,10 @@ void GameState::DebugUI()
 	ImGui::Separator();
 
 	ImGui::DragFloat("AnimationSpeed", &mAnimationSpeed, 0.1f, 0.0f, 10.0f);
-	int maxAnimations = character01.GetAnimationCount();
+	int maxAnimations = mCharacter01Animator.GetAnimationCount();
 	if (ImGui::DragInt("AnimIndex", &mClipIndex, 1, -1, maxAnimations - 1)) 
 	{
-		mCharacterAnimator.PlayAnimation(mClipIndex, true); 
+		mCharacter01Animator.PlayAnimation(mClipIndex, true); 
 	}
 
 	ImGui::Separator();

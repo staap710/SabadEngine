@@ -27,14 +27,14 @@
     <ClInclude Include="Inc\Physics.h">
       <Filter>Inc</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Precompiled.h">
-      <Filter>Src</Filter>
-    </ClInclude>
     <ClInclude Include="Inc\PhysicsObject.h">
       <Filter>Inc</Filter>
     </ClInclude>
     <ClInclude Include="Inc\PhysicsWorld.h">
       <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Precompiled.h">
+      <Filter>Src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
