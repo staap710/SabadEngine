@@ -8,212 +8,173 @@ using namespace SabadEngine::Physics;
 
 void GameState::Initialize()
 {
-    mCamera.SetPosition({ 2.0f, 2.0f, -2.0f });
-    mCamera.SetLookAt({ 0.0f, 1.2f, 0.0f });
+	mCamera.SetPosition({ 0.0f, 1.0f, -3.0f });
+	mCamera.SetLookAt({ 0.0f, 0.0f, 0.0f });
 
-    mDirectionalLight.direction = Math::Normalize({ 1.0f, -1.0f, 1.0f });
-    mDirectionalLight.ambient = { 0.4f, 0.4f, 0.4f, 1.0f };
-    mDirectionalLight.diffuse = { 0.8f, 0.8f, 0.8f, 1.0f };
-    mDirectionalLight.specular = { 0.9f, 0.9f, 0.9f, 1.0f };
+	mDirectionalLight.direction = Math::Normalize({ 1.0f, -1.0f, 1.0f });
+	mDirectionalLight.ambient = { 0.4f, 0.4f, 0.4f, 1.0f };
+	mDirectionalLight.diffuse = { 0.7f, 0.7f, 0.7f, 1.0f };
+	mDirectionalLight.specular = { 0.9f, 0.9f, 0.9f, 1.0f };
 
- 
-    // Planet Earth
-    Mesh earth = MeshBuilder::CreateSphere(50, 50, 0.5f);
-    mEarth.meshBuffer.Initialize(earth);
-    mEarth.transform.position.y = 5.0f;
-    mBallShape.InitializeSphere(0.5f);
-    mBallRigidBody.Initialize(mEarth.transform, mBallShape, 5.0f);
+	TextureManager* tm = TextureManager::Get();
+	Mesh plane = MeshBuilder::CreatePlane(10, 10, 1.0f);
+	mGroundObject.meshBuffer.Initialize(plane);
+	mGroundObject.diffuseMapId = tm->LoadTexture("misc/concrete.jpg");
+	mGroundShape.InitializeHull({ 5.0f, 0.5f, 5.0f }, { 0.0f, -0.5f, 0.0f });
+	mGroundRigidBody.Initialize(mGroundObject.transform, mGroundShape);
 
-    TextureManager* tm_basket = TextureManager::Get();
-    mEarth.diffuseMapId = tm_basket->LoadTexture(L"../../Assets/Textures/planets/Earth.jpg");
+	std::filesystem::path shaderFile = L"../../Assets/Shaders/Standard.fx";
+	mStandardEffect.Initialize(shaderFile);
+	mStandardEffect.SetCamera(mCamera);
+	mStandardEffect.SetDirectionalLight(mDirectionalLight);
 
-    // Ground
-    Mesh plane = MeshBuilder::CreatePlane(20, 20, 1.0f, true);
-    mGroundObject.meshBuffer.Initialize(plane);
-    mGroundShape.InitializeHull({ 5.0f, 0.5f, 5.0f }, { 0.0f, -0.5f, 0.0f });
-    mGroundRigidBody.Initialize(mGroundObject.transform, mGroundShape, 0.0f);
+	uint32_t numSegments = 10;
+	float maxSphereSize = 1.0f;
+	float minSphereSize = 0.25f;
+	for (uint32_t i = 0; i < numSegments; ++i)
+	{
+		const float t = (1.0f-static_cast<float>(i) / static_cast<float>(numSegments - 1));
+		float sphereSize = Math::Lerp(minSphereSize, maxSphereSize, t);
+		Mesh sphere = MeshBuilder::CreateSphere(20, 20, sphereSize);
+		Segment& part = mSegments.emplace_back();
+		part.segment.meshBuffer.Initialize(sphere);
+		part.segment.diffuseMapId = tm->LoadTexture("earth.jpg");
+		part.range = sphereSize;
+		if (i > 0)
+		{
+			Math::Vector3 prevPos = mSegments[i - 1].segment.transform.position;
+			float prevRange = mSegments[i - 1].range;
+			part.segment.transform.position.x = (prevPos.x - prevRange);
+		}
+	}
 
-    mGroundObject.diffuseMapId = tm_basket->LoadTexture(L"../../Assets/Textures/misc/concrete.jpg");
-
-    std::filesystem::path shaderFile = L"../../Assets/Shaders/Standard.fx";
-    mStandardEffect.Initialize(shaderFile);
-    mStandardEffect.SetCamera(mCamera);
-    mStandardEffect.SetDirectionalLight(mDirectionalLight);
-
-    // Boxes
-    Mesh boxShape = MeshBuilder::CreateCube(1.0f);
-    TextureId boxTextureId = tm_basket->LoadTexture(L"../../Assets/Textures/misc/cardboard.jpg");
-
-    float yOffset = 4.5f;
-    float xOffset = 0.0f;
-    int rowCount = 1;
-    int boxIndex = 0;
-    mBoxes.resize(10);
-    while (boxIndex < mBoxes.size())
-    {
-        xOffset = -((static_cast<float>(rowCount) - 1.0f) * 0.5f);
-        for (int r = 0; r < rowCount; ++r)
-        {
-            BoxData& box = mBoxes[boxIndex];
-            box.box.meshBuffer.Initialize(boxShape);
-            box.box.diffuseMapId = boxTextureId;
-            box.box.transform.position.x = xOffset;
-            box.box.transform.position.y = yOffset;
-            box.box.transform.position.z = 4.0f;
-            box.shape.InitializeBox({ 0.5f, 0.5f, 0.5f });
-            xOffset += 1.0f;
-            ++boxIndex;
-        }
-        yOffset -= 1.0f;
-        rowCount += 1;
-    }
-    for (int i = mBoxes.size() - 1; i >= 0; --i)
-    {
-        mBoxes[i].rigidBody.Initialize(mBoxes[i].box.transform, mBoxes[i].shape, 1.0f);
-    }
-
-    // Cloth
-    int rows = 20;
-    int cols = 20;
-    mClothMesh = MeshBuilder::CreatePlane(rows, cols, 0.5f);
-    for (Graphics::Vertex& v : mClothMesh.vertices)
-    {
-        v.position.y += 10.0f;
-        v.position.z += 10.0f;
-    }
-
-    uint32_t lastVertex = mClothMesh.vertices.size() - 1;
-    uint32_t lastVertexOS = lastVertex - cols; // Other Side
-    mClothSoftBody.Initialize(mClothMesh, 1.0f, { lastVertex, lastVertexOS });
-    mCloth.meshBuffer.Initialize(nullptr, sizeof(Vertex), mClothMesh.vertices.size(),
-        mClothMesh.indices.data(), mClothMesh.indices.size());
-    mCloth.diffuseMapId = tm_basket->LoadTexture(L"../../Assets/Textures/misc/cloth.jpg");
-
-    // Cloth Ball
-    mClothBallMesh = MeshBuilder::CreateSphere(10, 10, 2.0f);
-    for (Graphics::Vertex& v : mClothBallMesh.vertices)
-    {
-        v.position.y += 10.0f;
-        //v.position.z += 10.0f;
-    }
-    mClothBallSoftBody.Initialize(mClothBallMesh, 1.0f, {});
-    mClothBall.meshBuffer.Initialize(nullptr, sizeof(Vertex), mClothBallMesh.vertices.size(),
-        mClothBallMesh.indices.data(), mClothBallMesh.indices.size());
-    mClothBall.diffuseMapId = tm_basket->LoadTexture(L"../../Assets/Textures/misc/cardboard.jpg");
+	mBodyAnchorShape.InitializeSphere(maxSphereSize);
+	mBodyAnchor.Initialize(mSegments[0].segment.transform, mBodyAnchorShape, 1.0f);
 }
 
 void GameState::Terminate()
 {
-    mClothBall.Terminate();
-    mClothBallSoftBody.Terminate();
-
-    mCloth.Terminate();
-    mClothSoftBody.Terminate();
-
-    for (BoxData& box : mBoxes)
-    {
-        box.rigidBody.Terminate();
-        box.shape.Terminate();
-        box.box.Terminate();
-    }
-
-    mStandardEffect.Terminate();
-
-    mGroundRigidBody.Terminate();
-    mGroundShape.Terminate();
-    mGroundObject.Terminate();
-
-    mBallRigidBody.Terminate();
-    mBallShape.Terminate();
-    mEarth.Terminate();
+	mBodyAnchor.Terminate();
+	mBodyAnchorShape.Terminate();
+	for (Segment& part : mSegments)
+	{
+		part.segment.Terminate();
+	}
+	mSegments.clear();
+	mStandardEffect.Terminate();
+	mGroundRigidBody.Terminate();
+	mGroundShape.Terminate();
+	mGroundObject.Terminate();
 }
 
 void GameState::Update(float deltaTime)
 {
-    UpdateCamera(deltaTime);
-
-    if (InputSystem::Get()->IsKeyPressed(KeyCode::SPACE))
-    {
-        Math::Vector3 spawnPos = mCamera.GetPosition() + (mCamera.GetDirection() * 0.5f);
-        mBallRigidBody.SetPosition(spawnPos);
-        mBallRigidBody.SetVelocity(mCamera.GetDirection() * 50.0f);
-    }
+	UpdateCamera(deltaTime);
+	InputSystem* input = InputSystem::Get();
+	if (input->IsMousePressed(MouseButton::LBUTTON))
+	{
+		Math::Vector3 spawnPos = mCamera.GetPosition() + (mCamera.GetDirection() * 0.5f);
+		mBodyAnchor.SetPosition(spawnPos);
+		mBodyAnchor.SetVelocity(mCamera.GetDirection() * 20.0f);
+	}
+	Math::Vector3 velocity = Math::Vector3::Zero;
+	velocity.y = mBodyAnchor.GetVelocity().y;
+	if (input->IsKeyDown(KeyCode::UP))
+	{
+		velocity.z += 1.0f;
+	}
+	if (input->IsKeyDown(KeyCode::DOWN))
+	{
+		velocity.z -= 1.0f;
+	}
+	if (input->IsKeyDown(KeyCode::LEFT))
+	{
+		velocity.x -= 1.0f;
+	}
+	if (input->IsKeyDown(KeyCode::RIGHT))
+	{
+		velocity.x = 1.0f;
+	}
+	if (velocity.y < 1.0f && input->IsKeyDown(KeyCode::SPACE))
+	{
+		velocity.y = 10.0f;
+	}
+	mBodyAnchor.SetVelocity(velocity);
 }
 
 void GameState::Render()
 {
-    mCloth.meshBuffer.Update(mClothMesh.vertices.data(), mClothMesh.vertices.size());
-    mClothBall.meshBuffer.Update(mClothBallMesh.vertices.data(), mClothBallMesh.vertices.size());
-    SimpleDraw::AddGroundPlane(20.0f, Colors::Wheat);
-    SimpleDraw::Render(mCamera);
+	for (uint32_t i=1; i< mSegments.size(); ++i)
+	{
+		Segment& prevSeg = mSegments[i - 1];
+		Segment& seg = mSegments[i];
+		seg.segment.transform.position.y = Math::Max(seg.segment.transform.position.y, seg.range);
+		Math::Vector3 dir= seg.segment.transform.position.y = Math::Max(seg.segment.transform.position.y, seg.range);
+		if (Math::MagnitudeSqr(dir) > 0.0f)
+		{
+			dir = Math::Normalize(dir);
+			Math::Vector3 targetPos = prevSeg.segment.transform.position + (dir * (prevSeg.range + seg.range));
+			Math::Vector3 moveDir = targetPos - seg.segment.transform.position;
+			seg.segment.transform.position += moveDir * 0.1f;
+		}
 
-    mStandardEffect.Begin();
-
-    mStandardEffect.Render(mEarth);
-    mStandardEffect.Render(mGroundObject);
-    mStandardEffect.Render(mCloth);
-    mStandardEffect.Render(mClothBall);
-    for (BoxData& box : mBoxes)
-    {
-        mStandardEffect.Render(box.box);
-    }
-
-    mStandardEffect.End();
-
+	}
+	mStandardEffect.Begin();
+	mStandardEffect.Render(mGroundObject);
+	for(const Segment& part : mSegments)
+	{
+		mStandardEffect.Render(part.segment);
+	}
+	mStandardEffect.End();
+	
 }
 
 void GameState::DebugUI()
 {
-    ImGui::Begin("Debug", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
-    if (ImGui::CollapsingHeader("Light", ImGuiTreeNodeFlags_DefaultOpen))
-    {
-        if (ImGui::DragFloat3("Direction#Light", &mDirectionalLight.direction.x, 0.01f))
-        {
-            mDirectionalLight.direction = Math::Normalize(mDirectionalLight.direction);
-        }
 
-        ImGui::ColorEdit4("Ambient#Light", &mDirectionalLight.ambient.r);
-        ImGui::ColorEdit4("Diffuse#Light", &mDirectionalLight.diffuse.r);
-        ImGui::ColorEdit4("Specular#Light", &mDirectionalLight.specular.r);
-    }
+	ImGui::Begin("Debug", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
+	if (ImGui::CollapsingHeader("Light", ImGuiTreeNodeFlags_DefaultOpen))
+	{
+		if (ImGui::DragFloat3("Direction#Light", &mDirectionalLight.direction.x, 0.01f))
+		{
+			mDirectionalLight.direction = Math::Normalize(mDirectionalLight.direction);
+		}
 
-    ImGui::Separator();
+		ImGui::ColorEdit4("Ambient#Light", &mDirectionalLight.ambient.r);
+		ImGui::ColorEdit4("Diffuse#Light", &mDirectionalLight.diffuse.r);
+		ImGui::ColorEdit4("Specular#Light", &mDirectionalLight.specular.r);
+	}
 
-    Math::Vector3 pos = mEarth.transform.position;
-    if (ImGui::DragFloat3("BallPosition", &pos.x))
-    {
-        mEarth.transform.position = pos;
-        mBallRigidBody.SetPosition(mEarth.transform.position);
-    }
+	ImGui::Separator();
 
-    mStandardEffect.DebugUI();
-    PhysicsWorld::Get()->DebugUI();
-    ImGui::End();
-    SimpleDraw::Render(mCamera);
+
+
+
+	mStandardEffect.DebugUI();
+	PhysicsWorld::Get()->DebugUI();
+
+	ImGui::End();
+	SimpleDraw::Render(mCamera);
 }
 
 void GameState::UpdateCamera(float deltaTime)
 {
-    // Camera Controls:
-    InputSystem* input = InputSystem::Get();
-    const float moveSpeed = input->IsKeyDown(KeyCode::LSHIFT) ? 10.0f : 4.0f;
-    const float turnSpeed = 0.5f;
+	Input::InputSystem* input = Input::InputSystem::Get();
+	const float moveSpeed = input->IsKeyDown(Input::KeyCode::LSHIFT) ? 10.0f : 1.0f;
+	const float turnSpeed = 1.0f;
 
-    if (input->IsKeyDown(KeyCode::W)) { mCamera.Walk(moveSpeed * deltaTime); }
+	if (input->IsKeyDown(Input::KeyCode::W)) mCamera.Walk(moveSpeed * deltaTime);
+	else if (input->IsKeyDown(Input::KeyCode::S)) mCamera.Walk(-moveSpeed * deltaTime);
 
-    else if (input->IsKeyDown(KeyCode::S)) { mCamera.Walk(-moveSpeed * deltaTime); }
+	if (input->IsKeyDown(Input::KeyCode::A)) mCamera.Strafe(-moveSpeed * deltaTime);
+	else if (input->IsKeyDown(Input::KeyCode::D)) mCamera.Strafe(moveSpeed * deltaTime);
 
-    else if (input->IsKeyDown(KeyCode::D)) { mCamera.Strafe(moveSpeed * deltaTime); }
+	if (input->IsKeyDown(Input::KeyCode::Q)) mCamera.Rise(-moveSpeed * deltaTime);
+	else if (input->IsKeyDown(Input::KeyCode::E)) mCamera.Rise(moveSpeed * deltaTime);
 
-    else if (input->IsKeyDown(KeyCode::A)) { mCamera.Strafe(-moveSpeed * deltaTime); }
-
-    else if (input->IsKeyDown(KeyCode::E)) { mCamera.Rise(moveSpeed * deltaTime); }
-
-    else if (input->IsKeyDown(KeyCode::Q)) { mCamera.Rise(-moveSpeed * deltaTime); }
-
-    if (input->IsMouseDown(MouseButton::RBUTTON))
-    {
-        mCamera.Yaw(input->GetMouseMoveX() * turnSpeed * deltaTime);
-        mCamera.Pitch(input->GetMouseMoveY() * turnSpeed * deltaTime);
-    }
+	if (input->IsMouseDown(MouseButton::RBUTTON))
+	{
+		mCamera.Yaw(input->GetMouseMoveX() * turnSpeed * deltaTime);
+		mCamera.Pitch(input->GetMouseMoveY() * turnSpeed * deltaTime);
+	}
 }

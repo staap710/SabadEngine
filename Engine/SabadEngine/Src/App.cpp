@@ -7,11 +7,13 @@ using namespace SabadEngine::Core;
 using namespace SabadEngine::Graphics;
 using namespace SabadEngine::Input;
 using namespace SabadEngine::Physics;
+using namespace SabadEngine::Audio;
 
 void App::Run(const AppConfig& config)
 {
 	LOG("App Started");
 
+	//Initialize everything
 	Window myWindow;
 	myWindow.Initialize(
 		GetModuleHandle(nullptr),
@@ -27,20 +29,24 @@ void App::Run(const AppConfig& config)
 	TextureManager::StaticInitialize(L"../../Assets/Textures");
 	ModelManager::StaticInitialize(L"../../Assets/Models");
 
-	PhysicsWorld::Settings physicsSettings;
-	PhysicsWorld::StaticInitialize(physicsSettings);
+	PhysicsWorld::Settings settings;
+	PhysicsWorld::StaticInitialize(settings);
+	EventManager::StaticInitialize();
+	AudioSystem::StaticInitialize();
+	SoundEffectManager::StaticInitialize(L"../../Assets/Sounds");
 
-	// Last Step Bef
-	ASSERT(mCurrentState != nullptr, "App: Need an app state to run");
+
+	//last step before running
+	ASSERT(mCurrentState != nullptr, "App: need an app state to run");
 	mCurrentState->Initialize();
 
-	//
+	//process updates
+
 	InputSystem* input = InputSystem::Get();
 	mRunning = true;
 	while (mRunning)
 	{
 		myWindow.ProcessMessage();
-
 		input->Update();
 
 		if (!myWindow.IsActive() || input->IsKeyPressed(KeyCode::ESCAPE))
@@ -56,9 +62,11 @@ void App::Run(const AppConfig& config)
 			mCurrentState->Initialize();
 		}
 
+		AudioSystem::Get()->Update();
+
 		float deltaTime = TimeUtil::GetDeltaTime();
 #if defined(_DEBUG)
-		if (deltaTime < 0.5f) // Primarily for Breakpoints
+		if (deltaTime < 0.5f) //primarily for handling breakpoints
 #endif
 		{
 			mCurrentState->Update(deltaTime);
@@ -68,26 +76,26 @@ void App::Run(const AppConfig& config)
 		GraphicsSystem* gs = GraphicsSystem::Get();
 		gs->BeginRender();
 		mCurrentState->Render();
-
 		DebugUI::BeginRender();
 		mCurrentState->DebugUI();
 		DebugUI::EndRender();
-
 		gs->EndRender();
 	}
 
-	// Terminate Everything
+	//Terminate everything
 	LOG("App Quit");
 	mCurrentState->Terminate();
 
+	SoundEffectManager::StaticTerminate();
+	AudioSystem::StaticTerminate();
+	EventManager::StaticTerminate();
 	PhysicsWorld::StaticTerminate();
 	ModelManager::StaticTerminate();
 	TextureManager::StaticTerminate();
-	DebugUI::StaticTerminate();
 	SimpleDraw::StaticTerminate();
-	GraphicsSystem::StaticTerminate();
+	DebugUI::StaticTerminate();
 	InputSystem::StaticTerminate();
-
+	GraphicsSystem::StaticTerminate();
 	myWindow.Terminate();
 }
 
@@ -96,7 +104,7 @@ void App::Quit()
 	mRunning = false;
 }
 
-void App::ChangeState(const std::string& stateName)
+void SabadEngine::App::ChangeState(const std::string& stateName)
 {
 	auto iter = mAppStates.find(stateName);
 	if (iter != mAppStates.end())

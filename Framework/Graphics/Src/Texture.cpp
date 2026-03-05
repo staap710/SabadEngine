@@ -61,3 +61,4 @@ void* Texture::GetRawData() const
 {
     return mShaderResourceView;
 }
+

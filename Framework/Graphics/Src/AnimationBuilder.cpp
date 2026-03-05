@@ -1,46 +1,54 @@
 #include "Precompiled.h"
 #include "AnimationBuilder.h"
 
+
 using namespace SabadEngine;
 using namespace SabadEngine::Graphics;
 
 namespace
 {
-    template<class T>
-    inline void PushKey(Keyframes<T>& keyframes, const T& value, float t)
-    {
-        ASSERT(keyframes.empty() || keyframes.back().time <= t, "AnimaionBuilder: Can't add keyframe with time less than previous keyframe time.");
-        keyframes.emplace_back(value, t);
-    }
+	template<class T>
+	inline void PushKey(Keyframes<T>& keyframes, const T& value, float t)
+	{
+		ASSERT(keyframes.empty() || keyframes.back().time <= t, "AnimationBuilder: can't add keyframe back in time");
+		keyframes.emplace_back(value, t);
+	}
 }
 
-AnimationBuilder& AnimationBuilder::AddPositionKey(const Math::Vector3& position, float time)
+AnimationBuilder& AnimationBuilder::AddPositionKey(const Math::Vector3& pos, float time)
 {
-    PushKey(mWorkingCopy.mPositionKeys, position, time);
-    mWorkingCopy.mDuration = Math::Max(mWorkingCopy.mDuration, time);
-    return *this;
+	PushKey(mWorkingCopy.mPositionKeys, pos, time);
+	mWorkingCopy.mDuration = Math::Max(mWorkingCopy.mDuration, time);
+	return *this;
 }
 
-AnimationBuilder& AnimationBuilder::AddRotationKey(const Math::Quaternion& rotation, float time)
+AnimationBuilder& AnimationBuilder::AddRotationKey(const Math::Quaternion& rot, float time)
 {
-    PushKey(mWorkingCopy.mRotationKeys, rotation, time);
-    mWorkingCopy.mDuration = Math::Max(mWorkingCopy.mDuration, time);
-    return *this;
+	PushKey(mWorkingCopy.mRotationKeys, rot, time);
+	mWorkingCopy.mDuration = Math::Max(mWorkingCopy.mDuration, time);
+	return *this;
 }
 
 AnimationBuilder& AnimationBuilder::AddScaleKey(const Math::Vector3& scale, float time)
 {
-    PushKey(mWorkingCopy.mScaleKeys, scale, time);
-    mWorkingCopy.mDuration = Math::Max(mWorkingCopy.mDuration, time);
-    return *this;
+	PushKey(mWorkingCopy.mScaleKeys, scale, time);
+	mWorkingCopy.mDuration = Math::Max(mWorkingCopy.mDuration, time);
+	return *this;
+}
+
+AnimationBuilder& AnimationBuilder::AddEventKey(AnimationCallback cb, float time)
+{
+	PushKey(mWorkingCopy.mEventKeys, cb, time);
+	mWorkingCopy.mDuration = Math::Max(mWorkingCopy.mDuration, time);
+	return *this;
 }
 
 Animation AnimationBuilder::Build()
 {
-    ASSERT(!mWorkingCopy.mPositionKeys.empty()
-        || !mWorkingCopy.mRotationKeys.empty()
-        || !mWorkingCopy.mScaleKeys.empty(),
-        "AnimationBuilder: No animations are present!");
-
-    return std::move(mWorkingCopy);
+	ASSERT(!mWorkingCopy.mPositionKeys.empty()
+		|| !mWorkingCopy.mRotationKeys.empty()
+		|| !mWorkingCopy.mScaleKeys.empty()
+		|| !mWorkingCopy.mEventKeys.empty(),
+		"AnimationBuilder: no animations are present");
+	return std::move(mWorkingCopy);
 }

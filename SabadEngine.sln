@@ -39,6 +39,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shaders", "Shaders", "{1332
 		Assets\Shaders\FinalAssignmentShader.fx = Assets\Shaders\FinalAssignmentShader.fx
 		Assets\Shaders\Halftone.fx = Assets\Shaders\Halftone.fx
 		Assets\Shaders\Hatching.fx = Assets\Shaders\Hatching.fx
+		Assets\Shaders\Particle.fx = Assets\Shaders\Particle.fx
 		Assets\Shaders\PostProcessing.fx = Assets\Shaders\PostProcessing.fx
 		Assets\Shaders\Shadow.fx = Assets\Shaders\Shadow.fx
 		Assets\Shaders\SimpleDraw.fx = Assets\Shaders\SimpleDraw.fx
@@ -93,6 +94,16 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "16_HelloSkeletonAnimation", "VGP334\16_HelloSkeletonAnimation\16_HelloSkeletonAnimation.vcxproj", "{23FA72D1-3A6B-49A3-AE8F-56B0BC492FE0}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "17_HelloPhysics", "VGP334\17_HelloPhysics\17_HelloPhysics.vcxproj", "{7347C654-1B9A-40D5-85DB-C7322B2556E1}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "19_HelloEventsAndAudio", "VGP334\19_HelloEventsAndAudio\19_HelloEventsAndAudio.vcxproj", "{8A82C366-4A1F-4758-8037-9E963B089371}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DirectXTKAudio_Desktop_2022_Win8", "External\DirectXTK\Audio\DirectXTKAudio_Desktop_2022_Win8.vcxproj", "{4F150A30-CECB-49D1-8283-6A3F57438CF5}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Audio", "Framework\Audio\Audio.vcxproj", "{2C91E17F-8A06-41F4-901D-F38BF690F305}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "18_HelloParticle", "VGP334\18_HelloParticle\18_HelloParticle.vcxproj", "{4179D646-726A-4ABD-A2D7-A9BA18E16EEC}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "20_HelloProceduralAnimation", "VGP334\20_HelloProceduralAnimation\20_HelloProceduralAnimation.vcxproj", "{170524E0-5939-42C7-ACE5-F85607B7C2DA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -334,6 +345,46 @@ Global
 		{7347C654-1B9A-40D5-85DB-C7322B2556E1}.Release|x64.Build.0 = Release|x64
 		{7347C654-1B9A-40D5-85DB-C7322B2556E1}.Release|x86.ActiveCfg = Release|Win32
 		{7347C654-1B9A-40D5-85DB-C7322B2556E1}.Release|x86.Build.0 = Release|Win32
+		{8A82C366-4A1F-4758-8037-9E963B089371}.Debug|x64.ActiveCfg = Debug|x64
+		{8A82C366-4A1F-4758-8037-9E963B089371}.Debug|x64.Build.0 = Debug|x64
+		{8A82C366-4A1F-4758-8037-9E963B089371}.Debug|x86.ActiveCfg = Debug|Win32
+		{8A82C366-4A1F-4758-8037-9E963B089371}.Debug|x86.Build.0 = Debug|Win32
+		{8A82C366-4A1F-4758-8037-9E963B089371}.Release|x64.ActiveCfg = Release|x64
+		{8A82C366-4A1F-4758-8037-9E963B089371}.Release|x64.Build.0 = Release|x64
+		{8A82C366-4A1F-4758-8037-9E963B089371}.Release|x86.ActiveCfg = Release|Win32
+		{8A82C366-4A1F-4758-8037-9E963B089371}.Release|x86.Build.0 = Release|Win32
+		{4F150A30-CECB-49D1-8283-6A3F57438CF5}.Debug|x64.ActiveCfg = Debug|x64
+		{4F150A30-CECB-49D1-8283-6A3F57438CF5}.Debug|x64.Build.0 = Debug|x64
+		{4F150A30-CECB-49D1-8283-6A3F57438CF5}.Debug|x86.ActiveCfg = Debug|Win32
+		{4F150A30-CECB-49D1-8283-6A3F57438CF5}.Debug|x86.Build.0 = Debug|Win32
+		{4F150A30-CECB-49D1-8283-6A3F57438CF5}.Release|x64.ActiveCfg = Release|x64
+		{4F150A30-CECB-49D1-8283-6A3F57438CF5}.Release|x64.Build.0 = Release|x64
+		{4F150A30-CECB-49D1-8283-6A3F57438CF5}.Release|x86.ActiveCfg = Release|Win32
+		{4F150A30-CECB-49D1-8283-6A3F57438CF5}.Release|x86.Build.0 = Release|Win32
+		{2C91E17F-8A06-41F4-901D-F38BF690F305}.Debug|x64.ActiveCfg = Debug|x64
+		{2C91E17F-8A06-41F4-901D-F38BF690F305}.Debug|x64.Build.0 = Debug|x64
+		{2C91E17F-8A06-41F4-901D-F38BF690F305}.Debug|x86.ActiveCfg = Debug|Win32
+		{2C91E17F-8A06-41F4-901D-F38BF690F305}.Debug|x86.Build.0 = Debug|Win32
+		{2C91E17F-8A06-41F4-901D-F38BF690F305}.Release|x64.ActiveCfg = Release|x64
+		{2C91E17F-8A06-41F4-901D-F38BF690F305}.Release|x64.Build.0 = Release|x64
+		{2C91E17F-8A06-41F4-901D-F38BF690F305}.Release|x86.ActiveCfg = Release|Win32
+		{2C91E17F-8A06-41F4-901D-F38BF690F305}.Release|x86.Build.0 = Release|Win32
+		{4179D646-726A-4ABD-A2D7-A9BA18E16EEC}.Debug|x64.ActiveCfg = Debug|x64
+		{4179D646-726A-4ABD-A2D7-A9BA18E16EEC}.Debug|x64.Build.0 = Debug|x64
+		{4179D646-726A-4ABD-A2D7-A9BA18E16EEC}.Debug|x86.ActiveCfg = Debug|Win32
+		{4179D646-726A-4ABD-A2D7-A9BA18E16EEC}.Debug|x86.Build.0 = Debug|Win32
+		{4179D646-726A-4ABD-A2D7-A9BA18E16EEC}.Release|x64.ActiveCfg = Release|x64
+		{4179D646-726A-4ABD-A2D7-A9BA18E16EEC}.Release|x64.Build.0 = Release|x64
+		{4179D646-726A-4ABD-A2D7-A9BA18E16EEC}.Release|x86.ActiveCfg = Release|Win32
+		{4179D646-726A-4ABD-A2D7-A9BA18E16EEC}.Release|x86.Build.0 = Release|Win32
+		{170524E0-5939-42C7-ACE5-F85607B7C2DA}.Debug|x64.ActiveCfg = Debug|x64
+		{170524E0-5939-42C7-ACE5-F85607B7C2DA}.Debug|x64.Build.0 = Debug|x64
+		{170524E0-5939-42C7-ACE5-F85607B7C2DA}.Debug|x86.ActiveCfg = Debug|Win32
+		{170524E0-5939-42C7-ACE5-F85607B7C2DA}.Debug|x86.Build.0 = Debug|Win32
+		{170524E0-5939-42C7-ACE5-F85607B7C2DA}.Release|x64.ActiveCfg = Release|x64
+		{170524E0-5939-42C7-ACE5-F85607B7C2DA}.Release|x64.Build.0 = Release|x64
+		{170524E0-5939-42C7-ACE5-F85607B7C2DA}.Release|x86.ActiveCfg = Release|Win32
+		{170524E0-5939-42C7-ACE5-F85607B7C2DA}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -369,6 +420,11 @@ Global
 		{66BD81E7-7677-4F18-94AD-54F75D470881} = {1F0CEE47-F72B-4C16-9F96-0230370008C2}
 		{23FA72D1-3A6B-49A3-AE8F-56B0BC492FE0} = {94318BD7-291F-424A-A8A5-7FB310703BF0}
 		{7347C654-1B9A-40D5-85DB-C7322B2556E1} = {94318BD7-291F-424A-A8A5-7FB310703BF0}
+		{8A82C366-4A1F-4758-8037-9E963B089371} = {94318BD7-291F-424A-A8A5-7FB310703BF0}
+		{4F150A30-CECB-49D1-8283-6A3F57438CF5} = {4D57DF9A-8108-4E1F-9A0A-CC3122761416}
+		{2C91E17F-8A06-41F4-901D-F38BF690F305} = {1F0CEE47-F72B-4C16-9F96-0230370008C2}
+		{4179D646-726A-4ABD-A2D7-A9BA18E16EEC} = {94318BD7-291F-424A-A8A5-7FB310703BF0}
+		{170524E0-5939-42C7-ACE5-F85607B7C2DA} = {94318BD7-291F-424A-A8A5-7FB310703BF0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C84562D2-23AD-4C29-92D2-1A4C470BECEF}
