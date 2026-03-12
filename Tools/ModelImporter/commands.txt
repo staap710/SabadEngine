@@ -7,3 +7,10 @@ Animations:
 -animOnly 1 -scale 0.01 ../../Assets/Models/Character01/RobotHipHopDance.fbx ../../Assets/Models/Character01/RobotHipHopDance.model
 -animOnly 1 -scale 0.01 ../../Assets/Models/Character01/Swimming.fbx ../../Assets/Models/Character01/Swimming.model
 -animOnly 1 -scale 0.01 ../../Assets/Models/Character01/Dying.fbx ../../Assets/Models/Character01/Dying.model
+
+-animOnly 1 -scale 0.01 ../../Assets/Models/Character01/WalkingDefensive.fbx ../../Assets/Models/Character01/WalkingDefensive.model
+-animOnly 1 -scale 0.01 ../../Assets/Models/Character01/FastRun.fbx ../../Assets/Models/Character01/FastRun.model
+-animOnly 1 -scale 0.01 ../../Assets/Models/Character01/SneakWalk.fbx ../../Assets/Models/Character01/SneakWalk.model
+-animOnly 1 -scale 0.01 ../../Assets/Models/Character01/StandardWalk.fbx ../../Assets/Models/Character01/StandardWalk.model
+-animOnly 1 -scale 0.01 ../../Assets/Models/Character01/Punching.fbx ../../Assets/Models/Character01/Punching.model
+-animOnly 1 -scale 0.01 ../../Assets/Models/Character01/PunchCombo.fbx ../../Assets/Models/Character01/PunchCombo.model

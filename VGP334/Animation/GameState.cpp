@@ -1,75 +1,93 @@
 #include "GameState.h"
 #include "GameEvents.h"
-
 using namespace SabadEngine;
 using namespace SabadEngine::Graphics;
 using namespace SabadEngine::Input;
 using namespace SabadEngine::Physics;
 using namespace SabadEngine::Audio;
-
 namespace
 {
-	const float SCENE_DURATION = 50.0f;
+	const float SCENE_DURATION = 16.0f; // Fast-paced short loop
+	// Animation clip indices (order they are added via AddAnimation)
+	enum AnimClip
+	{
+		Capoeira = 0,
+		WalkingDefensive,
+		FastRun,
+		SneakWalk,
+		StandardWalk,
+		PunchCombo,
+		Punching,
+		HipHopDance,
+		Dying
+	};
 }
-
 void GameState::Initialize()
 {
-	// Camera
-	mCamera.SetPosition({ 0.0f, 2.0f, -8.0f });
-	mCamera.SetLookAt({ 0.0f, 1.0f, 0.0f });
-
+	// Camera - positioned to see characters facing each other
+	// Adjusted for better view of the close combat
+	mCamera.SetPosition({ 0.0f, 2.5f, -5.0f });
+	mCamera.SetLookAt({ 0.0f, 1.2f, 0.0f });
 	// Lighting
 	mDirectionalLight.direction = Math::Normalize({ 1.0f, -1.0f, 1.0f });
 	mDirectionalLight.ambient = { 0.3f, 0.3f, 0.4f, 1.0f };
 	mDirectionalLight.diffuse = { 0.9f, 0.9f, 0.8f, 1.0f };
 	mDirectionalLight.specular = { 1.0f, 1.0f, 1.0f, 1.0f };
-
 	// Standard Effect
 	std::filesystem::path shaderFile = L"../../Assets/Shaders/Standard.fx";
 	mStandardEffect.Initialize(shaderFile);
 	mStandardEffect.SetCamera(mCamera);
 	mStandardEffect.SetDirectionalLight(mDirectionalLight);
-
-	// ============================================================
-	// CHARACTER 01 - Animated 3D Model (left side, faces right)
-	// ============================================================
 	ModelManager* mm = ModelManager::Get();
-	mCharacter01.Initialize("Character01/Character01.model");
-	mCharacter01.transform.position = { -4.0f, 0.0f, 0.0f };
-	mCharacter01.animator = &mChar01Animator;
-
-	// Add animations for Character 01
-	mm->AddAnimation(mCharacter01.modelId, L"../../Assets/Models/Character01/Capoeira.animset");
-	mm->AddAnimation(mCharacter01.modelId, L"../../Assets/Models/Character01/RobotHipHopDance.animset");
-	mm->AddAnimation(mCharacter01.modelId, L"../../Assets/Models/Character01/Dying.animset");
-
-	mChar01Animator.Initialize(mCharacter01.modelId);
-	mChar01Animator.PlayAnimation(0, true); // Start with Capoeira fighting animation
-
 	// ============================================================
-	// CHARACTER 02 - Animated 3D Model (right side, faces left)
+	// CHARACTER 01 - RIGHT side fighter (faces LEFT toward Char02)
+	// SWAPPED POSITION - Now on the right
+	// ============================================================
+	mCharacter01.Initialize("Character01/Character01.model");
+	mCharacter01.transform.position = { 2.5f, 0.0f, 0.0f };  // Now on right side
+	// Face left (-X) toward Character02
+	mCharacter01.transform.rotation = Math::Quaternion::CreateFromAxisAngle(Math::Vector3::YAxis, -Math::Constants::HalfPi);
+	mCharacter01.animator = &mChar01Animator;
+	// Add all animations for Character 01
+	mm->AddAnimation(mCharacter01.modelId, L"../../Assets/Models/Character01/Capoeira.animset");          // 0
+	mm->AddAnimation(mCharacter01.modelId, L"../../Assets/Models/Character01/WalkingDefensive.animset");   // 1
+	mm->AddAnimation(mCharacter01.modelId, L"../../Assets/Models/Character01/FastRun.animset");             // 2
+	mm->AddAnimation(mCharacter01.modelId, L"../../Assets/Models/Character01/SneakWalk.animset");           // 3
+	mm->AddAnimation(mCharacter01.modelId, L"../../Assets/Models/Character01/StandardWalk.animset");        // 4
+	mm->AddAnimation(mCharacter01.modelId, L"../../Assets/Models/Character01/PunchCombo.animset");          // 5
+	mm->AddAnimation(mCharacter01.modelId, L"../../Assets/Models/Character01/Punching.animset");            // 6
+	mm->AddAnimation(mCharacter01.modelId, L"../../Assets/Models/Character01/RobotHipHopDance.animset");    // 7
+	mm->AddAnimation(mCharacter01.modelId, L"../../Assets/Models/Character01/Dying.animset");               // 8
+	mChar01Animator.Initialize(mCharacter01.modelId);
+	mChar01Animator.PlayAnimation(AnimClip::Capoeira, true); // Start with fighting stance
+	// ============================================================
+	// CHARACTER 02 - LEFT side fighter (faces RIGHT toward Char01)
+	// SWAPPED POSITION - Now on the left
 	// ============================================================
 	mCharacter02.Initialize("Character02/Character02.model");
-	mCharacter02.transform.position = { 4.0f, 0.0f, 0.0f };
-	mCharacter02.transform.rotation = Math::Quaternion::CreateFromAxisAngle(Math::Vector3::YAxis, Math::Constants::Pi);
+	mCharacter02.transform.position = { -2.5f, 0.0f, 0.0f };  // Now on left side
+	// Face right (+X) toward Character01
+	mCharacter02.transform.rotation = Math::Quaternion::CreateFromAxisAngle(Math::Vector3::YAxis, Math::Constants::HalfPi);
 	mCharacter02.animator = &mChar02Animator;
-
-	// Character02 shares the same skeleton, so we can add the same animations
-	mm->AddAnimation(mCharacter02.modelId, L"../../Assets/Models/Character01/Capoeira.animset");
-	mm->AddAnimation(mCharacter02.modelId, L"../../Assets/Models/Character01/RobotHipHopDance.animset");
-	mm->AddAnimation(mCharacter02.modelId, L"../../Assets/Models/Character01/Dying.animset");
-
+	// Add same animations for Character 02
+	mm->AddAnimation(mCharacter02.modelId, L"../../Assets/Models/Character01/Capoeira.animset");          // 0
+	mm->AddAnimation(mCharacter02.modelId, L"../../Assets/Models/Character01/WalkingDefensive.animset");   // 1
+	mm->AddAnimation(mCharacter02.modelId, L"../../Assets/Models/Character01/FastRun.animset");             // 2
+	mm->AddAnimation(mCharacter02.modelId, L"../../Assets/Models/Character01/SneakWalk.animset");           // 3
+	mm->AddAnimation(mCharacter02.modelId, L"../../Assets/Models/Character01/StandardWalk.animset");        // 4
+	mm->AddAnimation(mCharacter02.modelId, L"../../Assets/Models/Character01/PunchCombo.animset");          // 5
+	mm->AddAnimation(mCharacter02.modelId, L"../../Assets/Models/Character01/Punching.animset");            // 6
+	mm->AddAnimation(mCharacter02.modelId, L"../../Assets/Models/Character01/RobotHipHopDance.animset");    // 7
+	mm->AddAnimation(mCharacter02.modelId, L"../../Assets/Models/Character01/Dying.animset");               // 8
 	mChar02Animator.Initialize(mCharacter02.modelId);
-	mChar02Animator.PlayAnimation(1, true); // Start with HipHop dance animation
-
+	mChar02Animator.PlayAnimation(AnimClip::Capoeira, true); // Start with fighting stance
 	// ============================================================
 	// PARTICLE EFFECTS
 	// ============================================================
 	mParticleEffect.Initialize();
 	mParticleEffect.SetCamera(mCamera);
 	TextureManager* tm = TextureManager::Get();
-
-	// ---- CHARACTER 01 BULLETS: Blue projectiles firing toward Char02 (+X direction) ----
+	// ---- CHAR01 BULLETS: Blue projectiles firing LEFT (toward Char02) ----
 	ParticleSystemInfo char01BulletInfo;
 	char01BulletInfo.textureId = tm->LoadTexture("Images/bullet2.png");
 	char01BulletInfo.maxParticles = 300;
@@ -80,15 +98,14 @@ void GameState::Initialize()
 	char01BulletInfo.spawnAngle = { -5.0f, 5.0f };
 	char01BulletInfo.spawnSpeed = { 8.0f, 12.0f };
 	char01BulletInfo.particleLifeTime = { 1.0f, 2.0f };
-	char01BulletInfo.spawnDirection = { 1.0f, 0.0f, 0.0f };
+	char01BulletInfo.spawnDirection = { -1.0f, 0.0f, 0.0f };  // Fire left
 	char01BulletInfo.spawnPosition = Math::Vector3::Zero;
 	char01BulletInfo.startScale = { Math::Vector3::One * 1.2f, Math::Vector3::One * 1.5f };
 	char01BulletInfo.endScale = { Math::Vector3::One * 0.8f, Math::Vector3::One * 1.0f };
 	char01BulletInfo.startColour = { Colors::Cyan, Colors::Blue };
 	char01BulletInfo.endColour = { Colors::Blue, Colors::LightBlue };
 	mChar01Bullets.Initialize(char01BulletInfo);
-
-	// ---- CHARACTER 02 BULLETS: Red projectiles firing toward Char01 (-X direction) ----
+	// ---- CHAR02 BULLETS: Red projectiles firing RIGHT (toward Char01) ----
 	ParticleSystemInfo char02BulletInfo;
 	char02BulletInfo.textureId = tm->LoadTexture("Images/bullet2.png");
 	char02BulletInfo.maxParticles = 300;
@@ -99,14 +116,13 @@ void GameState::Initialize()
 	char02BulletInfo.spawnAngle = { -5.0f, 5.0f };
 	char02BulletInfo.spawnSpeed = { 8.0f, 12.0f };
 	char02BulletInfo.particleLifeTime = { 1.0f, 2.0f };
-	char02BulletInfo.spawnDirection = { -1.0f, 0.0f, 0.0f };
+	char02BulletInfo.spawnDirection = { 1.0f, 0.0f, 0.0f };  // Fire right
 	char02BulletInfo.spawnPosition = Math::Vector3::Zero;
 	char02BulletInfo.startScale = { Math::Vector3::One * 1.2f, Math::Vector3::One * 1.5f };
 	char02BulletInfo.endScale = { Math::Vector3::One * 0.8f, Math::Vector3::One * 1.0f };
 	char02BulletInfo.startColour = { Colors::Red, Colors::OrangeRed };
 	char02BulletInfo.endColour = { Colors::DarkRed, Colors::Red };
 	mChar02Bullets.Initialize(char02BulletInfo);
-
 	// Explosion particles - big colorful burst (manual spawn only)
 	ParticleSystemInfo explosionInfo;
 	explosionInfo.textureId = tm->LoadTexture("Images/bullet2.png");
@@ -125,7 +141,6 @@ void GameState::Initialize()
 	explosionInfo.startColour = { Colors::Yellow, Colors::Red };
 	explosionInfo.endColour = { Colors::OrangeRed, Colors::White };
 	mExplosionParticles.Initialize(explosionInfo);
-
 	// ============================================================
 	// AUDIO
 	// ============================================================
@@ -134,7 +149,6 @@ void GameState::Initialize()
 	mWarningSoundId = sm->Load("megamanx_shot.wav");
 	mExplosionSoundId = sm->Load("explosion.wav");
 	mFireworkSoundId = sm->Load("megamanx_blast.wav");
-
 	// ============================================================
 	// EVENTS
 	// ============================================================
@@ -143,16 +157,30 @@ void GameState::Initialize()
 		std::bind(&GameState::OnCollisionEvent, this, std::placeholders::_1));
 	mFireworkListenerId = em->AddListener(FireworkEvent::StaticGetTypeId(),
 		std::bind(&GameState::OnFireworkEvent, this, std::placeholders::_1));
-
 	// ============================================================
-	// CHARACTER 01 MOVEMENT ANIMATION - 50 SECONDS
-	// Left side fighter: approach, clash, get knocked back
+	// CHOREOGRAPHY LAMBDAS
 	// ============================================================
 	auto playWarningSound = [&]()
 		{
 			SoundEffectManager::Get()->Play(mWarningSoundId);
 		};
-	auto triggerCollision = [&]()
+	auto playExplosionSound = [&]()
+		{
+			SoundEffectManager::Get()->Play(mExplosionSoundId);
+		};
+	// --- Animation switches for Char01 (now on right) ---
+	auto char01SneakWalk     = [&]() { mChar01Animator.PlayAnimation(AnimClip::SneakWalk, true); };
+	auto char01WalkDefensive = [&]() { mChar01Animator.PlayAnimation(AnimClip::WalkingDefensive, true); };
+	auto char01FastRun       = [&]() { mChar01Animator.PlayAnimation(AnimClip::FastRun, true); };
+	auto char01PunchCombo    = [&]() { mChar01Animator.PlayAnimation(AnimClip::PunchCombo, true); SoundEffectManager::Get()->Play(mWarningSoundId); };
+	auto char01Dying         = [&]() { mChar01Animator.PlayAnimation(AnimClip::Dying, false); };
+	// --- Animation switches for Char02 (now on left) ---
+	auto char02StandardWalk  = [&]() { mChar02Animator.PlayAnimation(AnimClip::StandardWalk, true); };
+	auto char02FastRun       = [&]() { mChar02Animator.PlayAnimation(AnimClip::FastRun, true); };
+	auto char02Punching      = [&]() { mChar02Animator.PlayAnimation(AnimClip::Punching, true); SoundEffectManager::Get()->Play(mWarningSoundId); };
+	auto char02VictoryDance  = [&]() { mChar02Animator.PlayAnimation(AnimClip::HipHopDance, true); };
+	// --- Collision / explosion events ---
+	auto triggerClash = [&]()
 		{
 			mExplosionParticles.SetPosition({ 0.0f, 1.0f, 0.0f });
 			mExplosionParticles.SpawnParticles();
@@ -162,7 +190,7 @@ void GameState::Initialize()
 		};
 	auto triggerSecondExplosion = [&]()
 		{
-			mExplosionParticles.SetPosition({ 0.0f, 1.5f, 0.0f });
+			mExplosionParticles.SetPosition({ 1.0f, 1.5f, 0.0f });
 			mExplosionParticles.SpawnParticles();
 			SoundEffectManager::Get()->Play(mExplosionSoundId);
 		};
@@ -174,120 +202,105 @@ void GameState::Initialize()
 			FireworkEvent evt;
 			EventManager::Broadcast(evt);
 		};
-	auto switchChar01ToDying = [&]()
-		{
-			mChar01Animator.PlayAnimation(2, false); // Play dying animation
-		};
-	auto switchChar02ToDance = [&]()
-		{
-			mChar02Animator.PlayAnimation(1, true); // Victory dance
-		};
-
+	// ============================================================
+	// CHARACTER 01 MOVEMENT - Now on RIGHT, moves LEFT
+	// BETTER FIGHT CHOREOGRAPHY - Characters get MUCH closer
+	// ============================================================
 	mChar01Movement = AnimationBuilder()
 		// ---- POSITION KEYS ----
-		// Act 1: Stand ground / fighting stance at left (0-15s)
-		.AddPositionKey({ -4.0f, 0.0f, 0.0f }, 0.0f)
-		.AddPositionKey({ -3.8f, 0.0f, 0.2f }, 3.0f)
-		.AddPositionKey({ -3.5f, 0.0f, -0.2f }, 6.0f)
-		.AddPositionKey({ -3.8f, 0.0f, 0.1f }, 9.0f)
-		.AddPositionKey({ -3.5f, 0.0f, 0.0f }, 12.0f)
-		.AddPositionKey({ -3.0f, 0.0f, 0.0f }, 15.0f)
-		// Act 2: Advance toward opponent (15-30s)
-		.AddPositionKey({ -2.5f, 0.0f, 0.0f }, 18.0f)
-		.AddPositionKey({ -2.0f, 0.0f, 0.0f }, 21.0f)
-		.AddPositionKey({ -1.5f, 0.0f, 0.0f }, 24.0f)
-		.AddPositionKey({ -1.0f, 0.0f, 0.0f }, 27.0f)
-		.AddPositionKey({ -0.5f, 0.0f, 0.0f }, 30.0f)
-		// Act 3: Clash & get knocked back (30-40s)
-		.AddPositionKey({ 0.0f, 0.0f, 0.0f }, 32.0f)    // CLASH!
-		.AddPositionKey({ -2.0f, 0.3f, 0.0f }, 34.0f)    // Knocked back
-		.AddPositionKey({ -3.0f, 0.0f, 0.0f }, 36.0f)    // Land
-		.AddPositionKey({ -3.5f, 0.0f, 0.0f }, 38.0f)    // Stagger
-		.AddPositionKey({ -4.0f, 0.0f, 0.0f }, 40.0f)    // Fall down
-		// Act 4: Down / aftermath (40-50s)
-		.AddPositionKey({ -4.0f, 0.0f, 0.0f }, 43.0f)
-		.AddPositionKey({ -4.0f, 0.0f, 0.0f }, 46.0f)
-		.AddPositionKey({ -4.0f, 0.0f, 0.0f }, 50.0f)
-
-		// ---- ROTATION KEYS (facing right toward opponent) ----
-		.AddRotationKey(Math::Quaternion::Identity, 0.0f)
-		.AddRotationKey(Math::Quaternion::Identity, 32.0f)
-		// Spin on impact
-		.AddRotationKey(Math::Quaternion::CreateFromAxisAngle(Math::Vector3::YAxis, Math::Constants::Pi * 2.0f), 34.0f)
-		.AddRotationKey(Math::Quaternion::Identity, 36.0f)
-		.AddRotationKey(Math::Quaternion::Identity, 50.0f)
-
+		// Act 1: Short standoff (0-2s)
+		.AddPositionKey({ 2.5f, 0.0f, 0.0f }, 0.0f)
+		.AddPositionKey({ 2.5f, 0.0f, 0.0f }, 2.0f)
+		// Sneak walk forward (2-4s)
+		.AddPositionKey({ 2.0f, 0.0f, 0.0f }, 4.0f)
+		// Defensive walk closer (4-6s)
+		.AddPositionKey({ 1.5f, 0.0f, 0.0f }, 6.0f)
+		// Run into combat range (6-8s)
+		.AddPositionKey({ 0.8f, 0.0f, 0.0f }, 8.0f)
+		// Close combat punching - VERY CLOSE (8-10.5s)
+		.AddPositionKey({ 0.3f, 0.0f, 0.0f }, 9.0f)      // Move in close
+		.AddPositionKey({ 0.1f, 0.0f, 0.0f }, 9.5f)      // Almost touching
+		.AddPositionKey({ -0.1f, 0.0f, 0.0f }, 10.0f)    // Push through
+		.AddPositionKey({ 0.0f, 0.0f, 0.0f }, 10.5f)     // CLASH at center!
+		// Knocked back hard (10.5-12s)
+		.AddPositionKey({ 1.0f, 0.5f, 0.0f }, 11.0f)     // Thrown back and up
+		.AddPositionKey({ 2.0f, 0.2f, 0.0f }, 11.5f)
+		.AddPositionKey({ 2.5f, 0.0f, 0.0f }, 12.0f)     // Land on ground
+		// Lying on ground (12-16s)
+		.AddPositionKey({ 2.5f, 0.0f, 0.0f }, 16.0f)
+		// ---- ROTATION KEYS (facing left toward Char02) ----
+		.AddRotationKey(Math::Quaternion::CreateFromAxisAngle(Math::Vector3::YAxis, -Math::Constants::HalfPi), 0.0f)
+		// Slight wobble during knockback
+		.AddRotationKey(Math::Quaternion::CreateFromAxisAngle(Math::Vector3::YAxis, -Math::Constants::HalfPi - 0.2f), 11.0f)
+		.AddRotationKey(Math::Quaternion::CreateFromAxisAngle(Math::Vector3::YAxis, -Math::Constants::HalfPi), 12.0f)
+		.AddRotationKey(Math::Quaternion::CreateFromAxisAngle(Math::Vector3::YAxis, -Math::Constants::HalfPi), 16.0f)
 		// ---- SCALE KEYS ----
 		.AddScaleKey(Math::Vector3(1.0f, 1.0f, 1.0f), 0.0f)
-		.AddScaleKey(Math::Vector3(1.0f, 1.0f, 1.0f), 31.0f)
-		// Squash at clash
-		.AddScaleKey(Math::Vector3(1.3f, 0.7f, 1.3f), 32.0f)
-		.AddScaleKey(Math::Vector3(0.8f, 1.3f, 0.8f), 33.0f)
-		.AddScaleKey(Math::Vector3(1.0f, 1.0f, 1.0f), 35.0f)
-		.AddScaleKey(Math::Vector3(1.0f, 1.0f, 1.0f), 50.0f)
-
+		.AddScaleKey(Math::Vector3(1.0f, 1.0f, 1.0f), 10.0f)
+		// Dramatic squash at clash
+		.AddScaleKey(Math::Vector3(1.4f, 0.6f, 1.4f), 10.5f)
+		.AddScaleKey(Math::Vector3(0.7f, 1.4f, 0.7f), 11.0f)
+		.AddScaleKey(Math::Vector3(1.0f, 1.0f, 1.0f), 12.0f)
+		.AddScaleKey(Math::Vector3(1.0f, 1.0f, 1.0f), 16.0f)
 		// ---- EVENT KEYS ----
-		.AddEventKey(playWarningSound, 20.0f)         // Warning shot
-		.AddEventKey(playWarningSound, 25.0f)         // Another warning
-		.AddEventKey(triggerCollision, 32.0f)          // BIG CLASH!
-		.AddEventKey(switchChar01ToDying, 36.0f)       // Char01 goes down
-		.AddEventKey(triggerSecondExplosion, 35.0f)    // Second explosion
-		.AddEventKey(triggerFirework, 45.0f)           // Celebratory firework
+		.AddEventKey(char01SneakWalk, 2.0f)
+		.AddEventKey(char01WalkDefensive, 4.0f)
+		.AddEventKey(char01FastRun, 6.0f)
+		.AddEventKey(playWarningSound, 7.0f)
+		.AddEventKey(char01PunchCombo, 8.0f)
+		.AddEventKey(triggerClash, 10.5f)
+		.AddEventKey(triggerSecondExplosion, 11.5f)
+		.AddEventKey(char01Dying, 12.0f)
+		.AddEventKey(triggerFirework, 15.0f)
 		.Build();
-
 	// ============================================================
-	// CHARACTER 02 MOVEMENT ANIMATION - 50 SECONDS
-	// Right side fighter: approach, clash, victorious
+	// CHARACTER 02 MOVEMENT - Now on LEFT, moves RIGHT
+	// BETTER FIGHT CHOREOGRAPHY - Characters get MUCH closer
 	// ============================================================
 	mChar02Movement = AnimationBuilder()
 		// ---- POSITION KEYS ----
-		// Act 1: Stand ground at right (0-15s)
-		.AddPositionKey({ 4.0f, 0.0f, 0.0f }, 0.0f)
-		.AddPositionKey({ 3.8f, 0.0f, -0.2f }, 3.0f)
-		.AddPositionKey({ 3.5f, 0.0f, 0.2f }, 6.0f)
-		.AddPositionKey({ 3.8f, 0.0f, -0.1f }, 9.0f)
-		.AddPositionKey({ 3.5f, 0.0f, 0.0f }, 12.0f)
-		.AddPositionKey({ 3.0f, 0.0f, 0.0f }, 15.0f)
-		// Act 2: Advance toward opponent (15-30s)
-		.AddPositionKey({ 2.5f, 0.0f, 0.0f }, 18.0f)
-		.AddPositionKey({ 2.0f, 0.0f, 0.0f }, 21.0f)
-		.AddPositionKey({ 1.5f, 0.0f, 0.0f }, 24.0f)
-		.AddPositionKey({ 1.0f, 0.0f, 0.0f }, 27.0f)
-		.AddPositionKey({ 0.5f, 0.0f, 0.0f }, 30.0f)
-		// Act 3: Clash & push forward (30-40s)
-		.AddPositionKey({ 0.0f, 0.0f, 0.0f }, 32.0f)    // CLASH!
-		.AddPositionKey({ -0.5f, 0.2f, 0.0f }, 34.0f)    // Push through
-		.AddPositionKey({ 0.0f, 0.0f, 0.0f }, 36.0f)     // Return to center
-		.AddPositionKey({ 0.0f, 0.0f, 0.0f }, 38.0f)     // Stand victorious
-		.AddPositionKey({ 0.0f, 0.0f, 0.0f }, 40.0f)
-		// Act 4: Victory celebration (40-50s)
-		.AddPositionKey({ 0.0f, 0.0f, 0.0f }, 43.0f)
-		.AddPositionKey({ 0.0f, 0.0f, 0.0f }, 46.0f)
-		.AddPositionKey({ 0.0f, 0.0f, 0.0f }, 50.0f)
-
-		// ---- ROTATION KEYS (facing left toward opponent) ----
-		.AddRotationKey(Math::Quaternion::CreateFromAxisAngle(Math::Vector3::YAxis, Math::Constants::Pi), 0.0f)
-		.AddRotationKey(Math::Quaternion::CreateFromAxisAngle(Math::Vector3::YAxis, Math::Constants::Pi), 32.0f)
+		// Act 1: Short standoff (0-3s)
+		.AddPositionKey({ -2.5f, 0.0f, 0.0f }, 0.0f)
+		.AddPositionKey({ -2.5f, 0.0f, 0.0f }, 3.0f)
+		// Standard walk forward (3-5s)
+		.AddPositionKey({ -1.8f, 0.0f, 0.0f }, 5.0f)
+		// Fast run charge (5-8s)
+		.AddPositionKey({ -0.8f, 0.0f, 0.0f }, 8.0f)
+		// Close combat punching - VERY CLOSE (8-10.5s)
+		.AddPositionKey({ -0.3f, 0.0f, 0.0f }, 9.0f)     // Move in close
+		.AddPositionKey({ -0.1f, 0.0f, 0.0f }, 9.5f)     // Almost touching
+		.AddPositionKey({ 0.1f, 0.0f, 0.0f }, 10.0f)     // Push through
+		.AddPositionKey({ 0.0f, 0.0f, 0.0f }, 10.5f)     // CLASH at center!
+		// Push through and advance (10.5-13s)
+		.AddPositionKey({ 0.3f, 0.0f, 0.0f }, 11.0f)     // Push past
+		.AddPositionKey({ 0.5f, 0.0f, 0.0f }, 11.5f)
+		.AddPositionKey({ 0.2f, 0.0f, 0.0f }, 12.0f)
+		.AddPositionKey({ 0.0f, 0.0f, 0.0f }, 13.0f)     // Return to center
+		// Victory spot (13-16s)
+		.AddPositionKey({ 0.0f, 0.0f, 0.0f }, 16.0f)
+		// ---- ROTATION KEYS (facing right toward Char01) ----
+		.AddRotationKey(Math::Quaternion::CreateFromAxisAngle(Math::Vector3::YAxis, Math::Constants::HalfPi), 0.0f)
 		// Victory spin
-		.AddRotationKey(Math::Quaternion::CreateFromAxisAngle(Math::Vector3::YAxis, Math::Constants::Pi * 3.0f), 34.0f)
-		.AddRotationKey(Math::Quaternion::CreateFromAxisAngle(Math::Vector3::YAxis, Math::Constants::Pi), 36.0f)
-		.AddRotationKey(Math::Quaternion::CreateFromAxisAngle(Math::Vector3::YAxis, Math::Constants::Pi), 50.0f)
-
+		.AddRotationKey(Math::Quaternion::CreateFromAxisAngle(Math::Vector3::YAxis, Math::Constants::HalfPi), 13.0f)
+		.AddRotationKey(Math::Quaternion::CreateFromAxisAngle(Math::Vector3::YAxis, Math::Constants::HalfPi + Math::Constants::TwoPi), 14.0f)
+		.AddRotationKey(Math::Quaternion::CreateFromAxisAngle(Math::Vector3::YAxis, Math::Constants::HalfPi), 16.0f)
 		// ---- SCALE KEYS ----
 		.AddScaleKey(Math::Vector3(1.0f, 1.0f, 1.0f), 0.0f)
-		.AddScaleKey(Math::Vector3(1.0f, 1.0f, 1.0f), 31.0f)
-		// Squash at clash
-		.AddScaleKey(Math::Vector3(1.2f, 0.8f, 1.2f), 32.0f)
-		.AddScaleKey(Math::Vector3(0.9f, 1.2f, 0.9f), 33.0f)
-		.AddScaleKey(Math::Vector3(1.0f, 1.0f, 1.0f), 35.0f)
-		// Grow slightly for victory
-		.AddScaleKey(Math::Vector3(1.1f, 1.1f, 1.1f), 42.0f)
-		.AddScaleKey(Math::Vector3(1.0f, 1.0f, 1.0f), 50.0f)
-
+		.AddScaleKey(Math::Vector3(1.0f, 1.0f, 1.0f), 10.0f)
+		// Dramatic squash at clash
+		.AddScaleKey(Math::Vector3(1.3f, 0.7f, 1.3f), 10.5f)
+		.AddScaleKey(Math::Vector3(0.8f, 1.3f, 0.8f), 11.0f)
+		.AddScaleKey(Math::Vector3(1.0f, 1.0f, 1.0f), 12.0f)
+		// Grow for victory
+		.AddScaleKey(Math::Vector3(1.2f, 1.2f, 1.2f), 14.0f)
+		.AddScaleKey(Math::Vector3(1.0f, 1.0f, 1.0f), 16.0f)
 		// ---- EVENT KEYS ----
-		.AddEventKey(switchChar02ToDance, 38.0f)       // Victory dance!
+		.AddEventKey(char02StandardWalk, 3.0f)
+		.AddEventKey(char02FastRun, 5.0f)
+		.AddEventKey(playWarningSound, 6.0f)
+		.AddEventKey(char02Punching, 8.0f)
+		.AddEventKey(char02VictoryDance, 13.0f)
 		.Build();
-
 	// Initialize scene time
 	mSceneTime = 0.0f;
 	mTotalSceneTime = SCENE_DURATION;
@@ -347,6 +360,8 @@ void GameState::Update(float deltaTime)
 		while (mChar01MoveTime >= mChar01Movement.GetDuration())
 		{
 			mChar01MoveTime -= mChar01Movement.GetDuration();
+			// Reset animations on loop
+			mChar01Animator.PlayAnimation(AnimClip::Capoeira, true);
 		}
 	}
 
@@ -356,6 +371,8 @@ void GameState::Update(float deltaTime)
 		while (mChar02MoveTime >= mChar02Movement.GetDuration())
 		{
 			mChar02MoveTime -= mChar02Movement.GetDuration();
+			// Reset animations on loop
+			mChar02Animator.PlayAnimation(AnimClip::Capoeira, true);
 		}
 	}
 
@@ -370,6 +387,7 @@ void GameState::Render()
 	// Apply movement animation transforms to characters
 	Transform char01Transform = mChar01Movement.GetTransform(mChar01MoveTime);
 	mCharacter01.transform.position = char01Transform.position;
+	mCharacter01.transform.rotation = char01Transform.rotation;
 	mCharacter01.transform.scale = char01Transform.scale;
 
 	Transform char02Transform = mChar02Movement.GetTransform(mChar02MoveTime);
@@ -387,7 +405,7 @@ void GameState::Render()
 	SimpleDraw::AddGroundPlane(20.0f, Colors::Wheat);
 	SimpleDraw::Render(mCamera);
 
-	// Render the two characters with standard effect
+	// Render the two characters
 	mStandardEffect.Begin();
 	mStandardEffect.Render(mCharacter01);
 	mStandardEffect.Render(mCharacter02);
@@ -403,7 +421,7 @@ void GameState::Render()
 
 void GameState::DebugUI()
 {
-	ImGui::Begin("Space Battle - Animation Scene", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
+	ImGui::Begin("Fighter Showdown - Animation Scene", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
 
 	// ---- TIMER DISPLAY ----
 	ImGui::TextColored(ImVec4(1.0f, 0.8f, 0.0f, 1.0f), "SCENE TIMER");
@@ -417,21 +435,23 @@ void GameState::DebugUI()
 	ImGui::Text("Scene Duration: %.0fs", mTotalSceneTime);
 	ImGui::Text("Current Loop Time: %.1fs / %.0fs", displayTime, mTotalSceneTime);
 
-	// Progress bar for current loop
+	// Progress bar
 	float progress = displayTime / mTotalSceneTime;
 	ImGui::ProgressBar(progress, ImVec2(300, 20));
 
 	// Scene phase indicator
 	ImGui::Separator();
 	ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.5f, 1.0f), "SCENE PHASE");
-	if (displayTime < 15.0f)
-		ImGui::Text("Act 1: Standoff (fighters sizing each other up)");
-	else if (displayTime < 30.0f)
-		ImGui::Text("Act 2: Advance (closing in, bullets flying!)");
-	else if (displayTime < 40.0f)
-		ImGui::Text("Act 3: CLASH! (impact & knockback)");
+	if (displayTime < 2.0f)
+		ImGui::Text("Act 1: Sizing Up (Capoeira stances)");
+	else if (displayTime < 6.0f)
+		ImGui::Text("Act 2: Advancing (Walking towards each other)");
+	else if (displayTime < 10.5f)
+		ImGui::Text("Act 3: ATTACK! (Charging and Punching!)");
+	else if (displayTime < 13.0f)
+		ImGui::Text("Act 4: CLASH! (Impact & Knockback)");
 	else
-		ImGui::Text("Act 4: Aftermath (victory celebration)");
+		ImGui::Text("Act 5: Victory Dance / Defeat");
 
 	ImGui::Separator();
 	ImGui::TextColored(ImVec4(0.5f, 0.8f, 1.0f, 1.0f), "CHARACTER POSITIONS");
