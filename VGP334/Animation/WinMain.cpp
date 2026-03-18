@@ -5,7 +5,7 @@ using namespace SabadEngine;
 int WINAPI WinMain(HINSTANCE instance, HINSTANCE, LPSTR, int)
 {
 	AppConfig config;
-	config.appName = L"Space Battle: Planetary Collision";
+	config.appName = L"Dragon ball yay wooooow";
 
 	App& myApp = MainApp();
 	myApp.AddState<GameState>("GameState");

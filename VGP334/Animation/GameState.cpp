@@ -201,11 +201,6 @@ void GameState::Initialize()
 	// ============================================================
 	// EVENTS
 	// ============================================================
-	EventManager* em = EventManager::Get();
-	mCollisionListenerId = em->AddListener(CollisionEvent::StaticGetTypeId(),
-		std::bind(&GameState::OnCollisionEvent, this, std::placeholders::_1));
-	mFireworkListenerId = em->AddListener(FireworkEvent::StaticGetTypeId(),
-		std::bind(&GameState::OnFireworkEvent, this, std::placeholders::_1));
 
 	// ============================================================
 	// CHOREOGRAPHY LAMBDAS
@@ -373,7 +368,7 @@ void GameState::Initialize()
 		};
 	auto triggerSecondExplosion = [&]()
 		{
-			mExplosionParticles.SetPosition({ -1.0f, 1.5f, 0.0f });
+			mExplosionParticles.SetPosition({ -1.0f, 1.5f, 0.0f });	
 			mExplosionParticles.SpawnParticles();
 			SoundEffectManager::Get()->Play(mExplosionSoundId);
 		};
@@ -659,24 +654,7 @@ void GameState::DebugUI()
 	float progress = displayTime / mTotalSceneTime;
 	ImGui::ProgressBar(progress, ImVec2(300, 20));
 
-	// Scene phase indicator
-	ImGui::Separator();
-	ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.5f, 1.0f), "SCENE PHASE");
-	if (displayTime < 5.0f)
-		ImGui::Text("Act 1a: Sizing Up (Capoeira stances)");
-	else if (displayTime < 12.0f)
-		ImGui::Text("Act 1b: Creeping Forward (Sneak Walk)");
-	else if (displayTime < 20.0f)
-		ImGui::Text("Act 2a: Cautious Advance (Defensive Walk)");
-	else if (displayTime < 27.0f)
-		ImGui::Text("Act 2b: CHARGE! (Fast Run)");
-	else if (displayTime < 32.0f)
-		ImGui::Text("Act 3a: ATTACK! (Punch Combo!)");
-	else if (displayTime < 38.0f)
-		ImGui::Text("Act 3b: CLASH! (Impact & Knockback)");
-	else
-		ImGui::Text("Act 4: Victory Dance!");
-
+	// ---- CHARACTER POSITIONS ----
 	ImGui::Separator();
 	ImGui::TextColored(ImVec4(0.5f, 0.8f, 1.0f, 1.0f), "CHARACTER POSITIONS");
 	ImGui::Text("Char01: (%.1f, %.1f, %.1f)", mCharacter01.transform.position.x, mCharacter01.transform.position.y, mCharacter01.transform.position.z);
