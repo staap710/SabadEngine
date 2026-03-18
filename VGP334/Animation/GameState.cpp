@@ -355,6 +355,10 @@ void GameState::Initialize()
 		{
 			mChar02Animator.PlayAnimation(AnimClip::MmaKick, false);
 		};
+	auto char02HipHopDance = [&]()
+		{
+			mChar02Animator.PlayAnimation(AnimClip::HipHopDance, true);
+		};
 	
 	
 
@@ -392,11 +396,11 @@ void GameState::Initialize()
 		.AddPositionKey({ 1.5f, 0.0f, 0.0f }, 7.5f)
 		.AddPositionKey({ 1.5f, 0.0f, 0.0f }, 23.0f)
 		.AddPositionKey({ 0.1f, 0.0f, 0.0f }, 23.1f)
+		.AddPositionKey({ 0.1f, 0.0f, 0.0f }, 27.6f)
 
-		.AddPositionKey({ 0.2f, 0.3f, 0.0f }, 33.5f)
-		.AddPositionKey({ 0.5f, 0.0f, 0.0f }, 35.0f)
-		.AddPositionKey({ 0.7f, 0.0f, 0.0f }, 36.0f)
-		.AddPositionKey({ 1.0f, 0.0f, 0.0f }, 40.0f)
+
+		.AddPositionKey({ 1.2f, 0.0f, 0.0f }, 28.0f)
+
 
 
 		// ---- ROTATION KEYS (always facing right toward Char02) ----
@@ -432,10 +436,18 @@ void GameState::Initialize()
 		//until second 23 to waste time lololololol
 		.AddEventKey(char01Punching, 22.9f)
 		.AddEventKey(char01HeadHit, 24.2f)
-		
-
-		.AddEventKey(triggerClash, 32.0f)              // BIG CLASH!
-		.AddEventKey(triggerSecondExplosion, 34.0f)    // Second explosion
+		//Final round of combo
+		.AddEventKey(char01ReceivingUppercut, 25.5f)
+		.AddEventKey(char01ReceivingUppercut, 25.6f)
+		.AddEventKey(char01ReceivingUppercut, 25.7f)
+		.AddEventKey(char01ReceivingUppercut, 25.8f)
+		.AddEventKey(char01ReceivingUppercut, 25.9f)
+		.AddEventKey(char01ReceivingUppercut, 26.0f)
+		.AddEventKey(char01ReceivingUppercut, 26.1f)
+		.AddEventKey(char01ReceivingUppercut, 26.2f)
+		.AddEventKey(char01ReceivingUppercut, 26.3f)
+		.AddEventKey(char01HeadHit, 27.7f)
+		.AddEventKey(triggerSecondExplosion, 28.0f)    // Second explosion
 		.AddEventKey(char01Dying, 36.0f)               // Char01 goes down
 		.AddEventKey(triggerFirework, 45.0f)           // Firework
 		.Build();
@@ -454,7 +466,8 @@ void GameState::Initialize()
 		.AddPositionKey({ -1.0f, 0.0f, 0.0f }, 23.0f)
 		.AddPositionKey({ -1.0f, 0.0f, 0.0f }, 24.8f)
 		.AddPositionKey({ -0.8f, 0.0f, 0.0f }, 25.0f)
-
+		.AddPositionKey({ -0.8f, 0.0f, 0.0f }, 27.6f)
+		.AddPositionKey({ 0.5f, 0.0f, 0.0f }, 28.0f)
 
 		// ---- ROTATION KEYS (always facing left toward Char01) ----
 		.AddRotationKey(Math::Quaternion::CreateFromAxisAngle(Math::Vector3::YAxis, -Math::Constants::HalfPi), 0.0f)
@@ -498,10 +511,10 @@ void GameState::Initialize()
 		.AddEventKey(char02ReceivingUppercut, 23.2f)
 		.AddEventKey(char02MmaKick, 23.8f)
 		.AddEventKey(char02PunchCombo, 25.0f)
+		.AddEventKey(char02Uppercut, 27.6f)
+		.AddEventKey(char02VictoryDance, 38.0f)
+		.AddEventKey(char02HipHopDance, 44.0f)
 
-	
-
-		.AddEventKey(char02VictoryDance, 38.0f)        
 		.Build();
 
 	// Initialize scene time
