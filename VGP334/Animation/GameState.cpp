@@ -91,7 +91,7 @@ void GameState::Initialize()
 	mm->AddAnimation(mCharacter01.modelId, L"../../Assets/Models/Character01/HurricaneKick.animset");       // 11
 	mm->AddAnimation(mCharacter01.modelId, L"../../Assets/Models/Character01/InjuredHurtingIdle.animset"); // 12
 	mm->AddAnimation(mCharacter01.modelId, L"../../Assets/Models/Character01/HeadHit.animset");             // 13
-	mm -> AddAnimation(mCharacter01.modelId, L"../../Assets/Models/Character01/MmaKick.animset");              // 14
+	mm->AddAnimation(mCharacter01.modelId, L"../../Assets/Models/Character01/MmaKick.animset");              // 14
 
 	mChar01Animator.Initialize(mCharacter01.modelId);
 	mChar01Animator.PlayAnimation(AnimClip::Capoeira, true); // Start with fighting stance
@@ -126,49 +126,13 @@ void GameState::Initialize()
 	mChar02Animator.PlayAnimation(AnimClip::Capoeira, true); // Start with fighting stance
 
 	// ============================================================
-	// PARTICLE EFFECTS
+	// PARTICLE EFFECTS (explosion/firework only - character bullets removed)
 	// ============================================================
 	mParticleEffect.Initialize();
 	mParticleEffect.SetCamera(mCamera);
 	TextureManager* tm = TextureManager::Get();
 
-	// ---- CHAR01 BULLETS: Blue projectiles firing toward Char02 (+X) ----
-	ParticleSystemInfo char01BulletInfo;
-	char01BulletInfo.textureId = tm->LoadTexture("Images/bullet2.png");
-	char01BulletInfo.maxParticles = 300;
-	char01BulletInfo.particlesPerEmit = { 1, 2 };
-	char01BulletInfo.delay = 0.0f;
-	char01BulletInfo.lifeTime = FLT_MAX;
-	char01BulletInfo.timeBetweenEmit = { 0.4f, 0.8f };
-	char01BulletInfo.spawnAngle = { -5.0f, 5.0f };
-	char01BulletInfo.spawnSpeed = { 8.0f, 12.0f };
-	char01BulletInfo.particleLifeTime = { 1.0f, 2.0f };
-	char01BulletInfo.spawnDirection = { 1.0f, 0.0f, 0.0f };
-	char01BulletInfo.spawnPosition = Math::Vector3::Zero;
-	char01BulletInfo.startScale = { Math::Vector3::One * 1.2f, Math::Vector3::One * 1.5f };
-	char01BulletInfo.endScale = { Math::Vector3::One * 0.8f, Math::Vector3::One * 1.0f };
-	char01BulletInfo.startColour = { Colors::Cyan, Colors::Blue };
-	char01BulletInfo.endColour = { Colors::Blue, Colors::LightBlue };
-	mChar01Bullets.Initialize(char01BulletInfo);
 
-	// ---- CHAR02 BULLETS: Red projectiles firing toward Char01 (-X) ----
-	ParticleSystemInfo char02BulletInfo;
-	char02BulletInfo.textureId = tm->LoadTexture("Images/bullet2.png");
-	char02BulletInfo.maxParticles = 300;
-	char02BulletInfo.particlesPerEmit = { 1, 2 };
-	char02BulletInfo.delay = 0.0f;
-	char02BulletInfo.lifeTime = FLT_MAX;
-	char02BulletInfo.timeBetweenEmit = { 0.4f, 0.8f };
-	char02BulletInfo.spawnAngle = { -5.0f, 5.0f };
-	char02BulletInfo.spawnSpeed = { 8.0f, 12.0f };
-	char02BulletInfo.particleLifeTime = { 1.0f, 2.0f };
-	char02BulletInfo.spawnDirection = { -1.0f, 0.0f, 0.0f };
-	char02BulletInfo.spawnPosition = Math::Vector3::Zero;
-	char02BulletInfo.startScale = { Math::Vector3::One * 1.2f, Math::Vector3::One * 1.5f };
-	char02BulletInfo.endScale = { Math::Vector3::One * 0.8f, Math::Vector3::One * 1.0f };
-	char02BulletInfo.startColour = { Colors::Red, Colors::OrangeRed };
-	char02BulletInfo.endColour = { Colors::DarkRed, Colors::Red };
-	mChar02Bullets.Initialize(char02BulletInfo);
 
 	// Explosion particles - big colorful burst (manual spawn only)
 	ParticleSystemInfo explosionInfo;
@@ -636,7 +600,7 @@ void GameState::Render()
 
 void GameState::DebugUI()
 {
-	ImGui::Begin("Fighter Showdown - Animation Scene", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
+	ImGui::Begin("Final project animation", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
 
 	// ---- TIMER DISPLAY ----
 	ImGui::TextColored(ImVec4(1.0f, 0.8f, 0.0f, 1.0f), "SCENE TIMER");
