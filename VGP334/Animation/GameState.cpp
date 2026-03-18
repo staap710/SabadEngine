@@ -420,6 +420,7 @@ void GameState::Initialize()
 		.AddEventKey(char01WalkDefensive, 0.1f)          // Start on fighting stance
 		.AddEventKey(char01FastRun, 4.0f)           // Start runnning after other character
 		.AddEventKey(char01Uppercut, 4.5f)           // Uppercut attack
+		.AddEventKey(playWarningSound, 4.6f)
 		.AddEventKey(char01ReceivingUppercut, 5.5f)
 		.AddEventKey(char01ReceivingUppercut, 5.6f)
 		.AddEventKey(char01ReceivingUppercut, 5.7f)
@@ -505,13 +506,16 @@ void GameState::Initialize()
 		.AddEventKey(char02HeadHit, 10.6f)
 		.AddEventKey(char02HeadHit, 10.7f)
 		.AddEventKey(char02ReceivingUppercut, 11.2f)
+		.AddEventKey(playWarningSound, 12.6f)
 		.AddEventKey(char02WalkDefensive, 13.0f)
+		
 		.AddEventKey(char02Capoeira, 15.0f)
 		//until second 23 to waste time lololololol
 		.AddEventKey(char02ReceivingUppercut, 23.2f)
 		.AddEventKey(char02MmaKick, 23.8f)
 		.AddEventKey(char02PunchCombo, 25.0f)
 		.AddEventKey(char02Uppercut, 27.6f)
+		.AddEventKey(playWarningSound, 27.7f)
 		.AddEventKey(char02VictoryDance, 38.0f)
 		.AddEventKey(char02HipHopDance, 44.0f)
 
