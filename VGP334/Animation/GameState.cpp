@@ -21,6 +21,12 @@ namespace
 	// 6 = Punching
 	// 7 = RobotHipHopDance
 	// 8 = Dying
+	// 9 = ReceivingAnUppercut
+	// 10 = Uppercut
+	// 11 = HurricaneKick
+	// 12 = InjuredHurtingIdle
+	// 13 = HeadHit
+	// 14 = MmaKick
 	enum AnimClip
 	{
 		Capoeira = 0,
@@ -31,7 +37,13 @@ namespace
 		PunchCombo,
 		Punching,
 		HipHopDance,
-		Dying
+		Dying,
+		ReceivingAnUppercut,
+		Uppercut,
+		HurricaneKick,
+		InjuredHurtingIdle,
+		HeadHit,
+		MmaKick
 	};
 }
 
@@ -74,6 +86,12 @@ void GameState::Initialize()
 	mm->AddAnimation(mCharacter01.modelId, L"../../Assets/Models/Character01/Punching.animset");            // 6
 	mm->AddAnimation(mCharacter01.modelId, L"../../Assets/Models/Character01/RobotHipHopDance.animset");    // 7
 	mm->AddAnimation(mCharacter01.modelId, L"../../Assets/Models/Character01/Dying.animset");               // 8
+	mm->AddAnimation(mCharacter01.modelId, L"../../Assets/Models/Character01/ReceivingAnUppercut.animset"); // 9
+	mm->AddAnimation(mCharacter01.modelId, L"../../Assets/Models/Character01/Uppercut.animset");           // 10
+	mm->AddAnimation(mCharacter01.modelId, L"../../Assets/Models/Character01/HurricaneKick.animset");       // 11
+	mm->AddAnimation(mCharacter01.modelId, L"../../Assets/Models/Character01/InjuredHurtingIdle.animset"); // 12
+	mm->AddAnimation(mCharacter01.modelId, L"../../Assets/Models/Character01/HeadHit.animset");             // 13
+	mm -> AddAnimation(mCharacter01.modelId, L"../../Assets/Models/Character01/MmaKick.animset");              // 14
 
 	mChar01Animator.Initialize(mCharacter01.modelId);
 	mChar01Animator.PlayAnimation(AnimClip::Capoeira, true); // Start with fighting stance
@@ -97,6 +115,12 @@ void GameState::Initialize()
 	mm->AddAnimation(mCharacter02.modelId, L"../../Assets/Models/Character01/Punching.animset");            // 6
 	mm->AddAnimation(mCharacter02.modelId, L"../../Assets/Models/Character01/RobotHipHopDance.animset");    // 7
 	mm->AddAnimation(mCharacter02.modelId, L"../../Assets/Models/Character01/Dying.animset");               // 8
+	mm->AddAnimation(mCharacter02.modelId, L"../../Assets/Models/Character01/ReceivingAnUppercut.animset"); // 9
+	mm->AddAnimation(mCharacter02.modelId, L"../../Assets/Models/Character01/Uppercut.animset");           // 10
+	mm->AddAnimation(mCharacter02.modelId, L"../../Assets/Models/Character01/HurricaneKick.animset");       // 11
+	mm->AddAnimation(mCharacter02.modelId, L"../../Assets/Models/Character01/InjuredHurtingIdle.animset"); // 12
+	mm->AddAnimation(mCharacter02.modelId, L"../../Assets/Models/Character01/HeadHit.animset");             // 13
+	mm->AddAnimation(mCharacter02.modelId, L"../../Assets/Models/Character01/MmaKick.animset");              // 14
 
 	mChar02Animator.Initialize(mCharacter02.modelId);
 	mChar02Animator.PlayAnimation(AnimClip::Capoeira, true); // Start with fighting stance
@@ -217,6 +241,53 @@ void GameState::Initialize()
 		{
 			mChar01Animator.PlayAnimation(AnimClip::Dying, false);
 		};
+	auto char01Punching = [&]()
+		{
+			mChar01Animator.PlayAnimation(AnimClip::Punching, true);
+			SoundEffectManager::Get()->Play(mWarningSoundId);
+		};
+	auto char01HipHopDance = [&]()
+		{
+			mChar01Animator.PlayAnimation(AnimClip::HipHopDance, true);
+		};
+	auto char01ReceivingUppercut = [&]()
+		{
+			mChar01Animator.PlayAnimation(AnimClip::ReceivingAnUppercut, false);
+		};
+	auto char01Uppercut = [&]()
+		{
+			mChar01Animator.PlayAnimation(AnimClip::Uppercut, false);
+		};
+	auto char01HurricaneKick = [&]()
+		{
+			mChar01Animator.PlayAnimation(AnimClip::HurricaneKick, false);
+		};
+	auto char01InjuredIdle = [&]()
+		{
+			mChar01Animator.PlayAnimation(AnimClip::InjuredHurtingIdle, true);
+		};
+	auto char01StandardWalk = [&]()
+		{
+			mChar01Animator.PlayAnimation(AnimClip::StandardWalk, true);
+		};
+	auto char01Capoeira = [&]()
+		{
+			mChar01Animator.PlayAnimation(AnimClip::Capoeira, true);
+		};
+	auto char01RobotDance = [&]()
+		{
+			mChar01Animator.PlayAnimation(AnimClip::HipHopDance, true);
+		};
+	auto char01HeadHit = [&]()
+		{
+			mChar01Animator.PlayAnimation(AnimClip::HeadHit, false);
+		};
+	auto char01MmaKick = [&]()
+		{
+			mChar01Animator.PlayAnimation(AnimClip::MmaKick, false);
+		};
+
+
 
 	// --- Animation switches for Char02 ---
 	auto char02StandardWalk = [&]()
@@ -244,6 +315,48 @@ void GameState::Initialize()
 		{
 			mChar02Animator.PlayAnimation(AnimClip::PunchCombo, true);
 		};
+	auto char02Dying = [&]()
+		{
+			mChar02Animator.PlayAnimation(AnimClip::Dying, false);
+		};
+	auto char02ReceivingUppercut = [&]()
+		{
+			mChar02Animator.PlayAnimation(AnimClip::ReceivingAnUppercut, false);
+		};
+	auto char02Uppercut = [&]()
+		{
+			mChar02Animator.PlayAnimation(AnimClip::Uppercut, false);
+		};
+	auto char02HurricaneKick = [&]()
+		{
+			mChar02Animator.PlayAnimation(AnimClip::HurricaneKick, false);
+		};
+	auto char02InjuredIdle = [&]()
+		{
+			mChar02Animator.PlayAnimation(AnimClip::InjuredHurtingIdle, true);
+		};
+	auto char02Capoeira = [&]()
+		{
+			mChar02Animator.PlayAnimation(AnimClip::Capoeira, true);
+		};
+	auto char02RobotDance = [&]()
+		{
+			mChar02Animator.PlayAnimation(AnimClip::HipHopDance, true);
+		};
+	auto char02SneakWalk = [&]()
+		{
+			mChar02Animator.PlayAnimation(AnimClip::SneakWalk, true);
+		};
+	auto char02HeadHit = [&]()
+		{
+			mChar02Animator.PlayAnimation(AnimClip::HeadHit, false);
+		};
+	auto char02MmaKick = [&]()
+		{
+			mChar02Animator.PlayAnimation(AnimClip::MmaKick, false);
+		};
+	
+	
 
 	// --- Collision / explosion events ---
 	auto triggerClash = [&]()
@@ -269,43 +382,22 @@ void GameState::Initialize()
 			EventManager::Broadcast(evt);
 		};
 
-	// ============================================================
-	// CHARACTER 01 MOVEMENT - 50 SECONDS
-	// Choreography:
-	//   0-5s:   Capoeira stance (sizing up)
-	//   5s:     Switch to SneakWalk -> creep forward
-	//   12s:    Switch to WalkingDefensive -> cautious advance
-	//   20s:    Switch to FastRun -> charge!
-	//   27s:    Switch to PunchCombo -> attack!
-	//   32s:    CLASH! Explosion, knocked back
-	//   36s:    Dying animation
-	//   40-50s: Lying on ground
-	// ============================================================
+
+	// CHARACTER 01 MOVEMENT 
 	mChar01Movement = AnimationBuilder()
-		// ---- POSITION KEYS ----
-		// Act 1: Stance at far left (0-5s)
-		.AddPositionKey({ 0.5f, 0.0f, 0.0f }, 0.0f)
-		.AddPositionKey({ 0.0f, 0.0f, 0.0f }, 6.0f)
-		// Sneak walk forward (5-12s)
-		.AddPositionKey({ 0.5f, 0.0f, 0.0f }, 8.0f)
-		.AddPositionKey({ 0.0f, 0.0f, 0.0f }, 12.0f)
-		// Defensive walk forward (12-20s)
-		.AddPositionKey({ 1.0f, 0.0f, 0.0f }, 15.0f)
-		.AddPositionKey({ 1.0f, 0.0f, 0.0f }, 18.0f)
-		.AddPositionKey({ 1.0f, 0.0f, 0.0f }, 20.0f)
-		// Fast run charge (20-27s)
-		.AddPositionKey({ 2.0f, 0.0f, 0.0f }, 20.0f)
-		.AddPositionKey({ 2.0f, 0.0f, 0.0f }, 25.0f)
-		.AddPositionKey({ 2.0f, 0.0f, 0.0f }, 27.0f)
-		// Punching approach (27-32s)
-		.AddPositionKey({ 0.0f, 0.0f, 0.0f }, 30.0f) // CLASH!
-		// Knocked back (32-36s)
+
+		.AddPositionKey({ 5.0f, 0.0f, 0.0f }, 0.0f)
+		.AddPositionKey({ 5.0f, 0.0f, 0.0f }, 4.0f)
+		.AddPositionKey({ 1.5f, 0.0f, 0.0f }, 4.3f)
+		.AddPositionKey({ 1.5f, 0.0f, 0.0f }, 7.5f)
+		.AddPositionKey({ 1.5f, 0.0f, 0.0f }, 23.0f)
+		.AddPositionKey({ 0.1f, 0.0f, 0.0f }, 23.1f)
+
 		.AddPositionKey({ 0.2f, 0.3f, 0.0f }, 33.5f)
 		.AddPositionKey({ 0.5f, 0.0f, 0.0f }, 35.0f)
 		.AddPositionKey({ 0.7f, 0.0f, 0.0f }, 36.0f)
-		// Lying on ground (36-50s)
 		.AddPositionKey({ 1.0f, 0.0f, 0.0f }, 40.0f)
-		.AddPositionKey({ 1.0f, 0.0f, 0.0f }, 50.0f)
+
 
 		// ---- ROTATION KEYS (always facing right toward Char02) ----
 		.AddRotationKey(Math::Quaternion::CreateFromAxisAngle(Math::Vector3::YAxis, Math::Constants::HalfPi), 0.0f)
@@ -321,55 +413,48 @@ void GameState::Initialize()
 		.AddScaleKey(Math::Vector3(1.0f, 1.0f, 1.0f), 50.0f)
 
 		// ---- EVENT KEYS ----
-		.AddEventKey(char01SneakWalk, 5.0f)           // Switch to sneak walk
-		.AddEventKey(playWarningSound, 5.5f)          // Warning shot
-		.AddEventKey(char01PunchCombo, 6.0f)          // Distant explosion
-		.AddEventKey(char01WalkDefensive, 12.0f)       // Switch to defensive walk
-		.AddEventKey(playWarningSound, 15.0f)          // Warning shot
-		.AddEventKey(char01FastRun, 20.0f)             // CHARGE!
-		.AddEventKey(playWarningSound, 22.0f)          // Warning shot
-		.AddEventKey(char01FastRun, 27.0f)          // Start punching
-		.AddEventKey(char01PunchCombo, 30.0f)          // Start punching
+		.AddEventKey(char01WalkDefensive, 0.1f)          // Start on fighting stance
+		.AddEventKey(char01FastRun, 4.0f)           // Start runnning after other character
+		.AddEventKey(char01Uppercut, 4.5f)           // Uppercut attack
+		.AddEventKey(char01ReceivingUppercut, 5.5f)
+		.AddEventKey(char01ReceivingUppercut, 5.6f)
+		.AddEventKey(char01ReceivingUppercut, 5.7f)
+		.AddEventKey(char01ReceivingUppercut, 5.8f)
+		.AddEventKey(char01ReceivingUppercut, 5.9f)
+		.AddEventKey(char01ReceivingUppercut, 6.0f)
+		.AddEventKey(char01ReceivingUppercut, 6.1f)
+		.AddEventKey(char01ReceivingUppercut, 6.2f)
+		.AddEventKey(char01ReceivingUppercut, 6.3f)
+		.AddEventKey(char01PunchCombo, 7.5f)          // Punch combo
+		.AddEventKey(char01MmaKick, 11.0f)           // Kick
+		.AddEventKey(char01WalkDefensive, 12.0f)
+		.AddEventKey(char01Capoeira, 15.0f)
+		//until second 23 to waste time lololololol
+		.AddEventKey(char01Punching, 22.9f)
+		.AddEventKey(char01HeadHit, 24.2f)
+		
+
 		.AddEventKey(triggerClash, 32.0f)              // BIG CLASH!
 		.AddEventKey(triggerSecondExplosion, 34.0f)    // Second explosion
 		.AddEventKey(char01Dying, 36.0f)               // Char01 goes down
 		.AddEventKey(triggerFirework, 45.0f)           // Firework
 		.Build();
 
-	// ============================================================
+
 	// CHARACTER 02 MOVEMENT - 50 SECONDS
-	// Choreography:
-	//   0-8s:   Capoeira stance
-	//   8s:     Switch to StandardWalk -> walk toward
-	//   18s:    Switch to FastRun -> charge
-	//   25s:    Switch to Punching -> attack
-	//   32s:    CLASH! Hold ground
-	//   38s:    Victory HipHop dance
-	//   40-50s: Celebrating
-	// ============================================================
+
 	mChar02Movement = AnimationBuilder()
-		// ---- POSITION KEYS ----
-		// Act 1: Stance at far right (0-8s)
-		.AddPositionKey({ -1.0f, 0.0f, 0.0f }, 0.0f)
-		.AddPositionKey({ -1.0f, 0.0f, 0.0f }, 8.0f)
-		// Standard walk forward (8-18s)
-		.AddPositionKey({ -1.0f, 0.0f, 0.0f }, 11.0f)
-		.AddPositionKey({ -1.0f, 0.0f, 0.0f }, 14.0f)
-		.AddPositionKey({ -1.0f, 0.0f, 0.0f }, 18.0f)
-		// Fast run charge (18-25s)
-		.AddPositionKey({ -1.0f, 0.0f, 0.0f }, 20.0f)
-		.AddPositionKey({ -1.0f, 0.0f, 0.0f }, 22.0f)
-		.AddPositionKey({ -1.0f, 0.0f, 0.0f }, 25.0f)
-		// Punching approach (25-32s)
-		.AddPositionKey({ -1.0f, 0.0f, 0.0f }, 28.0f)
-		.AddPositionKey({ -1.0f, 0.0f, 0.0f }, 30.0f)
-		.AddPositionKey({ -1.0f, 0.0f, 0.0f }, 32.0f)     // CLASH!
-		// Push through (32-38s)
-		.AddPositionKey({ -1.0f, 0.0f, 0.0f }, 34.0f)
-		.AddPositionKey({ -1.0f, 0.0f, 0.0f }, 36.0f)
-		// Victory spot (38-50s)
-		.AddPositionKey({ -1.0f, 0.0f, 0.0f }, 38.0f)
-		.AddPositionKey({ -1.0f, 0.0f, 0.0f }, 50.0f)
+
+		.AddPositionKey({ -5.0f, 0.0f, 0.0f }, 0.0f)
+		.AddPositionKey({ -5.0f, 0.0f, 0.0f }, 3.0f)
+		.AddPositionKey({ -1.0f, 0.0f, 0.0f }, 3.5f)
+		.AddPositionKey({ 0.5f, 0.0f, 0.0f }, 4.5f)
+		.AddPositionKey({ 0.5f, 0.0f, 0.0f }, 11.5f)
+		.AddPositionKey({ -1.0f, 0.0f, 0.0f }, 12.0f)
+		.AddPositionKey({ -1.0f, 0.0f, 0.0f }, 23.0f)
+		.AddPositionKey({ -1.0f, 0.0f, 0.0f }, 24.8f)
+		.AddPositionKey({ -0.8f, 0.0f, 0.0f }, 25.0f)
+
 
 		// ---- ROTATION KEYS (always facing left toward Char01) ----
 		.AddRotationKey(Math::Quaternion::CreateFromAxisAngle(Math::Vector3::YAxis, -Math::Constants::HalfPi), 0.0f)
@@ -387,12 +472,36 @@ void GameState::Initialize()
 		.AddScaleKey(Math::Vector3(1.0f, 1.0f, 1.0f), 50.0f)
 
 		// ---- EVENT KEYS ----
+		.AddEventKey(char02WalkDefensive, 0.1f)          
+		.AddEventKey(char02FastRun, 3.0f)         
+		.AddEventKey(playWarningSound, 3.3f)
+		.AddEventKey(char02HurricaneKick, 3.5f)  
+		.AddEventKey(char02ReceivingUppercut, 4.5f)
+		.AddEventKey(char02PunchCombo, 5.0f)
+		.AddEventKey(char02MmaKick, 7.0f)
+		//First round of head hits
+		.AddEventKey(char02HeadHit, 8.1f)
+		.AddEventKey(char02HeadHit, 8.3f)
+		.AddEventKey(char02HeadHit, 8.5f)
+		.AddEventKey(char02HeadHit, 8.6f)
+		.AddEventKey(char02HeadHit, 8.7f)
+		//Second round of head hits 
+		.AddEventKey(char02HeadHit, 10.1f)
+		.AddEventKey(char02HeadHit, 10.3f)
+		.AddEventKey(char02HeadHit, 10.5f)
+		.AddEventKey(char02HeadHit, 10.6f)
+		.AddEventKey(char02HeadHit, 10.7f)
+		.AddEventKey(char02ReceivingUppercut, 11.2f)
+		.AddEventKey(char02WalkDefensive, 13.0f)
+		.AddEventKey(char02Capoeira, 15.0f)
+		//until second 23 to waste time lololololol
+		.AddEventKey(char02ReceivingUppercut, 23.2f)
+		.AddEventKey(char02MmaKick, 23.8f)
+		.AddEventKey(char02PunchCombo, 25.0f)
 
-		.AddEventKey(playWarningSound, 14.0f)          // Warning shot
-		.AddEventKey(char02WalkDefensive, 18.0f)             // CHARGE!
-		.AddEventKey(char02PunchCombo, 20.0f)
-		.AddEventKey(char02Punching, 25.0f)            // Start punching
-		.AddEventKey(char02VictoryDance, 38.0f)        // Victory dance!
+	
+
+		.AddEventKey(char02VictoryDance, 38.0f)        
 		.Build();
 
 	// Initialize scene time

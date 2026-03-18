@@ -14,3 +14,10 @@ Animations:
 -animOnly 1 -scale 0.01 ../../Assets/Models/Character01/StandardWalk.fbx ../../Assets/Models/Character01/StandardWalk.model
 -animOnly 1 -scale 0.01 ../../Assets/Models/Character01/Punching.fbx ../../Assets/Models/Character01/Punching.model
 -animOnly 1 -scale 0.01 ../../Assets/Models/Character01/PunchCombo.fbx ../../Assets/Models/Character01/PunchCombo.model
+-animOnly 1 -scale 0.01 ../../Assets/Models/Character01/InjuredHurtingIdle.fbx ../../Assets/Models/Character01/InjuredHurtingIdle.model
+-animOnly 1 -scale 0.01 ../../Assets/Models/Character01/HurricaneKick.fbx ../../Assets/Models/Character01/HurricaneKick.model
+-animOnly 1 -scale 0.01 ../../Assets/Models/Character01/Uppercut.fbx ../../Assets/Models/Character01/Uppercut.model
+-animOnly 1 -scale 0.01 ../../Assets/Models/Character01/ReceivingAnUppercut.fbx ../../Assets/Models/Character01/ReceivingAnUppercut.model
+-animOnly 1 -scale 0.01 ../../Assets/Models/Character01/MmaKick.fbx ../../Assets/Models/Character01/MmaKick.model
+-animOnly 1 -scale 0.01 ../../Assets/Models/Character01/HeadHit.fbx ../../Assets/Models/Character01/HeadHit.model
+
