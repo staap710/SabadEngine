@@ -8,18 +8,20 @@ namespace SabadEngine::Core
 	class TypedAllocator : private BlockAllocator
 	{
 	public:
-		TypedAllocator(const char* name, std::size_t capacity)
+		TypedAllocator(const char* name, size_t capacity)
 			: BlockAllocator(name, sizeof(DataType), capacity)
 		{
+
 		}
-		
-		template<class...Args> 
+
+		template<class... Args>
 		DataType* New(Args&&... args)
 		{
 			DataType* instance = static_cast<DataType*>(Allocate());
-			new(instance)DataType(std::forward<Args>(args)...);
+			new(instance) DataType(std::forward<Args>(args)...);
 			return instance;
 		}
+
 		void Delete(DataType* ptr)
 		{
 			if (ptr == nullptr)

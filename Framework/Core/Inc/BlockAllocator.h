@@ -8,8 +8,8 @@ namespace SabadEngine::Core
 		BlockAllocator(const char* name, std::size_t blockSize, std::size_t capacity);
 		virtual ~BlockAllocator();
 
-		BlockAllocator(const BlockAllocator&&) = delete;
 		BlockAllocator(const BlockAllocator&) = delete;
+		BlockAllocator(const BlockAllocator&&) = delete;
 		BlockAllocator& operator=(const BlockAllocator&) = delete;
 		BlockAllocator& operator=(const BlockAllocator&&) = delete;
 
@@ -27,6 +27,5 @@ namespace SabadEngine::Core
 		std::size_t mBlocksAllocatedTotal = 0;
 		std::size_t mBlocksFreed = 0;
 		std::size_t mBlocksHighest = 0;
-
 	};
 }
