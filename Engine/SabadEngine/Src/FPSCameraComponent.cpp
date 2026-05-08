@@ -2,6 +2,7 @@
 #include "FPSCameraComponent.h"
 #include "CameraComponent.h"
 #include "GameObject.h"
+#include "SaveUtil.h"
 
 using namespace SabadEngine;
 using namespace SabadEngine::Input;
@@ -9,7 +10,7 @@ using namespace SabadEngine::Input;
 void FPSCameraComponent::Initialize()
 {
 	mCameraComponent = GetOwner().GetComponent<CameraComponent>();
-	ASSERT(mCameraComponent != nullptr, "FPSCameraComponent: camera was not found.");
+	ASSERT(mCameraComponent != nullptr, "FPSCameraComponent: Camera was not found!");
 }
 
 void FPSCameraComponent::Terminate()
@@ -59,4 +60,11 @@ void FPSCameraComponent::DebugUI()
 	ImGui::DragFloat("Move Speed", &mMoveSpeed, 0.1f, 0.1f, 100.0f);
 	ImGui::DragFloat("Shift Speed", &mShiftSpeed, 0.1f, 0.1f, 1000.0f);
 	ImGui::DragFloat("Turn Speed", &mTurnSpeed, 0.001f, 0.01f, 1.0f);
+}
+
+void FPSCameraComponent::Deserialize(const rapidjson::Value& value)
+{
+	SaveUtil::ReadFloat("MoveSpeed", mMoveSpeed, value);
+	SaveUtil::ReadFloat("ShiftSpeed", mShiftSpeed, value);
+	SaveUtil::ReadFloat("TurnSpeed", mTurnSpeed, value);
 }

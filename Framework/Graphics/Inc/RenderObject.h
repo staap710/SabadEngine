@@ -9,35 +9,36 @@
 
 namespace SabadEngine::Graphics
 {
-    struct Skeleton;
+    struct Skeleton; // Forward declaration of the skeleton as we dont use the skeleton yet only its data.
 
     class RenderObject
     {
     public:
         void Terminate();
 
-        Transform transform;   
-        MeshBuffer meshBuffer; 
+        Transform transform;   // Location/ Orientation
+        MeshBuffer meshBuffer; // Shape
 
-        Material material;    
+        Material material;    // Light data
 
-        TextureId diffuseMapId;
-        TextureId specMapId;   
-        TextureId normalMapId; 
-        TextureId bumpMapId;   
+        TextureId diffuseMapId;  // Diffuse texture for an object
+        TextureId specMapId;   // Specular map for an object
+        TextureId normalMapId;   // Normal texture for an object
+        TextureId bumpMapId;   // Height texture for an object
     };
 
     class RenderGroup
     {
     public:
-        void Initialize(const std::filesystem::path& modelFilePath);
+        void Initialize(const std::filesystem::path& modelFilePath, const Animator* anim = nullptr);
+        void Initialize(const Model& model, const Animator* anim = nullptr);
         void Terminate();
 
         ModelId modelId; // Model Identifier
         Transform transform; // Root Transform (Other objects may have other transforms)
         std::vector<RenderObject> renderObjects; // All objects to render
 
-        const Skeleton* skeleton; // Skeleton for animation
+        const Skeleton* skeleton = nullptr; // Skeleton for animation
         const Animator* animator = nullptr; // Animator for animation
     };
 }
