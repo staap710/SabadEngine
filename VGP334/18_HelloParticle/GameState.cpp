@@ -28,8 +28,8 @@ void GameState::Initialize()
 	info.spawnPosition = Math::Vector3::Zero;
 	info.startScale = { Math::Vector3::One, Math::Vector3::One };
 	info.endScale = { Math::Vector3::One, Math::Vector3::One };
-	info.startColour = { Colors::White, Colors::White };
-	info.endColour = { Colors::Transparent, Colors::Transparent };
+	info.startcolor = { Colors::White, Colors::White };
+	info.endcolor = { Colors::Transparent, Colors::Transparent };
 	mParticleSystem.Initialize(info);
 }
 

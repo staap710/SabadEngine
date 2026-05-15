@@ -149,8 +149,8 @@ void GameState::Initialize()
 	explosionInfo.spawnPosition = Math::Vector3::Zero;
 	explosionInfo.startScale = { Math::Vector3::One * 0.8f, Math::Vector3::One * 1.5f };
 	explosionInfo.endScale = { Math::Vector3::Zero, Math::Vector3::Zero };
-	explosionInfo.startColour = { Colors::Yellow, Colors::Red };
-	explosionInfo.endColour = { Colors::OrangeRed, Colors::White };
+	explosionInfo.startcolor = { Colors::Yellow, Colors::Red };
+	explosionInfo.endcolor = { Colors::OrangeRed, Colors::White };
 	mExplosionParticles.Initialize(explosionInfo);
 
 	// ============================================================

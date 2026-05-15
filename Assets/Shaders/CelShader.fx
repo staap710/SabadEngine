@@ -123,7 +123,7 @@ float4 PS(VS_OUTPUT input) : SV_Target
     s = smoothstep(0.005f, 0.1f, s); // Cel Shading Effect
     float4 specular = s * lightSpecular * materialSpecular;
     
-    // Colours
+    // colors
     float4 diffuseMapColor = (useDiffuseMap) ? diffuseMap.Sample(textureSampler, input.texCoord) : 1.0f;
     float4 specMapColor = (useSpecMap) ? specMap.Sample(textureSampler, input.texCoord).r : 1.0f;
     

@@ -29,8 +29,8 @@ void GameState::Initialize()
 	info.spawnPosition = Math::Vector3::Zero;
 	info.startScale = { Math::Vector3::One, Math::Vector3::One };
 	info.endScale = { Math::Vector3::Zero, Math::Vector3::Zero };
-	info.startColour = { Graphics::Colors::White, Graphics::Colors::White };
-	info.endColour = { Graphics::Colors::White, Graphics::Colors::White };
+	info.startcolor = { Graphics::Colors::White, Graphics::Colors::White };
+	info.endcolor = { Graphics::Colors::White, Graphics::Colors::White };
 	mParticleSystem.Initialize(info);
 
 	info.textureId = TextureManager::Get()->LoadTexture("Images/mushroom.png");
@@ -40,8 +40,8 @@ void GameState::Initialize()
 	info.lifeTime = 0.0f;
 	info.spawnAngle = { -180.0f, 180.0f };
 	info.spawnDirection = Math::Vector3::YAxis;
-	info.startColour = { Graphics::Colors::Red, Graphics::Colors::Yellow };
-	info.endColour = { Graphics::Colors::LightGray, Graphics::Colors::White };
+	info.startcolor = { Graphics::Colors::Red, Graphics::Colors::Yellow };
+	info.endcolor = { Graphics::Colors::LightGray, Graphics::Colors::White };
 	mFireworkParticles.Initialize(info);
 
 	EventManager* em = EventManager::Get();

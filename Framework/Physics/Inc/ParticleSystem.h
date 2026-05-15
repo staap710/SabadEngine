@@ -19,8 +19,8 @@ namespace SabadEngine::Physics
         Math::Vector3 spawnDirection = Math::Vector3::YAxis;
         Math::Range<Math::Vector3> startScale = { Math::Vector3::One, Math::Vector3::One };
         Math::Range<Math::Vector3> endScale = { Math::Vector3::One, Math::Vector3::One };
-        Math::Range<Graphics::Color> startColour = { Graphics::Colors::White, Graphics::Colors::White };
-        Math::Range<Graphics::Color> endColour = { Graphics::Colors::White, Graphics::Colors::White };
+        Math::Range<Graphics::Color> startcolor = { Graphics::Colors::White, Graphics::Colors::White };
+        Math::Range<Graphics::Color> endcolor = { Graphics::Colors::White, Graphics::Colors::White };
     };
 
     class ParticleSystem

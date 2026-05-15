@@ -3,16 +3,21 @@
 #include "Common.h"
 
 #include "App.h"
+#pragma once
+
+#include "Common.h"
+
+#include "App.h"
 #include "AppState.h"
 #include "SaveUtil.h"
 
-// Game Object Info
+// game object info
 #include "GameObject.h"
 #include "GameWorld.h"
 #include "GameObjectHandle.h"
 #include "GameObjectFactory.h"
 
-// Component Info
+// components
 #include "TypeIds.h"
 #include "Component.h"
 #include "TransformComponent.h"
@@ -23,12 +28,16 @@
 #include "ModelComponent.h"
 #include "AnimatorComponent.h"
 #include "RigidBodyComponent.h"
+#include "SoundEventComponent.h"
+#include "SoundBankComponent.h"
 
-// Services
+// services
 #include "Service.h"
 #include "CameraService.h"
 #include "RenderService.h"
 #include "PhysicsService.h"
+
+#define USE_PHYSICS_SERVICE
 
 namespace SabadEngine
 {

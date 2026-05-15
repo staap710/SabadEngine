@@ -93,6 +93,12 @@
     <ClInclude Include="Inc\SaveUtil.h">
       <Filter>Inc</Filter>
     </ClInclude>
+    <ClInclude Include="Inc\SoundBankComponent.h">
+      <Filter>Inc\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\SoundEventComponent.h">
+      <Filter>Inc\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Precompiled.cpp">
@@ -109,15 +115,6 @@
     </ClCompile>
     <ClCompile Include="Src\GameWorld.cpp">
       <Filter>Src</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\GameObjectHandle.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
-    <ClCompile Include="Inc\TransformComponent.cpp">
-      <Filter>Src\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\Source.cpp">
-      <Filter>Src\Components</Filter>
     </ClCompile>
     <ClCompile Include="Src\FPSCameraComponent.cpp">
       <Filter>Src\Components</Filter>
@@ -156,6 +153,12 @@
       <Filter>Src</Filter>
     </ClCompile>
     <ClCompile Include="Src\TransformComponent.cpp">
+      <Filter>Src\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\SoundBankComponent.cpp">
+      <Filter>Src\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\SoundEventComponent.cpp">
       <Filter>Src\Components</Filter>
     </ClCompile>
   </ItemGroup>

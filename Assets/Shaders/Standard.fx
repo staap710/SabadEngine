@@ -1,4 +1,4 @@
-// Standard Effect for basic lighting, texturing & shading
+//Description: Standard effect for basic rendering
 
 cbuffer TransformBuffer : register(b0)
 {
@@ -25,7 +25,7 @@ cbuffer MaterialBuffer : register(b2)
     float materialShininess;
 }
 
-cbuffer SettingBuffer : register(b3)
+cbuffer SettingsBuffer : register(b3)
 {
     bool useDiffuseMap;
     bool useSpecMap;
@@ -33,7 +33,7 @@ cbuffer SettingBuffer : register(b3)
     bool useBumpMap;
     bool useShadowMap;
     bool useSkinning;
-    float bumpMapIntensity;
+    float bumpMapWeight;
     float depthBias;
 }
 
@@ -62,14 +62,13 @@ matrix GetBoneTransform(int4 indices, float4 weights)
 {
     if (length(weights) <= 0.0f)
     {
-        return Identity; // No bone weight (therefore np influence)
+        return Identity;
     }
     
     matrix transform = boneTransforms[indices[0]] * weights[0];
     transform += boneTransforms[indices[1]] * weights[1];
     transform += boneTransforms[indices[2]] * weights[2];
     transform += boneTransforms[indices[3]] * weights[3];
-    
     return transform;
 }
 
@@ -85,7 +84,7 @@ struct VS_INPUT
 
 struct VS_OUTPUT
 {
-    float4 position : SV_Position;
+    float4 position : SV_POSITION;
     float3 worldNormal : NORMAL;
     float3 worldTangent : TANGENT;
     float2 texCoord : TEXCOORD;
@@ -96,30 +95,27 @@ struct VS_OUTPUT
 
 VS_OUTPUT VS(VS_INPUT input)
 {
-    // Matrix to multiply to get the vertex in world space
+    // matrix to multiply to get the vertex in the world space
     matrix toWorld = world;
-    // Matrix to multiply to get the vertex in NDC space 
+    // matrix to multiply to get the vertex in the NDC space before screen space
     matrix toNDC = wvp;
-    // Need to add this to the shadow.fx to work with animation/skinning
-    // Also need to include lwvp matrix in this calculation
+    // NOTE, need to add this to the shadow.fx to work with animation/skinning
+    // need to 
     if (useSkinning)
     {
-        // Apply skinning data to the mesh for the influence of bones
         matrix boneTransform = GetBoneTransform(input.blendIndices, input.blendWeights);
-        toWorld = mul(boneTransform, toWorld);
+        toWorld = mul(boneTransform, world);
         toNDC = mul(boneTransform, toNDC);
     }
     
     float3 localPosition = input.position;
-    
     if (useBumpMap)
     {
-        // Bump Mapping
         float4 bumpMapColor = bumpMap.SampleLevel(textureSampler, input.texCoord, 0.0f);
         float bumpHeight = (bumpMapColor.r * 2.0f) - 1.0f;
-        localPosition += (input.normal * bumpHeight * bumpMapIntensity); // Bump height scale factor
+        localPosition += (input.normal * bumpHeight * bumpMapWeight);
     }
-    
+       
     VS_OUTPUT output;
     output.position = mul(float4(localPosition, 1.0f), toNDC);
     output.worldNormal = mul(input.normal, (float3x3) toWorld);
@@ -129,7 +125,6 @@ VS_OUTPUT VS(VS_INPUT input)
     
     float4 worldPosition = mul(float4(localPosition, 1.0f), toWorld);
     output.dirToView = normalize(viewPosition - worldPosition.xyz);
-    
     if (useShadowMap)
     {
         output.lightNDCPosition = mul(float4(localPosition, 1.0f), lwvp);
@@ -140,14 +135,14 @@ VS_OUTPUT VS(VS_INPUT input)
 
 float4 PS(VS_OUTPUT input) : SV_Target
 {
+    
     float3 n = normalize(input.worldNormal);
     float3 light = normalize(input.dirToLight);
     float3 view = normalize(input.dirToView);
     
-    // Update Normal Value
+    //Update normal value
     if (useNormalMap)
     {
-        // Normal Mapping
         float3 t = normalize(input.worldTangent);
         float3 b = normalize(cross(n, t));
         float3x3 tbnw = float3x3(t, b, n);
@@ -155,32 +150,30 @@ float4 PS(VS_OUTPUT input) : SV_Target
         float3 unpackedNormalMap = normalize(float3((normalMapColor.xy * 2.0f) - 1.0f, normalMapColor.z));
         n = normalize(mul(unpackedNormalMap, tbnw));
     }
-
-    // Emissive
+    
+    //Emissive
     float4 emissive = materialEmissive;
     
-    // Ambient 
+    //Ambient 
     float4 ambient = lightAmbient * materialAmbient;
     
-    // Diffuse
+    //Diffuse
     float d = saturate(dot(light, n));
     float4 diffuse = d * lightDiffuse * materialDiffuse;
     
-    // Specular 
+    //Specular 
     float3 r = reflect(-light, n);
     float base = saturate(dot(r, view));
     float s = pow(base, materialShininess);
     float4 specular = s * lightSpecular * materialSpecular;
     
-    // Colours
+    //Colors
     float4 diffuseMapColor = (useDiffuseMap) ? diffuseMap.Sample(textureSampler, input.texCoord) : 1.0f;
     float4 specMapColor = (useSpecMap) ? specMap.Sample(textureSampler, input.texCoord).r : 1.0f;
     
     float4 finalColor = (emissive + ambient + diffuse) * diffuseMapColor + (specular * specMapColor);
-    
     if (useShadowMap)
     {
-        // Shadow Mapping
         float actualDepth = 1.0f - (input.lightNDCPosition.z / input.lightNDCPosition.w);
         float2 shadowUV = input.lightNDCPosition.xy / input.lightNDCPosition.w;
         float u = (shadowUV.x + 1.0f) * 0.5f;
@@ -189,11 +182,13 @@ float4 PS(VS_OUTPUT input) : SV_Target
         {
             float4 savedColor = shadowMap.Sample(textureSampler, float2(u, v));
             float savedDepth = savedColor.r;
-            if (savedDepth > actualDepth + depthBias) // If In Shadow
+            if (savedDepth > actualDepth + depthBias)
             {
                 finalColor = (emissive + ambient) * diffuseMapColor;
             }
+
         }
+
     }
     
     return finalColor;

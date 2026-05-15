@@ -79,10 +79,10 @@ void ParticleSystem::DebugUI()
         ImGui::DragFloat3("StartScaleMax", &mInfo.startScale.max.x);
         ImGui::DragFloat3("EndScaleMin", &mInfo.endScale.min.x);
         ImGui::DragFloat3("EndScaleMax", &mInfo.endScale.max.x);
-        ImGui::ColorEdit4("StartColourMin", &mInfo.startColour.min.r);
-        ImGui::ColorEdit4("StartColourMax", &mInfo.startColour.max.r);
-        ImGui::ColorEdit4("EndColourMin", &mInfo.endColour.min.r);
-        ImGui::ColorEdit4("EndColourMax", &mInfo.endColour.max.r);
+        ImGui::ColorEdit4("StartcolorMin", &mInfo.startcolor.min.r);
+        ImGui::ColorEdit4("StartcolorMax", &mInfo.startcolor.max.r);
+        ImGui::ColorEdit4("EndcolorMin", &mInfo.endcolor.min.r);
+        ImGui::ColorEdit4("EndcolorMax", &mInfo.endcolor.max.r);
     }
     ImGui::PopID();
 }
@@ -115,7 +115,7 @@ void ParticleSystem::Render(Graphics::ParticleSystemEffect& effect)
     {
         if (particle->IsActive())
         {
-            effect.Render(particle->GetTransform(), particle->GetColour());
+            effect.Render(particle->GetTransform(), particle->Getcolor());
         }
     }
 }
@@ -162,8 +162,8 @@ void ParticleSystem::SpawnSingleParticle()
     const float speed = mInfo.spawnSpeed.GetRandom();
     ParticleInfo info;
     info.lifetime = mInfo.particleLifeTime.GetRandom();
-    info.startColour = mInfo.startColour.GetRandom();
-    info.endColour = mInfo.endColour.GetRandom();
+    info.startcolor = mInfo.startcolor.GetRandom();
+    info.endcolor = mInfo.endcolor.GetRandom();
     info.startScale = mInfo.startScale.GetRandom();
     info.endScale = mInfo.endScale.GetRandom();
     info.position = mInfo.spawnPosition;

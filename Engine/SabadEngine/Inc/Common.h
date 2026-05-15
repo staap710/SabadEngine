@@ -15,7 +15,7 @@
 
 // rapidjson files
 #include <rapidjson/document.h>
-#include <rapidjson//filereadstream.h>
+#include <rapidjson/filereadstream.h>
 #include <rapidjson/filewritestream.h>
 #include <rapidjson/writer.h>
 #include <rapidjson/prettywriter.h>
