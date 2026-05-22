@@ -161,6 +161,10 @@
     <ClInclude Include="Inc\SoundEventComponent.h" />
     <ClInclude Include="Inc\TransformComponent.h" />
     <ClInclude Include="Inc\TypeIds.h" />
+    <ClInclude Include="Inc\UIComponent.h" />
+    <ClInclude Include="Inc\UIRenderService.h" />
+    <ClInclude Include="Inc\UISpriteComponent.h" />
+    <ClInclude Include="Inc\UITextComponent.h" />
     <ClInclude Include="Src\Precompiled.h" />
   </ItemGroup>
   <ItemGroup>

@@ -6,13 +6,17 @@
 
 #include "Color.h"
 
+#include "BlendState.h"
+
+#include "DebugUI.h"
+
 #include "MeshBuffer.h"
+
+#include "VertexTypes.h"
 
 #include "VertexShader.h"
 
 #include "PixelShader.h"
-
-#include "VertexTypes.h"
 
 #include "Camera.h"
 
@@ -24,19 +28,15 @@
 
 #include "Texture.h"
 
-#include "Sampler.h"
+#include "TextureManager.h"
 
-#include "DebugUI.h"
+#include "Sampler.h"
 
 #include "SimpleDraw.h"
 
-#include "BlendState.h"
-
-#include "TextureManager.h"
+#include "SimpleTextureEffect.h"
 
 #include "RenderTarget.h"
-
-#include "SimpleTextureEffect.h"
 
 #include "RenderObject.h"
 
@@ -62,11 +62,7 @@
 
 #include "TerrainEffect.h"
 
-#include "HalftoneEffect.h"
-
-#include "HatchingEffect.h"
-
-#include "Keyframe.h"
+#include "KeyFrame.h"
 
 #include "Animation.h"
 
@@ -83,3 +79,9 @@
 #include "Animator.h"
 
 #include "ParticleSystemEffect.h"
+
+#include "UIFont.h"
+
+#include "UISprite.h"
+
+#include "UISpriteRenderer.h"

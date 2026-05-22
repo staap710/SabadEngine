@@ -2,32 +2,37 @@
 
 namespace SabadEngine::Graphics
 {
-    class Texture
-    {
-    public:
-        static void UnbindPS(uint32_t slot);
+	class Texture
+	{
+	public:
+		static void UnbindPS(uint32_t slot);
 
-        Texture() = default;
-        virtual ~Texture();
+		Texture() = default;
+		virtual ~Texture();
 
-        // Delete Copy
-        Texture(const Texture&) = delete;
-        Texture& operator = (const Texture&) = delete;
+		//delete copy
+		Texture(const Texture&) = delete;
+		Texture& operator=(const Texture&) = delete;
 
-        // Allow Move
-        Texture(Texture&& rhs) noexcept;
-        Texture& operator = (Texture&& rhs) noexcept;
+		// allow move 
+		Texture(Texture&& rhs) noexcept;
+		Texture& operator= (Texture&& rhs) noexcept;
 
-        virtual void Initialize(const std::filesystem::path& fileName);
+		virtual void Initialize(const std::filesystem::path& fileName);
+		virtual void Terminate();
 
-        virtual void Terminate();
+		void BindVS(uint32_t slot) const;
+		void BindPS(uint32_t slot) const;
 
-        void BindVS(uint32_t slot) const;
-        void BindPS(uint32_t slot) const;
+		void* GetRawData() const;
 
-        void* GetRawData() const;
+		uint32_t GetWidth() const;
+		uint32_t GetHeight() const;
 
-    protected:
-        ID3D11ShaderResourceView* mShaderResourceView = nullptr;
-    };
+	protected:
+		ID3D11ShaderResourceView* mShaderResourceView = nullptr;
+
+		uint32_t mWidth = 0;
+		uint32_t mHeight = 0;
+	};
 }

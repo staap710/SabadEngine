@@ -3,11 +3,6 @@
 #include "Common.h"
 
 #include "App.h"
-#pragma once
-
-#include "Common.h"
-
-#include "App.h"
 #include "AppState.h"
 #include "SaveUtil.h"
 
@@ -30,16 +25,19 @@
 #include "RigidBodyComponent.h"
 #include "SoundEventComponent.h"
 #include "SoundBankComponent.h"
+#include "UIComponent.h"
+#include "UITextComponent.h"
 
 // services
 #include "Service.h"
 #include "CameraService.h"
 #include "RenderService.h"
 #include "PhysicsService.h"
+#include "UIRenderService.h"
 
 #define USE_PHYSICS_SERVICE
 
-namespace SabadEngine
+namespace SpEngine
 {
 	App& MainApp();
 }
