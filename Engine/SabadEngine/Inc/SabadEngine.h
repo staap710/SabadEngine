@@ -37,7 +37,7 @@
 
 #define USE_PHYSICS_SERVICE
 
-namespace SpEngine
+namespace SabadEngine
 {
 	App& MainApp();
 }

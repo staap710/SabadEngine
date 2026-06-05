@@ -52,7 +52,7 @@ void PhysicsWorld::Initialize(const Settings& settings)
 	mDynamicsWorld = new btDiscreteDynamicsWorld(mDispatcher, mInterface, mSolver, mCollisionConfiguration);
 #endif
 
-	mDynamicsWorld->setGravity(TobtVector3(mSettings.gravity));
+	mDynamicsWorld->setGravity(ToBtVector3(mSettings.gravity));
 	mDynamicsWorld->setDebugDrawer(&mPhysicsDebugDraw);
 }
 
@@ -79,7 +79,7 @@ void PhysicsWorld::DebugUI()
 	{
 		if (ImGui::DragFloat("Gravity", &mSettings.gravity.x, 0.1f))
 		{
-			mDynamicsWorld->setGravity(TobtVector3(mSettings.gravity));
+			mDynamicsWorld->setGravity(ToBtVector3(mSettings.gravity));
 		}
 		ImGui::Checkbox("DebugDraw", &mDebugDraw);
 		if (mDebugDraw)
@@ -119,7 +119,12 @@ void PhysicsWorld::UpdateSettings(const Settings& settings)
 void PhysicsWorld::SetGravity(const Math::Vector3& gravity)
 {
 	mSettings.gravity = gravity;
-	mDynamicsWorld->setGravity(TobtVector3(gravity));
+	mDynamicsWorld->setGravity(ToBtVector3(gravity));
+}
+
+const PhysicsWorld::Settings& PhysicsWorld::GetSettings() const
+{
+	return mSettings;
 }
 
 void PhysicsWorld::Register(PhysicsObject* physicsObject)

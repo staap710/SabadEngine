@@ -41,94 +41,104 @@ LRESULT CALLBACK InputSystem::InputSystemMessageHandler(HWND window, UINT messag
 	{
 		switch (message)
 		{
-			case WM_ACTIVATEAPP:
+		case WM_ACTIVATEAPP:
+		{
+			if (wParam == TRUE)
 			{
-				if (wParam == TRUE)
-				{
-					SetCapture(window);
-				}
-				else
-				{
-					sInputSystem->mMouseLeftEdge = false;
-					sInputSystem->mMouseRightEdge = false;
-					sInputSystem->mMouseTopEdge = false;
-					sInputSystem->mMouseBottomEdge = false;
-					ReleaseCapture();
-				}
-				break;
+				SetCapture(window);
 			}
-			case WM_LBUTTONDOWN:
+			else
 			{
-				sInputSystem->mCurrMouseButtons[0] = true;
-				break;
+				sInputSystem->mMouseLeftEdge = false;
+				sInputSystem->mMouseRightEdge = false;
+				sInputSystem->mMouseTopEdge = false;
+				sInputSystem->mMouseBottomEdge = false;
+				ReleaseCapture();
 			}
-			case WM_LBUTTONUP:
-			{
-				sInputSystem->mCurrMouseButtons[0] = false;
-				break;
-			}
-			case WM_RBUTTONDOWN:
-			{
-				sInputSystem->mCurrMouseButtons[1] = true;
-				break;
-			}
-			case WM_RBUTTONUP:
-			{
-				sInputSystem->mCurrMouseButtons[1] = false;
-				break;
-			}
-			case WM_MBUTTONDOWN:
-			{
-				sInputSystem->mCurrMouseButtons[2] = true;
-				break;
-			}
-			case WM_MBUTTONUP:
-			{
-				sInputSystem->mCurrMouseButtons[2] = false;
-				break;
-			}
-			case WM_MOUSEWHEEL:
-			{
-				sInputSystem->mMouseWheel += (float)GET_WHEEL_DELTA_WPARAM(wParam) / (float)WHEEL_DELTA;
-				break;
-			}
-			case WM_MOUSEMOVE:
-			{
-				int mouseX = (signed short)(lParam);
-				int mouseY = (signed short)(lParam >> 16);
+			break;
+		}
+		case WM_LBUTTONDOWN:
+		{
+			sInputSystem->mCurrMouseButtons[0] = true;
+			break;
+		}
+		case WM_LBUTTONUP:
+		{
+			sInputSystem->mCurrMouseButtons[0] = false;
+			break;
+		}
+		case WM_RBUTTONDOWN:
+		{
+			sInputSystem->mCurrMouseButtons[1] = true;
+			break;
+		}
+		case WM_RBUTTONUP:
+		{
+			sInputSystem->mCurrMouseButtons[1] = false;
+			break;
+		}
+		case WM_MBUTTONDOWN:
+		{
+			sInputSystem->mCurrMouseButtons[2] = true;
+			break;
+		}
+		case WM_MBUTTONUP:
+		{
+			sInputSystem->mCurrMouseButtons[2] = false;
+			break;
+		}
+		case WM_MOUSEWHEEL:
+		{
+			sInputSystem->mMouseWheel += (float)GET_WHEEL_DELTA_WPARAM(wParam) / (float)WHEEL_DELTA;
+			break;
+		}
+		case WM_MOUSEMOVE:
+		{
+			int mouseX = (signed short)(lParam);
+			int mouseY = (signed short)(lParam >> 16);
 
-				sInputSystem->mCurrMouseX = mouseX;
-				sInputSystem->mCurrMouseY = mouseY;
-				if (sInputSystem->mPrevMouseX == -1)
-				{
-					sInputSystem->mPrevMouseX = mouseX;
-					sInputSystem->mPrevMouseY = mouseY;
-				}
+			sInputSystem->mCurrMouseX = mouseX;
+			sInputSystem->mCurrMouseY = mouseY;
+			if (sInputSystem->mPrevMouseX == -1)
+			{
+				sInputSystem->mPrevMouseX = mouseX;
+				sInputSystem->mPrevMouseY = mouseY;
+			}
 
-				RECT rect;
-				GetClientRect(window, &rect);
-				sInputSystem->mMouseLeftEdge = mouseX <= rect.left;
-				sInputSystem->mMouseRightEdge = mouseX + 1 >= rect.right;
-				sInputSystem->mMouseTopEdge = mouseY <= rect.top;
-				sInputSystem->mMouseBottomEdge = mouseY + 1 >= rect.bottom;
-				break;
-			}
-			case WM_KEYDOWN:
+			RECT rect;
+			GetClientRect(window, &rect);
+			sInputSystem->mMouseLeftEdge = mouseX <= rect.left;
+			sInputSystem->mMouseRightEdge = mouseX + 1 >= rect.right;
+			sInputSystem->mMouseTopEdge = mouseY <= rect.top;
+			sInputSystem->mMouseBottomEdge = mouseY + 1 >= rect.bottom;
+
+
+			if (sInputSystem->IsMouseClipToWindow())
 			{
-				if (wParam < 256)
-				{
-					sInputSystem->mCurrKeys[wParam] = true;
-				}
-				break;
+				int width = rect.right - rect.left;
+				int height = rect.bottom - rect.top;
+				sInputSystem->mPrevMouseX = width / 2;
+				sInputSystem->mPrevMouseY = height / 2;
+				SetCursorPos(sInputSystem->mPrevMouseX, sInputSystem->mPrevMouseY);
 			}
-			case WM_KEYUP:
+			break;
+		}
+		case WM_KEYDOWN:
+		{
+			if (wParam < 256)
 			{
-				if (wParam < 256)
-				{
-					sInputSystem->mCurrKeys[wParam] = false;
-				}
-				break;
+				sInputSystem->mCurrKeys[wParam] = true;
 			}
+			break;
+		}
+		case WM_KEYUP:
+		{
+			if (wParam < 256)
+			{
+				sInputSystem->mCurrKeys[wParam] = false;
+			}
+			break;
+		}
 		}
 	}
 
@@ -140,6 +150,7 @@ void InputSystem::StaticInitialize(HWND window)
 	ASSERT(sInputSystem == nullptr, "InputSystem -- System already initialized!");
 	sInputSystem = std::make_unique<InputSystem>();
 	sInputSystem->Initialize(window);
+
 }
 
 void InputSystem::StaticTerminate()
@@ -172,7 +183,7 @@ void InputSystem::Initialize(HWND window)
 	}
 
 	LOG("InputSystem -- Initializing...");
-	
+
 	// Hook application to window's procedure
 	sWindowMessageHandler.Hook(window, InputSystemMessageHandler);
 
@@ -304,4 +315,4 @@ void InputSystem::SetMouseClipToWindow(bool clip)
 bool InputSystem::IsMouseClipToWindow() const
 {
 	return mClipMouseToWindow;
-}
+}			

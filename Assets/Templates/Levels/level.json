@@ -24,22 +24,13 @@
     "Transform": {
       "Template": "../../Assets/Templates/Objects/transform_obj.json"
     },
-    "Camera": {
-      "Template": "../../Assets/Templates/Objects/fps_camera_obj.json",
-      "Components": {
-        "CameraComponent": {
-          "Position": [ 0.0, 3.0, -4.0 ],
-          "LookAt": [ 0.0, 0.0, 0.0 ]
-        }
-      }
-    },
     "SphereObj": {
       "Template": "../../Assets/Templates/Objects/mesh_obj.json",
       "Components": {
         "TransformComponent": {
-          "Position": [ -2.0, 1.0, 0.0 ],
+          "Position": [ -5.0, 1.0, 0.0 ],
           "Rotation": [ 0.0, 1.0, 0.0, 1.0 ],
-          "Scale": [ 1.0, 1.0, 1.0 ]
+          "Scale": [ 1.0, 1.0, -1.0 ]
         }
       }
     },
@@ -47,7 +38,7 @@
       "Template": "../../Assets/Templates/Objects/model_obj.json",
       "Components": {
         "TransformComponent": {
-          "Position": [ 2.0, 5.0, 0.0 ],
+          "Position": [ 5.0, 5.0, 0.0 ],
           "Rotation": [ 0.0, 0.0, 0.0, 1.0 ],
           "Scale": [ 1.0, 1.0, 1.0 ]
         }
@@ -63,8 +54,14 @@
         }
       }
     },
-    "CustomDebugDrawObj": {
+    "HUD": {
+      "Template": "../../Assets/Templates/UI/hud_screen.json"
+    },
+    "CustomObj": {
       "Template": "../../Assets/Templates/Objects/custom_obj.json"
+    },
+    "Camera": {
+      "Template": "../../Assets/Templates/Objects/fps_camera.json"
     }
   }
 }

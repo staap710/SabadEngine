@@ -8,7 +8,7 @@ using namespace SabadEngine::Physics;
 
 RigidBody::~RigidBody()
 {
-	ASSERT(mRigidBody == nullptr, "RigidBody: Terminate must be called!");
+	ASSERT(mRigidBody == nullptr, "RigidBody: terminate must be called!");
 }
 
 void RigidBody::Initialize(Graphics::Transform& graphicsTransform, const CollisionShape& shape, float mass, bool addToWorld)
@@ -16,12 +16,11 @@ void RigidBody::Initialize(Graphics::Transform& graphicsTransform, const Collisi
 	mGraphicsTransform = &graphicsTransform;
 	mMass = mass;
 
+	// NOTE: may need to set to 0 if using a player and not wanting it to tip over 
 	btVector3 localInertia = btVector3();
-	//shape.mCollisionShape->calculateLocalInertia(mass, localInertia); // If you dont want it to tip over, set local inertia to 0,0,0
-
+	//shape.mCollisionShape->calculateLocalInertia(mass, localInertia);
 	mMotionState = new btDefaultMotionState(ConvertToBtTransform(graphicsTransform));
 	mRigidBody = new btRigidBody(mMass, mMotionState, shape.mCollisionShape, localInertia);
-
 	if (addToWorld)
 	{
 		PhysicsWorld::Get()->Register(this);
@@ -30,7 +29,7 @@ void RigidBody::Initialize(Graphics::Transform& graphicsTransform, const Collisi
 
 void RigidBody::Terminate()
 {
-	PhysicsWorld::Get()->Unregister(this); // Must unregister before deleting the rigid body or it will cause a crash in the physics world update loop
+	PhysicsWorld::Get()->Unregister(this);
 	SafeDelete(mRigidBody);
 	SafeDelete(mMotionState);
 }
@@ -67,6 +66,17 @@ void RigidBody::SetVelocity(const Math::Vector3& velocity)
 const Math::Vector3 RigidBody::GetVelocity() const
 {
 	return ToVector3(mRigidBody->getLinearVelocity());
+}
+
+void RigidBody::SetAngularVelocity(const Math::Vector3& velocity)
+{
+	mRigidBody->activate();
+	mRigidBody->setAngularVelocity(ToBtVector3(velocity));
+}
+
+const Math::Vector3 RigidBody::GetAngularVelocity()const
+{
+	return ToVector3(mRigidBody->getAngularVelocity());
 }
 
 bool RigidBody::IsDynamic() const

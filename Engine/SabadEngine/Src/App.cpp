@@ -28,6 +28,8 @@ void App::Run(const AppConfig& config)
 	SimpleDraw::StaticInitialize(config.maxVertexCount);
 	TextureManager::StaticInitialize(L"../../Assets/Textures");
 	ModelManager::StaticInitialize(L"../../Assets/Models");
+	UIFont::StaticInitialize(UIFont::FontType::Consolas);
+	UISpriteRenderer::StaticInitialize();
 
 	PhysicsWorld::Settings physicsSettings;
 	PhysicsWorld::StaticInitialize(physicsSettings);
@@ -92,6 +94,8 @@ void App::Run(const AppConfig& config)
 	LOG("App Quit");
 	mCurrentState->Terminate();
 
+	UISpriteRenderer::StaticTerminate();
+	UIFont::StaticTerminate();
 	SoundEffectManager::StaticTerminate();
 	AudioSystem::StaticTerminate();
 	PhysicsWorld::StaticTerminate();

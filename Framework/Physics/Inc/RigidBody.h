@@ -4,38 +4,38 @@
 
 namespace SabadEngine::Physics
 {
-    class CollisionShape;
+	class CollisionShape;
 
-    class RigidBody final : public PhysicsObject
-    {
-    public:
-        RigidBody() = default;
-        ~RigidBody() override;
+	class RigidBody final : public PhysicsObject
+	{
+	public:
+		RigidBody() = default;
+		~RigidBody() override;
 
-        void Initialize(Graphics::Transform& graphicsTransform, const CollisionShape& shape, float mass = 0.0f, bool addToWorld = true);
-        void Terminate();
+		void Initialize(Graphics::Transform& graphicsTransform, const CollisionShape& shape, float mass = 0.0f, bool addToWorld = true);
+		void Terminate();
 
-        void Activate();
-        void Deactivate();
-        void SetCollisionFlags(int flags);
+		void Activate();
+		void Deactivate();
+		void SetCollisionFlags(int flags);
 
-        void SetPosition(const Math::Vector3& position);
+		void SetPosition(const Math::Vector3& position);
+		void SetVelocity(const Math::Vector3& velocity);
+		const Math::Vector3 GetVelocity()const;
 
-        void SetVelocity(const Math::Vector3& velocity);
+		void SetAngularVelocity(const Math::Vector3& velocity);
+		const Math::Vector3 GetAngularVelocity()const;
 
-        const Math::Vector3 GetVelocity() const;
+		bool IsDynamic() const;
 
-        bool IsDynamic() const;
+	private:
+		void SyncWithGraphics() override;
+		btRigidBody* GetRigidBody() override;
 
-    private:
-        void SyncWithGraphics() override;
+		btRigidBody* mRigidBody = nullptr;
+		btDefaultMotionState* mMotionState = nullptr;
+		float mMass = 0.0f;
 
-        btRigidBody* GetRigidBody() override;
-
-        btRigidBody* mRigidBody = nullptr;
-        btDefaultMotionState* mMotionState = nullptr;
-        float mMass = 0.0f;
-
-        Graphics::Transform* mGraphicsTransform = nullptr;
-    };
+		Graphics::Transform* mGraphicsTransform = nullptr;
+	};
 }
