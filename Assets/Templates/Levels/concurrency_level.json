@@ -1,0 +1,36 @@
+{
+  "Capacity": 2000,
+  "Services": {
+    "CameraService": {
+    },
+    "RenderService": {
+      "Direction": [ 1.0, -1.0, 1.0 ],
+      "Ambient": [ 0.4, 0.4, 0.4, 1.0 ],
+      "Diffuse": [ 0.8, 0.8, 0.8, 1.0 ],
+      "Specular": [ 0.5, 0.5, 0.5, 1.0 ],
+      "ShadowSize": 30.0
+    },
+    "UIRenderService": {
+    }
+  },
+  "GameObjects": {
+    "Ground": {
+      "Template": "../../Assets/Templates/Objects/ground.json",
+      "Components": {
+        "TransformComponent": {
+          "Position": [ 0.0, -0.1, 0.0 ],
+          "Scale": [ 100.0, 1.0, 100.0 ]
+        },
+        "MeshComponent": {
+          "CastShadow": false,
+          "Textures": {
+            "DiffuseMap": "paper.jpg"
+          }
+        }
+      }
+    },
+    "Camera": {
+      "Template": "../../Assets/Templates/Objects/concurrency_fps_camera.json"
+    }
+  }
+}

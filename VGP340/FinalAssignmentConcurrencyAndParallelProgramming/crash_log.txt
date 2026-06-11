@@ -1,0 +1,20 @@
+{0.000}: App: Current state GameState
+{0.006}: App Started
+{0.000}: App: Current state GameState
+{0.000}: App Started
+{0.120}: InputSystem -- Initializing...
+{0.120}: InputSystem -- System initialized.
+{0.000}: App: Current state GameState
+{0.000}: App Started
+{0.156}: InputSystem -- Initializing...
+{0.157}: InputSystem -- System initialized.
+{84.711}: App Quit
+{84.760}: InputSystem -- Terminating...
+{84.760}: InputSystem -- System terminated.
+{0.000}: App: Current state GameState
+{0.000}: App Started
+{0.142}: InputSystem -- Initializing...
+{0.143}: InputSystem -- System initialized.
+{41.840}: App Quit
+{42.172}: InputSystem -- Terminating...
+{42.173}: InputSystem -- System terminated.

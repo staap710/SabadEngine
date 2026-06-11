@@ -6,11 +6,12 @@ using namespace SabadEngine;
 using namespace SabadEngine::Core;
 
 #if defined(_DEBUG)
-#define LOG(format, ...);\
+#define LOG(format, ...)\
 	do{\
 		char _buffer[256];\
 		int _res = snprintf(_buffer, std::size(_buffer), "{%.3f}: "##format##"\n", TimeUtil::GetTime(), __VA_ARGS__);\
 		OutputDebugStringA(_buffer);\
+		FILE* _f = nullptr; fopen_s(&_f, "crash_log.txt", "a"); if(_f) { fprintf(_f, "%s", _buffer); fclose(_f); }\
 	} while(false)
 
 #define ASSERT(condition, format, ...)\

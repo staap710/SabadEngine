@@ -85,13 +85,13 @@ void App::Run(const AppConfig& config)
 
 		DebugUI::BeginRender();
 		mCurrentState->DebugUI();
-		DebugUI::EndRender();
+		DebugUI::EndRender();	
 
 		gs->EndRender();
 	}
 
 	// Terminate Everything
-	LOG("App Quit");
+	LOG("App Quit");		
 	mCurrentState->Terminate();
 
 	UISpriteRenderer::StaticTerminate();

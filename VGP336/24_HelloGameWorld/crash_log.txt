@@ -1,0 +1,14 @@
+{0.000}: App: Current state GameState
+{0.037}: App Started
+{0.188}: InputSystem -- Initializing...
+{0.189}: InputSystem -- System initialized.
+{9.502}: App Quit
+{9.559}: InputSystem -- Terminating...
+{9.559}: InputSystem -- System terminated.
+{0.000}: App: Current state GameState
+{0.000}: App Started
+{0.154}: InputSystem -- Initializing...
+{0.154}: InputSystem -- System initialized.
+{4.374}: App Quit
+{4.407}: InputSystem -- Terminating...
+{4.407}: InputSystem -- System terminated.

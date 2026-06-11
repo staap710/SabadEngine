@@ -123,6 +123,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Objects", "Objects", "{4327AF18-116B-42BB-A2E2-4FFB2F20889A}"
 	ProjectSection(SolutionItems) = preProject
 		Assets\Templates\Objects\custom_obj.json = Assets\Templates\Objects\custom_obj.json
+		Assets\Templates\Objects\dynamic_model_obj.json = Assets\Templates\Objects\dynamic_model_obj.json
 		Assets\Templates\Objects\fps_camera.json = Assets\Templates\Objects\fps_camera.json
 		Assets\Templates\Objects\ground.json = Assets\Templates\Objects\ground.json
 		Assets\Templates\Objects\mesh_obj.json = Assets\Templates\Objects\mesh_obj.json
@@ -143,6 +144,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{13DE7C33-442C-
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FW1FontWrapper", "External\FW1FontWrapper\FW1FontWrapper.vcxproj", "{0D034612-14E2-44E7-993A-72344A2CA7BD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "VGP340", "VGP340", "{DE3A6B8E-6932-441C-9248-4E9128071394}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FinalAssignmentConcurrencyAndParallelProgramming", "VGP340\FinalAssignmentConcurrencyAndParallelProgramming\FinalAssignmentConcurrencyAndParallelProgramming.vcxproj", "{ACF95749-E6CC-4B77-BC8B-916161F3C041}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -472,6 +477,14 @@ Global
 		{0D034612-14E2-44E7-993A-72344A2CA7BD}.Release|x64.Build.0 = Release|x64
 		{0D034612-14E2-44E7-993A-72344A2CA7BD}.Release|x86.ActiveCfg = Release|Win32
 		{0D034612-14E2-44E7-993A-72344A2CA7BD}.Release|x86.Build.0 = Release|Win32
+		{ACF95749-E6CC-4B77-BC8B-916161F3C041}.Debug|x64.ActiveCfg = Debug|x64
+		{ACF95749-E6CC-4B77-BC8B-916161F3C041}.Debug|x64.Build.0 = Debug|x64
+		{ACF95749-E6CC-4B77-BC8B-916161F3C041}.Debug|x86.ActiveCfg = Debug|Win32
+		{ACF95749-E6CC-4B77-BC8B-916161F3C041}.Debug|x86.Build.0 = Debug|Win32
+		{ACF95749-E6CC-4B77-BC8B-916161F3C041}.Release|x64.ActiveCfg = Release|x64
+		{ACF95749-E6CC-4B77-BC8B-916161F3C041}.Release|x64.Build.0 = Release|x64
+		{ACF95749-E6CC-4B77-BC8B-916161F3C041}.Release|x86.ActiveCfg = Release|Win32
+		{ACF95749-E6CC-4B77-BC8B-916161F3C041}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -522,6 +535,7 @@ Global
 		{1456B936-8377-494F-825D-0D80616674C1} = {179FDA64-AF41-48A2-9F86-83A778E068F0}
 		{13DE7C33-442C-4CDB-9779-8E1FD124E73F} = {1D2D032D-CBAE-4086-B6E9-66E777989E6E}
 		{0D034612-14E2-44E7-993A-72344A2CA7BD} = {4D57DF9A-8108-4E1F-9A0A-CC3122761416}
+		{ACF95749-E6CC-4B77-BC8B-916161F3C041} = {DE3A6B8E-6932-441C-9248-4E9128071394}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C84562D2-23AD-4C29-92D2-1A4C470BECEF}
