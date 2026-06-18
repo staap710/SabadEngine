@@ -320,3 +320,125 @@ GameObject: Already initialized!
 {9.804}: App Quit
 {9.831}: ASSERT! C:\Users\Santi\Desktop\Lasalle assignments\GPU programming\Framework\Graphics\Src\TextureManager.cpp(35)
 TextureManager: Not all textured are cleared!
+{0.000}: App: Current state GameState
+{0.000}: App Started
+{0.139}: InputSystem -- Initializing...
+{0.140}: InputSystem -- System initialized.
+{0.586}: ASSERT! C:\Users\Santi\Desktop\Lasalle assignments\GPU programming\Engine\SabadEngine\Src\GameObject.cpp(10)
+GameObject: Already initialized!
+{84.555}: ASSERT! C:\Users\Santi\Desktop\Lasalle assignments\GPU programming\Engine\SabadEngine\Src\GameObject.cpp(10)
+GameObject: Already initialized!
+{137.901}: App Quit
+{137.910}: ASSERT! C:\Users\Santi\Desktop\Lasalle assignments\GPU programming\Framework\Graphics\Src\TextureManager.cpp(35)
+TextureManager: Not all textured are cleared!
+{0.000}: App: Current state GameState
+{0.000}: App Started
+{0.134}: InputSystem -- Initializing...
+{0.134}: InputSystem -- System initialized.
+{0.570}: ASSERT! C:\Users\Santi\Desktop\Lasalle assignments\GPU programming\Engine\SabadEngine\Src\GameObject.cpp(10)
+GameObject: Already initialized!
+{135.261}: ASSERT! C:\Users\Santi\Desktop\Lasalle assignments\GPU programming\Engine\SabadEngine\Src\GameObject.cpp(10)
+GameObject: Already initialized!
+{216.728}: App Quit
+{216.737}: ASSERT! C:\Users\Santi\Desktop\Lasalle assignments\GPU programming\Framework\Graphics\Src\TextureManager.cpp(35)
+TextureManager: Not all textured are cleared!
+{0.000}: App: Current state GameState
+{0.000}: App Started
+{0.133}: InputSystem -- Initializing...
+{0.133}: InputSystem -- System initialized.
+{0.574}: ASSERT! C:\Users\Santi\Desktop\Lasalle assignments\GPU programming\Engine\SabadEngine\Src\GameObject.cpp(10)
+GameObject: Already initialized!
+{228.868}: ASSERT! C:\Users\Santi\Desktop\Lasalle assignments\GPU programming\Engine\SabadEngine\Src\GameObject.cpp(10)
+GameObject: Already initialized!
+{290.805}: ASSERT! C:\Users\Santi\Desktop\Lasalle assignments\GPU programming\Engine\SabadEngine\Src\GameObject.cpp(10)
+GameObject: Already initialized!
+{0.000}: App: Current state GameState
+{0.000}: App Started
+{0.139}: InputSystem -- Initializing...
+{0.139}: InputSystem -- System initialized.
+{0.613}: ASSERT! C:\Users\Santi\Desktop\Lasalle assignments\GPU programming\Engine\SabadEngine\Src\GameObject.cpp(10)
+GameObject: Already initialized!
+{35.580}: ASSERT! C:\Users\Santi\Desktop\Lasalle assignments\GPU programming\Engine\SabadEngine\Src\GameObject.cpp(10)
+GameObject: Already initialized!
+{94.007}: App Quit
+{94.017}: ASSERT! C:\Users\Santi\Desktop\Lasalle assignments\GPU programming\Framework\Graphics\Src\TextureManager.cpp(35)
+TextureManager: Not all textured are cleared!
+{0.000}: App: Current state GameState
+{0.000}: App Started
+{0.132}: InputSystem -- Initializing...
+{0.132}: InputSystem -- System initialized.
+{0.585}: ASSERT! C:\Users\Santi\Desktop\Lasalle assignments\GPU programming\Engine\SabadEngine\Src\GameObject.cpp(10)
+GameObject: Already initialized!
+{41.497}: App Quit
+{41.506}: ASSERT! C:\Users\Santi\Desktop\Lasalle assignments\GPU programming\Framework\Graphics\Src\TextureManager.cpp(35)
+TextureManager: Not all textured are cleared!
+{0.000}: App: Current state GameState
+{0.000}: App Started
+{0.133}: InputSystem -- Initializing...
+{0.134}: InputSystem -- System initialized.
+{0.621}: ASSERT! C:\Users\Santi\Desktop\Lasalle assignments\GPU programming\Engine\SabadEngine\Src\GameObject.cpp(10)
+GameObject: Already initialized!
+{0.000}: App: Current state GameState
+{0.000}: App Started
+{0.138}: InputSystem -- Initializing...
+{0.139}: InputSystem -- System initialized.
+{0.624}: ASSERT! C:\Users\Santi\Desktop\Lasalle assignments\GPU programming\Engine\SabadEngine\Src\GameObject.cpp(10)
+GameObject: Already initialized!
+{302.520}: App Quit
+{302.530}: ASSERT! C:\Users\Santi\Desktop\Lasalle assignments\GPU programming\Framework\Graphics\Src\TextureManager.cpp(35)
+TextureManager: Not all textured are cleared!
+{0.000}: App: Current state GameState
+{0.000}: App Started
+{0.135}: InputSystem -- Initializing...
+{0.136}: InputSystem -- System initialized.
+{0.554}: ASSERT! C:\Users\Santi\Desktop\Lasalle assignments\GPU programming\Engine\SabadEngine\Src\GameObject.cpp(10)
+GameObject: Already initialized!
+{35.504}: ASSERT! C:\Users\Santi\Desktop\Lasalle assignments\GPU programming\Engine\SabadEngine\Src\GameObject.cpp(10)
+GameObject: Already initialized!
+{143.802}: App Quit
+{143.811}: ASSERT! C:\Users\Santi\Desktop\Lasalle assignments\GPU programming\Framework\Graphics\Src\TextureManager.cpp(35)
+TextureManager: Not all textured are cleared!
+{0.000}: App: Current state GameState
+{0.000}: App Started
+{0.132}: InputSystem -- Initializing...
+{0.132}: InputSystem -- System initialized.
+{0.574}: ASSERT! C:\Users\Santi\Desktop\Lasalle assignments\GPU programming\Engine\SabadEngine\Src\GameObject.cpp(10)
+GameObject: Already initialized!
+{0.000}: App: Current state GameState
+{0.000}: App Started
+{0.133}: InputSystem -- Initializing...
+{0.133}: InputSystem -- System initialized.
+{0.587}: ASSERT! C:\Users\Santi\Desktop\Lasalle assignments\GPU programming\Engine\SabadEngine\Src\GameObject.cpp(10)
+GameObject: Already initialized!
+{78.540}: App Quit
+{78.548}: ASSERT! C:\Users\Santi\Desktop\Lasalle assignments\GPU programming\Framework\Graphics\Src\TextureManager.cpp(35)
+TextureManager: Not all textured are cleared!
+{0.000}: App: Current state GameState
+{0.000}: App Started
+{0.134}: InputSystem -- Initializing...
+{0.135}: InputSystem -- System initialized.
+{0.568}: ASSERT! C:\Users\Santi\Desktop\Lasalle assignments\GPU programming\Engine\SabadEngine\Src\GameObject.cpp(10)
+GameObject: Already initialized!
+{53.374}: App Quit
+{53.383}: ASSERT! C:\Users\Santi\Desktop\Lasalle assignments\GPU programming\Framework\Graphics\Src\TextureManager.cpp(35)
+TextureManager: Not all textured are cleared!
+{0.000}: App: Current state GameState
+{0.000}: App Started
+{0.155}: InputSystem -- Initializing...
+{0.155}: InputSystem -- System initialized.
+{0.572}: ASSERT! C:\Users\Santi\Desktop\Lasalle assignments\GPU programming\Engine\SabadEngine\Src\GameObject.cpp(10)
+GameObject: Already initialized!
+{45.828}: App Quit
+{45.837}: ASSERT! C:\Users\Santi\Desktop\Lasalle assignments\GPU programming\Framework\Graphics\Src\TextureManager.cpp(35)
+TextureManager: Not all textured are cleared!
+{0.000}: App: Current state GameState
+{0.000}: App Started
+{0.150}: InputSystem -- Initializing...
+{0.150}: InputSystem -- System initialized.
+{0.559}: ASSERT! C:\Users\Santi\Desktop\Lasalle assignments\GPU programming\Engine\SabadEngine\Src\GameObject.cpp(10)
+GameObject: Already initialized!
+{42.719}: ASSERT! C:\Users\Santi\Desktop\Lasalle assignments\GPU programming\Engine\SabadEngine\Src\GameObject.cpp(10)
+GameObject: Already initialized!
+{137.316}: App Quit
+{137.335}: ASSERT! C:\Users\Santi\Desktop\Lasalle assignments\GPU programming\Framework\Graphics\Src\TextureManager.cpp(35)
+TextureManager: Not all textured are cleared!

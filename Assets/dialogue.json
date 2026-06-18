@@ -4,17 +4,15 @@
     {
       "Id": 0,
       "Speaker": "Hero",
-      "Text": "Ah, another day at school. It's so peaceful...",
+      "Text": "Ah, another beautiful day at school.\nThe cherry blossoms are falling...",
       "Background": "../../Assets/VIsualNovel/Backgrounds/SchoolEntrance.jpg",
       "CharacterImage": "",
-      "Animation": -1,
-      "Sound": "",
       "NextNodeId": 1
     },
     {
       "Id": 1,
       "Speaker": "Ibrahim",
-      "Text": "Senpai! Good morning!",
+      "Text": "S-Senpai! Good morning! I was waiting for you!",
       "Background": "../../Assets/VIsualNovel/Backgrounds/SchoolEntrance.jpg",
       "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Ibrahim/IbiHappy.jpg",
       "NextNodeId": 2
@@ -22,7 +20,7 @@
     {
       "Id": 2,
       "Speaker": "Hero",
-      "Text": "Morning, Ibrahim. You look energetic today.",
+      "Text": "Morning, Ibrahim. You're here early.",
       "Background": "../../Assets/VIsualNovel/Backgrounds/SchoolEntrance.jpg",
       "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Ibrahim/IbiHappy.jpg",
       "NextNodeId": 3
@@ -30,103 +28,588 @@
     {
       "Id": 3,
       "Speaker": "Ibrahim",
-      "Text": "W-well, I was hoping I could walk with you... if that's okay.",
+      "Text": "W-well, I was hoping... um... \nmaybe we could walk to class together?",
+      "Background": "../../Assets/VIsualNovel/Backgrounds/SchoolEntrance.jpg",
+      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Ibrahim/IbiShy.jpg",
+      "Choices": [
+        { "Text": "Sure, let's walk together, you dork. (Ibrahim Route)", "NextNodeId": 100 },
+        { "Text": "Sorry, I'm waiting for Gustavo. (Gustavo Route)", "NextNodeId": 200 },
+        { "Text": "No, I'd rather walk alone. (Jack Route)", "NextNodeId": 300 }
+      ]
+    },
+
+
+    {
+      "Id": 100,
+      "Speaker": "Ibrahim",
+      "Text": "Really?! Yay! I even made some of my special bento for lunch\nif you want to share...",
+      "Background": "../../Assets/VIsualNovel/Backgrounds/Hallway.jpg",
+      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Ibrahim/IbiHappy.jpg",
+      "NextNodeId": 101
+    },
+    {
+      "Id": 101,
+      "Speaker": "Hero",
+      "Text": "You're always taking care of me. What a cute nerd.",
+      "Background": "../../Assets/VIsualNovel/Backgrounds/Hallway.jpg",
+      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Ibrahim/IbiThinking.jpg",
+      "NextNodeId": 102
+    },
+    {
+      "Id": 102,
+      "Speaker": "Ibrahim",
+      "Text": "Senpai, you always tease me! ...But I don't mind when it's you.",
+      "Background": "../../Assets/VIsualNovel/Backgrounds/Hallway.jpg",
+      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Ibrahim/IbiShy.jpg",
+      "NextNodeId": 103
+    },
+    {
+      "Id": 103,
+      "Speaker": "Hero",
+      "Text": "(Time passes. After school, I find Ibrahim struggling\nto carry a massive stack of books.)",
+      "Background": "../../Assets/VIsualNovel/Backgrounds/Hallway.jpg",
+      "CharacterImage": "",
+      "NextNodeId": 104
+    },
+    {
+      "Id": 104,
+      "Speaker": "Ibrahim",
+      "Text": "Woah! Ah! T-too heavy...",
+      "Background": "../../Assets/VIsualNovel/Backgrounds/Hallway.jpg",
+      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Ibrahim/IbiSad.jpg",
+      "NextNodeId": 105
+    },
+    {
+      "Id": 105,
+      "Speaker": "Hero",
+      "Text": "Careful! Let me help you with those.",
+      "Background": "../../Assets/VIsualNovel/Backgrounds/Hallway.jpg",
+      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Ibrahim/IbiID.jpg",
+      "NextNodeId": 106
+    },
+    {
+      "Id": 106,
+      "Speaker": "Ibrahim",
+      "Text": "T-thank you... You're always saving me. I'm so clumsy...",
+      "Background": "../../Assets/VIsualNovel/Backgrounds/Hallway.jpg",
+      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Ibrahim/IbiSad.jpg",
+      "NextNodeId": 107
+    },
+    {
+      "Id": 107,
+      "Speaker": "Hero",
+      "Text": "It's fine. I like helping you.",
+      "Background": "../../Assets/VIsualNovel/Backgrounds/Hallway.jpg",
+      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Ibrahim/IbiShy.jpg",
+      "NextNodeId": 108
+    },
+    {
+      "Id": 108,
+      "Speaker": "Ibrahim",
+      "Text": "Senpai... I... I can't hide it anymore.",
+      "Background": "../../Assets/VIsualNovel/Backgrounds/Hallway.jpg",
+      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Ibrahim/IbiThinking.jpg",
+      "NextNodeId": 109
+    },
+    {
+      "Id": 109,
+      "Speaker": "Hero",
+      "Text": "Hide what?",
+      "Background": "../../Assets/VIsualNovel/Backgrounds/Hallway.jpg",
+      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Ibrahim/IbiThinking.jpg",
+      "NextNodeId": 110
+    },
+    {
+      "Id": 110,
+      "Speaker": "Ibrahim",
+      "Text": "I've been admiring you since the first day of school!\nYou're so kind, and brave... and perfect.",
+      "Background": "../../Assets/VIsualNovel/Backgrounds/Hallway.jpg",
+      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Ibrahim/IbiPointing.jpg",
+      "NextNodeId": 111
+    },
+    {
+      "Id": 111,
+      "Speaker": "Ibrahim",
+      "Text": "I know I'm just a dorky nerd, but... I love you!\nPlease go out with me!",
       "Background": "../../Assets/VIsualNovel/Backgrounds/Hallway.jpg",
       "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Ibrahim/IbiShy.jpg",
       "Choices": [
-        { "Text": "Sure, let's walk together.", "NextNodeId": 5 },
-        { "Text": "I'm actually waiting for Gustavo.", "NextNodeId": 10 }
+        { "Text": "I love you too, Ibrahim. (Kiss him)", "NextNodeId": 120 },
+        { "Text": "I'm sorry, I only see you as a friend. (Reject him)", "NextNodeId": 130 }
       ]
     },
     {
-      "Id": 5,
+      "Id": 120,
+      "Speaker": "Hero",
+      "Text": "(I pull him close by his football shirt and press my\nlips against his. *Smooch*)",
+      "Background": "../../Assets/VIsualNovel/Backgrounds/Hallway.jpg",
+      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Ibrahim/IbiShy.jpg",
+      "NextNodeId": 121
+    },
+    {
+      "Id": 121,
       "Speaker": "Ibrahim",
-      "Text": "Really?! Yay! I made some bento for lunch if you want to share later...",
+      "Text": "S-Senpai... did you just...? My heart is beating so fast...",
       "Background": "../../Assets/VIsualNovel/Backgrounds/Hallway.jpg",
       "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Ibrahim/IbiHappy.jpg",
-      "NextNodeId": 6
+      "NextNodeId": 122
     },
     {
-      "Id": 6,
-      "Speaker": "Jack",
-      "Text": "Hey nerds, are you blocking the hallway again?",
+      "Id": 122,
+      "Speaker": "Hero",
+      "Text": "I did. And I'll do it again if you keep looking at me like that.",
       "Background": "../../Assets/VIsualNovel/Backgrounds/Hallway.jpg",
-      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Jack/Jack.jpg",
-      "NextNodeId": 7
+      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Ibrahim/IbiHappy.jpg",
+      "NextNodeId": 123
     },
     {
-      "Id": 7,
+      "Id": 123,
       "Speaker": "Ibrahim",
-      "Text": "O-oh, sorry Jack...",
+      "Text": "Please do! I mean... I'll do my best to be a boyfriend worthy of you!\nI'll even tutor you in math every day!",
+      "Background": "../../Assets/VIsualNovel/Backgrounds/Hallway.jpg",
+      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Ibrahim/IbiPointing.jpg",
+      "NextNodeId": 124
+    },
+    {
+      "Id": 124,
+      "Speaker": "Hero",
+      "Text": "Haha, I'd like that. Come here, you dork.",
+      "Background": "../../Assets/VIsualNovel/Backgrounds/Hallway.jpg",
+      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Ibrahim/IbiHappy.jpg",
+      "NextNodeId": -1
+    },
+    {
+      "Id": 130,
+      "Speaker": "Hero",
+      "Text": "Ibrahim... you're a great guy, but I just don't\nfeel that way about you.",
       "Background": "../../Assets/VIsualNovel/Backgrounds/Hallway.jpg",
       "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Ibrahim/IbiSad.jpg",
+      "NextNodeId": 131
+    },
+    {
+      "Id": 131,
+      "Speaker": "Ibrahim",
+      "Text": "O-oh... I understand. I'm sorry for making things\nweird, Senpai...",
+      "Background": "../../Assets/VIsualNovel/Backgrounds/Hallway.jpg",
+      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Ibrahim/IbiSad.jpg",
+      "NextNodeId": 132
+    },
+    {
+      "Id": 132,
+      "Speaker": "Hero",
+      "Text": "It's not weird. I'll still be here if you need\nhelp carrying your books, okay?",
+      "Background": "../../Assets/VIsualNovel/Backgrounds/Hallway.jpg",
+      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Ibrahim/IbiSad.jpg",
+      "NextNodeId": 133
+    },
+    {
+      "Id": 133,
+      "Speaker": "Ibrahim",
+      "Text": "No... it's fine. I think I need to start carrying my\nown weight. Thank you for everything, Senpai.",
+      "Background": "../../Assets/VIsualNovel/Backgrounds/Hallway.jpg",
+      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Ibrahim/IbiSad.jpg",
+      "NextNodeId": 134
+    },
+    {
+      "Id": 134,
+      "Speaker": "Hero",
+      "Text": "(He gives me a sad, brave smile before turning away.\nI guess some things really do change.)",
+      "Background": "../../Assets/VIsualNovel/Backgrounds/Hallway.jpg",
+      "CharacterImage": "",
+      "NextNodeId": -1
+    },
+
+
+    {
+      "Id": 200,
+      "Speaker": "Ibrahim",
+      "Text": "Oh... okay. I'll see you in class then, Senpai...",
+      "Background": "../../Assets/VIsualNovel/Backgrounds/SchoolEntrance.jpg",
+      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Ibrahim/IbiSad.jpg",
+      "NextNodeId": 201
+    },
+    {
+      "Id": 201,
+      "Speaker": "Gustavo",
+      "Text": "Yo! Did I keep you waiting? Looking good today!",
+      "Background": "../../Assets/VIsualNovel/Backgrounds/SchoolEntrance.jpg",
+      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Gustavo/GustavoChad.jpg",
+      "NextNodeId": 202
+    },
+    {
+      "Id": 202,
+      "Speaker": "Hero",
+      "Text": "Not at all, Gustavo. You ready for practice?",
+      "Background": "../../Assets/VIsualNovel/Backgrounds/SchoolEntrance.jpg",
+      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Gustavo/GustavoChad.jpg",
+      "NextNodeId": 203
+    },
+    {
+      "Id": 203,
+      "Speaker": "Gustavo",
+      "Text": "Always! Gotta keep these muscles in top shape. Let's hit the gym!",
+      "Background": "../../Assets/VIsualNovel/Backgrounds/SchoolGym.jpg",
+      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Gustavo/GustavoChad.jpg",
+      "NextNodeId": 204
+    },
+    {
+      "Id": 204,
+      "Speaker": "Hero",
+      "Text": "(I spend the afternoon watching Gustavo dominate the basketball\ncourt. He winks at me every time he scores.)",
+      "Background": "../../Assets/VIsualNovel/Backgrounds/SchoolGym.jpg",
+      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Gustavo/GustavoChad.jpg",
+      "NextNodeId": 205
+    },
+    {
+      "Id": 205,
+      "Speaker": "Hero",
+      "Text": "(Later, we go to the local pub to chill.)",
+      "Background": "../../Assets/VIsualNovel/Backgrounds/BarBackground.jpg",
+      "CharacterImage": "",
+      "NextNodeId": 206
+    },
+    {
+      "Id": 206,
+      "Speaker": "Gustavo",
+      "Text": "Phew, great workout! Here, have a cold one. You earned it.",
+      "Background": "../../Assets/VIsualNovel/Backgrounds/BarBackground.jpg",
+      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Gustavo/GustavoBeer.jpg",
+      "NextNodeId": 207
+    },
+    {
+      "Id": 207,
+      "Speaker": "Hero",
+      "Text": "Thanks, Gustavo. You were amazing on the court today.",
+      "Background": "../../Assets/VIsualNovel/Backgrounds/BarBackground.jpg",
+      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Gustavo/GustavoBeer.jpg",
+      "NextNodeId": 208
+    },
+    {
+      "Id": 208,
+      "Speaker": "Gustavo",
+      "Text": "Yeah, well... (He suddenly looks nervous,\nscratching the back of his neck)",
+      "Background": "../../Assets/VIsualNovel/Backgrounds/BarBackground.jpg",
+      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Gustavo/GustavoChad.jpg",
+      "NextNodeId": 209
+    },
+    {
+      "Id": 209,
+      "Speaker": "Hero",
+      "Text": "Is something wrong?",
+      "Background": "../../Assets/VIsualNovel/Backgrounds/BarBackground.jpg",
+      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Gustavo/GustavoChad.jpg",
+      "NextNodeId": 210
+    },
+    {
+      "Id": 210,
+      "Speaker": "Gustavo",
+      "Text": "Look, I play it cool. I act like the confident jock. But the\ntruth is... I only play hard so you'll look at me.",
+      "Background": "../../Assets/VIsualNovel/Backgrounds/BarBackground.jpg",
+      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Gustavo/GustavoChad.jpg",
+      "NextNodeId": 211
+    },
+    {
+      "Id": 211,
+      "Speaker": "Gustavo",
+      "Text": "I'm terrified of losing you to someone else. I don't want to\njust be your workout buddy anymore. Be mine?",
+      "Background": "../../Assets/VIsualNovel/Backgrounds/BarBackground.jpg",
+      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Gustavo/GustavoChad.jpg",
       "Choices": [
-        { "Text": "Leave Ibrahim alone, Jack.", "NextNodeId": 9 },
-        { "Text": "Yeah, let's move out of the way.", "NextNodeId": 15 }
+        { "Text": "I'd love nothing more. (Kiss him)", "NextNodeId": 220 },
+        { "Text": "I'm sorry, you're just a bro to me. (Reject him)", "NextNodeId": 230 }
       ]
     },
     {
-      "Id": 9,
+      "Id": 220,
+      "Speaker": "Hero",
+      "Text": "(I lean over the table, put my hand on his shoulder, and kiss\nhim deeply. *Smooch*)",
+      "Background": "../../Assets/VIsualNovel/Backgrounds/BarBackground.jpg",
+      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Gustavo/GustavoBeer.jpg",
+      "NextNodeId": 221
+    },
+    {
+      "Id": 221,
+      "Speaker": "Gustavo",
+      "Text": "Whoa... Best. Victory. Ever. Let's do a victory lap together!",
+      "Background": "../../Assets/VIsualNovel/Backgrounds/BarBackground.jpg",
+      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Gustavo/GustavoChad.jpg",
+      "NextNodeId": 222
+    },
+    {
+      "Id": 222,
+      "Speaker": "Hero",
+      "Text": "Only if you can keep up with me.",
+      "Background": "../../Assets/VIsualNovel/Backgrounds/BarBackground.jpg",
+      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Gustavo/GustavoChad.jpg",
+      "NextNodeId": 223
+    },
+    {
+      "Id": 223,
+      "Speaker": "Gustavo",
+      "Text": "Keep up? Babe, I'm the captain of the team. But... holding\nyour hand is the only trophy I need.",
+      "Background": "../../Assets/VIsualNovel/Backgrounds/BarBackground.jpg",
+      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Gustavo/GustavoBeer.jpg",
+      "NextNodeId": 224
+    },
+    {
+      "Id": 224,
+      "Speaker": "Hero",
+      "Text": "That was incredibly cheesy, Gustavo.",
+      "Background": "../../Assets/VIsualNovel/Backgrounds/BarBackground.jpg",
+      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Gustavo/GustavoBeer.jpg",
+      "NextNodeId": 225
+    },
+    {
+      "Id": 225,
+      "Speaker": "Gustavo",
+      "Text": "Yeah, but it made you smile, didn't it? Come on, let's go.",
+      "Background": "../../Assets/VIsualNovel/Backgrounds/BarBackground.jpg",
+      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Gustavo/GustavoChad.jpg",
+      "NextNodeId": -1
+    },
+    {
+      "Id": 230,
+      "Speaker": "Hero",
+      "Text": "Gustavo, I'm flattered, but I really just value our\nfriendship. I don't want to ruin that.",
+      "Background": "../../Assets/VIsualNovel/Backgrounds/BarBackground.jpg",
+      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Gustavo/GustavoChad.jpg",
+      "NextNodeId": 231
+    },
+    {
+      "Id": 231,
+      "Speaker": "Gustavo",
+      "Text": "Ah... I see. Haha, my bad. Guess I shot an airball there.\nDon't worry about it.",
+      "Background": "../../Assets/VIsualNovel/Backgrounds/BarBackground.jpg",
+      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Gustavo/GustavoBeer.jpg",
+      "NextNodeId": 232
+    },
+    {
+      "Id": 232,
+      "Speaker": "Hero",
+      "Text": "Are we still okay? You're not going to avoid me\nat the gym, right?",
+      "Background": "../../Assets/VIsualNovel/Backgrounds/BarBackground.jpg",
+      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Gustavo/GustavoBeer.jpg",
+      "NextNodeId": 233
+    },
+    {
+      "Id": 233,
+      "Speaker": "Gustavo",
+      "Text": "Avoid you? Bro... no way. I'm a captain.\nI take my losses like a man.",
+      "Background": "../../Assets/VIsualNovel/Backgrounds/BarBackground.jpg",
+      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Gustavo/GustavoChad.jpg",
+      "NextNodeId": 234
+    },
+    {
+      "Id": 234,
+      "Speaker": "Gustavo",
+      "Text": "But... maybe give me a few days before our next workout.\nJust... need to clear my head.",
+      "Background": "../../Assets/VIsualNovel/Backgrounds/BarBackground.jpg",
+      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Gustavo/GustavoChad.jpg",
+      "NextNodeId": 235
+    },
+    {
+      "Id": 235,
+      "Speaker": "Hero",
+      "Text": "(He chugs the rest of his drink and walks out, leaving\nme alone at the bar. It hurts more than I thought.)",
+      "Background": "../../Assets/VIsualNovel/Backgrounds/BarBackground.jpg",
+      "CharacterImage": "",
+      "NextNodeId": -1
+    },
+
+
+    {
+      "Id": 300,
+      "Speaker": "Ibrahim",
+      "Text": "O-oh... I'm sorry to bother you. Have a good day.",
+      "Background": "../../Assets/VIsualNovel/Backgrounds/SchoolEntrance.jpg",
+      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Ibrahim/IbiSad.jpg",
+      "NextNodeId": 301
+    },
+    {
+      "Id": 301,
+      "Speaker": "Hero",
+      "Text": "(I walk through the hallway, minding my own business...\nuntil I bump into someone.)",
+      "Background": "../../Assets/VIsualNovel/Backgrounds/Hallway.jpg",
+      "CharacterImage": "",
+      "NextNodeId": 302
+    },
+    {
+      "Id": 302,
       "Speaker": "Jack",
-      "Text": "Tch. Whatever. I have class anyway.",
+      "Text": "Watch where you're going, idiot! Are you blind?!",
       "Background": "../../Assets/VIsualNovel/Backgrounds/Hallway.jpg",
       "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Jack/Jack.jpg",
-      "NextNodeId": 16
+      "NextNodeId": 303
     },
     {
-      "Id": 16,
-      "Speaker": "Ibrahim",
-      "Text": "Senpai is so cool... Thank you for protecting me!",
-      "Background": "../../Assets/VIsualNovel/Backgrounds/Hallway.jpg",
-      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Ibrahim/IbiThinking.jpg",
-      "NextNodeId": -1
-    },
-    {
-      "Id": 10,
-      "Speaker": "Gustavo",
-      "Text": "Hey bro! Ready to hit the gym after school?",
-      "Background": "../../Assets/VIsualNovel/Backgrounds/Hallway.jpg",
-      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Gustavo/GustavoChad.jpg",
-      "NextNodeId": 11
-    },
-    {
-      "Id": 11,
+      "Id": 303,
       "Speaker": "Hero",
-      "Text": "Always, Gustavo.",
+      "Text": "You bumped into me, Jack! Why are you always so mean?!",
       "Background": "../../Assets/VIsualNovel/Backgrounds/Hallway.jpg",
-      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Gustavo/GustavoChad.jpg",
-      "NextNodeId": 12
+      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Jack/Jack.jpg",
+      "NextNodeId": 304
     },
     {
-      "Id": 12,
-      "Speaker": "Ibrahim",
-      "Text": "I... I guess I'll see you later, Senpai...",
+      "Id": 304,
+      "Speaker": "Jack",
+      "Text": "Tch! Whatever! Just... stay out of my way! ...And tie\nyour shoes, idiot!",
       "Background": "../../Assets/VIsualNovel/Backgrounds/Hallway.jpg",
-      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Ibrahim/IbiSad.jpg",
-      "NextNodeId": 13
+      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Jack/Jack.jpg",
+      "NextNodeId": 305
     },
     {
-      "Id": 13,
-      "Speaker": "Gustavo",
-      "Text": "Don't look so down, little guy. Have a cold one and hang out with us later!",
-      "Background": "../../Assets/VIsualNovel/Backgrounds/Hallway.jpg",
-      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Gustavo/GustavoBeer.jpg",
-      "NextNodeId": 14
+      "Id": 305,
+      "Speaker": "Hero",
+      "Text": "(Time passes. It's the end of the day, and I'm walking home\non the street. I feel like I'm being followed.)",
+      "Background": "../../Assets/VIsualNovel/Backgrounds/StreetBackground.jpg",
+      "CharacterImage": "",
+      "NextNodeId": 306
     },
     {
-      "Id": 14,
-      "Speaker": "Ibrahim",
-      "Text": "Really? Thank you, Gustavo! You guys are the best!",
-      "Background": "../../Assets/VIsualNovel/Backgrounds/Hallway.jpg",
-      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Ibrahim/IbiPointing.jpg",
+      "Id": 306,
+      "Speaker": "Jack",
+      "Text": "Hey! Wait up, stupid!",
+      "Background": "../../Assets/VIsualNovel/Backgrounds/StreetBackground.jpg",
+      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Jack/Jack.jpg",
+      "NextNodeId": 307
+    },
+    {
+      "Id": 307,
+      "Speaker": "Hero",
+      "Text": "Jack? Are you following me?",
+      "Background": "../../Assets/VIsualNovel/Backgrounds/StreetBackground.jpg",
+      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Jack/Jack.jpg",
+      "NextNodeId": 308
+    },
+    {
+      "Id": 308,
+      "Speaker": "Jack",
+      "Text": "D-don't get the wrong idea! I just happened to be walking\nthis way. B-baka!",
+      "Background": "../../Assets/VIsualNovel/Backgrounds/StreetBackground.jpg",
+      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Jack/Jack.jpg",
+      "NextNodeId": 309
+    },
+    {
+      "Id": 309,
+      "Speaker": "Hero",
+      "Text": "You live in the exact opposite direction. Why do you always act\nlike this?",
+      "Background": "../../Assets/VIsualNovel/Backgrounds/StreetBackground.jpg",
+      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Jack/Jack.jpg",
+      "NextNodeId": 310
+    },
+    {
+      "Id": 310,
+      "Speaker": "Jack",
+      "Text": "Ugh! Fine! Because I'm an idiot, okay?!",
+      "Background": "../../Assets/VIsualNovel/Backgrounds/StreetBackground.jpg",
+      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Jack/Jack.jpg",
+      "NextNodeId": 311
+    },
+    {
+      "Id": 311,
+      "Speaker": "Jack",
+      "Text": "I'm mean to you because I don't know how else to get your\nattention! Every time I see you, my chest hurts and I get angry!",
+      "Background": "../../Assets/VIsualNovel/Backgrounds/StreetBackground.jpg",
+      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Jack/Jack.jpg",
+      "NextNodeId": 312
+    },
+    {
+      "Id": 312,
+      "Speaker": "Jack",
+      "Text": "I wanted to make sure you got home safe. I'm... I'm madly\nin love with you, you idiot! Now what are you going to do about it?!",
+      "Background": "../../Assets/VIsualNovel/Backgrounds/StreetBackground.jpg",
+      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Jack/Jack.jpg",
+      "Choices": [
+        { "Text": "You're an idiot... but I like you too. (Kiss him)", "NextNodeId": 320 },
+        { "Text": "You're too toxic for me. (Reject him)", "NextNodeId": 330 }
+      ]
+    },
+    {
+      "Id": 320,
+      "Speaker": "Hero",
+      "Text": "(I grab his collar, pull him down, and kiss him hard.\n*Smooch*)",
+      "Background": "../../Assets/VIsualNovel/Backgrounds/StreetBackground.jpg",
+      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Jack/Jack.jpg",
+      "NextNodeId": 321
+    },
+    {
+      "Id": 321,
+      "Speaker": "Jack",
+      "Text": "...Y-you idiot... Do that again.",
+      "Background": "../../Assets/VIsualNovel/Backgrounds/StreetBackground.jpg",
+      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Jack/Jack.jpg",
+      "NextNodeId": 322
+    },
+    {
+      "Id": 322,
+      "Speaker": "Hero",
+      "Text": "What was that? I couldn't hear you over all that tough\nguy attitude.",
+      "Background": "../../Assets/VIsualNovel/Backgrounds/StreetBackground.jpg",
+      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Jack/Jack.jpg",
+      "NextNodeId": 323
+    },
+    {
+      "Id": 323,
+      "Speaker": "Jack",
+      "Text": "Shut up! I said... kiss me again! And... don't you dare\nlook at anyone else but me, understand?",
+      "Background": "../../Assets/VIsualNovel/Backgrounds/StreetBackground.jpg",
+      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Jack/Jack.jpg",
+      "NextNodeId": 324
+    },
+    {
+      "Id": 324,
+      "Speaker": "Hero",
+      "Text": "Only if you promise to walk me home every single day.",
+      "Background": "../../Assets/VIsualNovel/Backgrounds/StreetBackground.jpg",
+      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Jack/Jack.jpg",
+      "NextNodeId": 325
+    },
+    {
+      "Id": 325,
+      "Speaker": "Jack",
+      "Text": "Tch. I was planning on doing that anyway. Idiots need\nsupervision, after all.",
+      "Background": "../../Assets/VIsualNovel/Backgrounds/StreetBackground.jpg",
+      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Jack/Jack.jpg",
       "NextNodeId": -1
     },
     {
-      "Id": 15,
-      "Speaker": "Ibrahim",
-      "Text": "Let's just go to class, Senpai...",
-      "Background": "../../Assets/VIsualNovel/Backgrounds/Hallway.jpg",
-      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Ibrahim/IbiSad.jpg",
+      "Id": 330,
+      "Speaker": "Hero",
+      "Text": "Jack, you can't just bully someone and expect them to love\nyou back. Leave me alone.",
+      "Background": "../../Assets/VIsualNovel/Backgrounds/StreetBackground.jpg",
+      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Jack/Jack.jpg",
+      "NextNodeId": 331
+    },
+    {
+      "Id": 331,
+      "Speaker": "Jack",
+      "Text": "I... I see. Yeah, I figured. Just... get home safe, okay?\nI won't bother you again.",
+      "Background": "../../Assets/VIsualNovel/Backgrounds/StreetBackground.jpg",
+      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Jack/Jack.jpg",
+      "NextNodeId": 332
+    },
+    {
+      "Id": 332,
+      "Speaker": "Hero",
+      "Text": "Jack, wait...",
+      "Background": "../../Assets/VIsualNovel/Backgrounds/StreetBackground.jpg",
+      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Jack/Jack.jpg",
+      "NextNodeId": 333
+    },
+    {
+      "Id": 333,
+      "Speaker": "Jack",
+      "Text": "Don't pity me! I don't need your pity! Just... forget\nI ever said anything, you idiot.",
+      "Background": "../../Assets/VIsualNovel/Backgrounds/StreetBackground.jpg",
+      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Jack/Jack.jpg",
+      "NextNodeId": 334
+    },
+    {
+      "Id": 334,
+      "Speaker": "Hero",
+      "Text": "(He turns around and walks into the darkness.\nFor the first time, his voice didn't sound angry... it sounded broken.)",
+      "Background": "../../Assets/VIsualNovel/Backgrounds/StreetBackground.jpg",
+      "CharacterImage": "",
       "NextNodeId": -1
     }
   ]
