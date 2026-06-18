@@ -42,3 +42,8 @@ void UITextComponent::Deserialize(const rapidjson::Value& value)
 	SaveUtil::ReadColor("Color", mColor, value);
 	SaveUtil::ReadFloat("Size", mSize, value);
 }
+
+void UITextComponent::SetText(const std::string& text)
+{
+	mText = text;
+}

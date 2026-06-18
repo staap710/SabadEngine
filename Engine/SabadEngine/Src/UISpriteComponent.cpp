@@ -15,7 +15,7 @@ void UISpriteComponent::Initialize()
 {
 	ASSERT(!mTexturePath.empty(), "UISpriteComponent: Texture path is not set!");
 	mUISprite.Initialize(mTexturePath);
-	if (mRect.left - mRect.left > 0)
+	if (mRect.right - mRect.left > 0)
 	{
 		mUISprite.SetRect(mRect.top, mRect.left, mRect.right, mRect.bottom);
 	}
@@ -33,6 +33,8 @@ void UISpriteComponent::Terminate()
 
 void UISpriteComponent::Render()
 {
+	if (!mActive) return;
+
 	//UISpriteRenderer::Get()->Render(mUISprite);
 	Math::Vector2 worldPos = GetPosition(false);
 	GameObject* parent = GetOwner().GetParent();
@@ -124,11 +126,32 @@ void UISpriteComponent::Deserialize(const rapidjson::Value& value)
 
 Math::Vector2 UISpriteComponent::GetPosition(bool includeOrigin)
 {
-	float x = mPosition.x;
-	float y = mPosition.y;
 	if (includeOrigin)
 	{
-		mUISprite.GetOrigin(x, y);
+		float ox, oy;
+		mUISprite.GetOrigin(ox, oy);
+		return { mPosition.x - ox, mPosition.y - oy };
 	}
-	return { mPosition.x - x, mPosition.y - y };
+	return mPosition;
+}
+
+void UISpriteComponent::SetTexture(const std::filesystem::path& texturePath)
+{
+	mTexturePath = texturePath;
+	mUISprite.Terminate();
+	mUISprite.Initialize(mTexturePath);
+	if (mRect.right - mRect.left > 0)
+	{
+		mUISprite.SetRect(mRect.top, mRect.left, mRect.right, mRect.bottom);
+	}
+}
+
+void UISpriteComponent::SetPosition(const Math::Vector2& pos)
+{
+	mPosition = pos;
+}
+
+void UISpriteComponent::SetActive(bool active)
+{
+	mActive = active;
 }

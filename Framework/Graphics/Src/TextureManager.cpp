@@ -39,7 +39,6 @@ void TextureManager::SetRootDirectory(const std::filesystem::path& root)
 {
 	mRootDirectory = root;
 }
-
 TextureId TextureManager::LoadTexture(const std::filesystem::path& filename, bool useRootDir)
 {
 	const size_t textureId = std::filesystem::hash_value(filename);

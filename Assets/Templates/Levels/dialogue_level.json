@@ -1,0 +1,22 @@
+{
+  "Capacity": 100,
+  "Services": {
+    "CameraService": {},
+    "RenderService": {
+      "Direction": [ 1.0, -1.0, 1.0 ],
+      "Ambient": [ 0.3, 0.3, 0.3, 1.0 ],
+      "Diffuse": [ 0.7, 0.7, 0.7, 1.0 ],
+      "Specular": [ 0.5, 0.5, 0.5, 1.0 ],
+      "ShadowSize": 10.0
+    },
+    "UIRenderService": {}
+  },
+  "GameObjects": {
+    "Camera": {
+      "Template": "../../Assets/Templates/Objects/fps_camera.json"
+    },
+    "DialogueSystem": {
+      "Template": "../../Assets/Templates/Objects/dialogue_obj.json"
+    }
+  }
+}

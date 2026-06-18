@@ -18,3 +18,14 @@
 {41.840}: App Quit
 {42.172}: InputSystem -- Terminating...
 {42.173}: InputSystem -- System terminated.
+{0.000}: App: Current state GameState
+{0.000}: App Started
+{0.143}: InputSystem -- Initializing...
+{0.144}: InputSystem -- System initialized.
+{188.248}: App Quit
+{188.300}: InputSystem -- Terminating...
+{188.300}: InputSystem -- System terminated.
+{0.000}: App: Current state GameState
+{0.000}: App Started
+{0.159}: InputSystem -- Initializing...
+{0.159}: InputSystem -- System initialized.

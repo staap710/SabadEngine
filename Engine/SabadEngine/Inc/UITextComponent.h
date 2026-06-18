@@ -15,6 +15,8 @@ namespace SabadEngine
 
 		void Deserialize(const rapidjson::Value& value) override;
 
+		void SetText(const std::string& text);
+
 	private:
 		std::filesystem::path mText;
 		Math::Vector2 mPosition = Math::Vector2::Zero;
