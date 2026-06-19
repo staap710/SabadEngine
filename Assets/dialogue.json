@@ -367,7 +367,7 @@
     {
       "Id": 217,
       "Speaker": "Gustavo",
-      "Text": "I'm terrified of losing you to someone else. I don't want to\njust be your workout buddy anymore. Be mine?",
+      "Text": "I'm terrified of losing you to someone else. I don't want to\njust be your workout buddy anymore. Be mine... pretty please?",
       "Background": "../../Assets/VIsualNovel/Backgrounds/BarBackground.jpg",
       "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Gustavo/GustavoChad.jpg",
       "Choices": [
@@ -378,7 +378,7 @@
     {
       "Id": 220,
       "Speaker": "Hero",
-      "Text": "(I lean over the table, grab him by the collar, and kiss\nhim deeply. *Smooch*)",
+      "Text": "(I lean over the table, put my hand on his cheek, and kiss\nhim deeply. *Smooch*)",
       "Background": "../../Assets/VIsualNovel/Backgrounds/BarBackground.jpg",
       "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Gustavo/GustavoBeer.jpg",
       "NextNodeId": 221
@@ -623,7 +623,7 @@
     {
       "Id": 320,
       "Speaker": "Hero",
-      "Text": "(I grab his collar, pull him down, and kiss him hard.\n*Smooch*)",
+      "Text": "(I grab him by his headphones, pull him down, and kiss him hard.\n*Smooch*)",
       "Background": "../../Assets/VIsualNovel/Backgrounds/StreetBackground.jpg",
       "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Jack/Jack.jpg",
       "NextNodeId": 321
