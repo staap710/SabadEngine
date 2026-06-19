@@ -42,7 +42,7 @@
     {
       "Id": 100,
       "Speaker": "Ibrahim",
-      "Text": "Really?! Yay! I even made extra tamagoyaki for lunch\nif you want to share...",
+      "Text": "Really?! Yay! I even made extra special bento for lunch\nif you want to share...",
       "Background": "../../Assets/VIsualNovel/Backgrounds/Hallway.jpg",
       "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/Ibrahim/IbiHappy.jpg",
       "NextNodeId": 101
@@ -249,7 +249,7 @@
       "Speaker": "Sensei Darren",
       "Text": "Gustavo! Stop hitting on students in the hallway\nand get to the gym already!",
       "Background": "../../Assets/VIsualNovel/Backgrounds/SchoolEntrance.jpg",
-      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/DarrenSensei/DarrenSenseiIdle.jpg",
+      "CharacterImage": "../../Assets/VIsualNovel/CharacterSprites/DarrenSensei/DarrenSenseiIdle2.jpg",
       "NextNodeId": 203
     },
     {
